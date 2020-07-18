@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_feed">
+
+    <fragment
+        android:id="@+id/navigation_feed"
+        android:name="com.teamvpn.devhub.ui.FeedFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_feed" />
+
+    <fragment
+        android:id="@+id/navigation_post_qns"
+        android:name="com.teamvpn.devhub.ui.PostFragment"
+        android:label="@string/post_a_question"
+        tools:layout="@layout/fragment_post" />
+
+
+    <fragment
+        android:id="@+id/navigation_near_by_location_developers"
+        android:name="com.teamvpn.devhub.ui.MapsFragment"
+        android:label="@string/near_by_developers"
+        tools:layout="@layout/fragment_maps" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.teamvpn.devhub.ui.ProfileFragment"
+        android:label="profile"
+        tools:layout="@layout/fragment_profile" />
+</navigation>

@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">DevHub</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="near_by_developers">Near By Developers</string>
+    <string name="post_a_question">Post a Question</string>
+    <string name="feed">feed</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="my_profile">My Profile</string>
+    <string name="near_by">Near by</string>
+    <string name="why_does_the_earth_doesnot_spin_everywhere_if_it_does_why_dont_it_spin_over_my_head">Why does the earth doesnot spin everywhere? if it does why dont it spin over my head?</string>
+    <string name="swami_nithyananda">Swami Nithyananda</string>
+    <string name="self_proclaimed_god">Self proclaimed God</string>
+    <string name="prem_kishore">Prem Kishore</string>
+    <string name="recent_activity">Recent Activity</string>
+    <string name="qns_answered">Qns Answered</string>
+    <string name="qns_asked">Qns Asked</string>
+    <string name="user_name">user name</string>
+    <string name="tag">tag</string>
+    <string name="_00">00</string>
+    <string name="current_points_00">current points : 00</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+</resources>
