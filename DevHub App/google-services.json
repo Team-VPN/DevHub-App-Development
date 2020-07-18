@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "233190397063",
+    "firebase_url": "https://devhub-ed276.firebaseio.com",
+    "project_id": "devhub-ed276",
+    "storage_bucket": "devhub-ed276.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233190397063:android:df818cd2e4ec4ee3c69422",
+        "android_client_info": {
+          "package_name": "com.teamvpn.devhub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233190397063-4orvf1ubboad0ls2tovc9snjc1vksb9r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.teamvpn.devhub",
+            "certificate_hash": "ec6d61f73b66693eb1d7a5960e582dd378cf4aaa"
+          }
+        },
+        {
+          "client_id": "233190397063-bko2sh50hvqicidc3c3o8hlpadck7occ.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYZqqJKkmmNYRGoH8-y-svsFsWkgCd7yE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "233190397063-bko2sh50hvqicidc3c3o8hlpadck7occ.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
