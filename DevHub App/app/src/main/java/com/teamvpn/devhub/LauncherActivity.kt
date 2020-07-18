@@ -10,6 +10,7 @@ class LauncherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
+        supportActionBar?.hide()
         // Wait for three seconds and move to main activity if login is successful, or else go for login/register activity
         Handler().postDelayed(
             {
