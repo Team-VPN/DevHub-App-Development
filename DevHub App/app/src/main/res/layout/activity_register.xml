@@ -23,14 +23,14 @@
 
 
 <LinearLayout
-    android:id="@+id/image_upload_button"
+    android:id="@+id/image_upload_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/user_profile_image" >
         <Button
-
+            android:id="@+id/image_upload_button"
             style="@style/info_heading_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/image_upload_button" />
+            app:layout_constraintTop_toBottomOf="@+id/image_upload_layout" />
 
     <TextView
         android:id="@+id/firstname"

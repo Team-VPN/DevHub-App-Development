@@ -68,7 +68,7 @@ class RegisterActivity : AppCompatActivity() {
                     pickinagrfromgallery()
                 }
             } else {
-
+                //the android version is lower
             }
 
 
