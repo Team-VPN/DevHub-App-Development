@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="firstname_entry" type="id" />
+    <item name="barrier" type="id" />
+    <item name="phoneno_entry" type="id" />
+    <item name="lastname_entry" type="id" />
+    <item name="username_entry" type="id" />
+    <item name="age_entry" type="id" />
+    <item name="email_entry" type="id" />
+    <item name="password_entry" type="id" />
+    <item name="country_entry" type="id" />
+    <item name="confirm_password_entry" type="id" />
+    <item name="linearLayout3" type="id" />
+</resources>
