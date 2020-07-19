@@ -30,6 +30,12 @@ class RegisterActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         supportActionBar?.hide()
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
+        // THIS IS FOR SIGN UP BUTTON
+        signup_button.setOnClickListener {
+            
+        }
+
         mskillsbutton = findViewById(R.id.country_entry)
         mskillsbutton.setOnClickListener {
             val mskillbuilder = AlertDialog.Builder(this@RegisterActivity)

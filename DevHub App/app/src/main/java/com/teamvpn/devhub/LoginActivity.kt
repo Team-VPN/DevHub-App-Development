@@ -1,6 +1,7 @@
 package com.teamvpn.devhub
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.Observer
@@ -31,15 +32,23 @@ import kotlinx.android.synthetic.main.activity_register.*
 class LoginActivity : AppCompatActivity() {
     lateinit var vibrator:Vibrator
     private lateinit var auth: FirebaseAuth
+    lateinit var progressDialog: ProgressDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         auth = FirebaseAuth.getInstance()
+        progressDialog = ProgressDialog(this)
+        progressDialog.setMessage("Hold your seat with patience...")
+        progressDialog.setCanceledOnTouchOutside(false)
+
         login_button.setOnClickListener {
+
             if(!username.text.isNullOrBlank()) {
                 if (!password.text.isNullOrBlank()) {
+                    progressDialog.show()
                     attemptToLogin()
                 } else {
                     Toasty.warning(
@@ -69,9 +78,11 @@ class LoginActivity : AppCompatActivity() {
             if(task.isSuccessful) {
                 Toasty.success(this, "welcome, you are logged in", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                progressDialog.dismiss()
                 startActivity(intent)
                 finish()
             }else {
+                progressDialog.dismiss()
                 Toasty.error(this, "Hey! Login Failed, if you have an account, you can retrieve it by forgot password", Toast.LENGTH_SHORT).show()
             }
         })

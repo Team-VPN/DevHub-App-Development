@@ -331,7 +331,7 @@
         app:layout_constraintTop_toBottomOf="@+id/password_entry" />
 
     <Button
-        android:id="@+id/siguuo_button"
+        android:id="@+id/signup_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

@@ -72,8 +72,8 @@ class MainActivity : AppCompatActivity() {
                 alertBox.setPositiveButton("Logout"){_,_->
                     FirebaseAuth.getInstance().signOut()
                     Toasty.success(this@MainActivity,"You have successfully logged out", Toast.LENGTH_SHORT).show()
+                    finishAffinity()
                     startActivity(Intent(this@MainActivity,LoginActivity::class.java))
-                    finish()
                 }
                 alertBox.setNegativeButton("stay here"){_,_->
 
