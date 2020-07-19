@@ -11,23 +11,16 @@
         android:layout_height="match_parent"
         android:background="#ffffff">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/user_profile_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardCornerRadius="84dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/user_image"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_profile_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/image_default" />
-        </androidx.cardview.widget.CardView>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/vector_asset_profile_icon_24" />
+
 
 <LinearLayout
     android:id="@+id/image_upload_button"

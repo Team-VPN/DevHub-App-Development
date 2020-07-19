@@ -107,12 +107,9 @@ class RegisterActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK && requestCode == image_pick_code){
-            user_image.setImageURI(data?.data)
+            user_profile_image.setImageURI(data?.data)
         }
     }
-
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
         val alertBox = AlertDialog.Builder(this@RegisterActivity)
@@ -129,4 +126,8 @@ class RegisterActivity : AppCompatActivity() {
         alertBox.create().show()
     }
 
-}
+    }
+
+
+
+
