@@ -1,11 +1,13 @@
 package com.teamvpn.devhub
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Vibrator
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,6 +19,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -67,7 +70,10 @@ class MainActivity : AppCompatActivity() {
                 alertBox.setMessage("By clicking logout, you will be logged out, and the session will be cleared. You may have to login again to use the application. Do you wish to continue ?")
                 alertBox.setCancelable(true)
                 alertBox.setPositiveButton("Logout"){_,_->
-                    
+                    FirebaseAuth.getInstance().signOut()
+                    Toasty.success(this@MainActivity,"You have successfully logged out", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@MainActivity,LoginActivity::class.java))
+                    finish()
                 }
                 alertBox.setNegativeButton("stay here"){_,_->
 

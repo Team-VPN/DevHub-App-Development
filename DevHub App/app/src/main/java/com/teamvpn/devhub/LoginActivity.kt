@@ -1,9 +1,11 @@
 package com.teamvpn.devhub
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.Observer
 import android.os.Bundle
+import android.os.Vibrator
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
@@ -27,12 +29,13 @@ import kotlinx.android.synthetic.main.activity_login.username
 import kotlinx.android.synthetic.main.activity_register.*
 
 class LoginActivity : AppCompatActivity() {
+    lateinit var vibrator:Vibrator
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         auth = FirebaseAuth.getInstance()
         login_button.setOnClickListener {
             if(!username.text.isNullOrBlank()) {
@@ -52,9 +55,9 @@ class LoginActivity : AppCompatActivity() {
 
         // intent to register activity if user clicks on the register button
         signup_redirect.setOnClickListener {
+            vibrator.vibrate(60)
             Log.d("DEBUG","User choose to register himself")
             startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
             finish()
         }
 

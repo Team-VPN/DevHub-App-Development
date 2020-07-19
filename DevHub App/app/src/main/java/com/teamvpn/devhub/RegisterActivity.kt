@@ -67,8 +67,7 @@ class RegisterActivity : AppCompatActivity() {
 
             progressDialog = ProgressDialog(this)
             progressDialog.setMessage("opening gallery")
-            progressDialog.setCanceledOnTouchOutside(true)
-            progressDialog.show()
+            progressDialog.setCanceledOnTouchOutside(false)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) ==
                     PackageManager.PERMISSION_DENIED){
@@ -78,6 +77,7 @@ class RegisterActivity : AppCompatActivity() {
                     requestPermissions(permissions, permission_code)
                 } else {
                     //permission granted
+                    progressDialog.show()
                     pickimagefromgallery()
                 }
             }
@@ -106,6 +106,7 @@ class RegisterActivity : AppCompatActivity() {
             permission_code -> {
                 if(grantResults.size >0 && grantResults[0] ==
                     PackageManager.PERMISSION_GRANTED){
+                    progressDialog.show()
                     pickimagefromgallery()
                 }
                 else{
@@ -119,7 +120,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         progressDialog.dismiss()
         if(resultCode == Activity.RESULT_OK && requestCode == image_pick_code){
-            user_image.setImageURI(data?.data)
+            user_profile_image.setImageURI(data?.data)
         }
     }
 
