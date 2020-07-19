@@ -36,18 +36,20 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/user_profile_image" >
-        <Button
 
-            style="@style/info_heading_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:backgroundTint="#ffffff"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:text="@string/choose_image"
-            android:textColor="#0A53E0"
-            android:textSize="14dp" />
+    <Button
+
+        android:id="@+id/image_upload_button"
+        style="@style/info_heading_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:backgroundTint="#ffffff"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:text="@string/choose_image"
+        android:textColor="#0A53E0"
+        android:textSize="14dp" />
 </LinearLayout>
         <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"

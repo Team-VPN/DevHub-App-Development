@@ -111,8 +111,6 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
         val alertBox = AlertDialog.Builder(this@RegisterActivity)
@@ -129,4 +127,6 @@ class RegisterActivity : AppCompatActivity() {
         alertBox.create().show()
     }
 
+
 }
+
