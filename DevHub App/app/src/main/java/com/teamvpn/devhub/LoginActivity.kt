@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 
@@ -68,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }else {
-                Toasty.error(this, "Login Failed", Toast.LENGTH_SHORT).show()
+                Toasty.error(this, "Hey! Login Failed, if you have an account, you can retrieve it by forgot password", Toast.LENGTH_SHORT).show()
             }
         })
 
