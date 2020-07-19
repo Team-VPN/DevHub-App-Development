@@ -1,6 +1,7 @@
 package com.teamvpn.devhub
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -17,7 +18,7 @@ class LauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
         supportActionBar?.hide()
-
+        window.statusBarColor = Color.WHITE
         firebaseAuth = FirebaseAuth.getInstance()
 
         mAuthListener = AuthStateListener {
@@ -31,7 +32,6 @@ class LauncherActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     },TIME_OUT.toLong())
-                
             }else{
                 // Wait for three seconds and move to main activity if login is successful, or else go for login/register activity
                 Handler().postDelayed(
