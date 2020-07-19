@@ -1,19 +1,25 @@
 package com.teamvpn.devhub
 
 import android.app.Activity
+import android.app.ProgressDialog
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Vibrator
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
+    lateinit var progressDialog:ProgressDialog
+    lateinit var vibrator: Vibrator
     lateinit var mskillsbutton : Button
     val skills = arrayOf("App development","IoT","Machine learning","Artificial Intelligence","Python", "Java", "Kotlin","c", "C++", "c#","JavaScript","Data mining", "Cloud","Firebase","Blockchain","GO","Solidity","Ethical hacking","Embedded systems","Web development","DBMS","Cyber security","VLSI","Analog communication","Signal processing")
     val boolarray = booleanArrayOf(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false)
@@ -23,12 +29,12 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         supportActionBar?.hide()
-
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         mskillsbutton = findViewById(R.id.country_entry)
         mskillsbutton.setOnClickListener {
             val mskillbuilder = AlertDialog.Builder(this@RegisterActivity)
             mskillbuilder.setTitle("Select your skills")
-            mskillbuilder.setCancelable(false)
+            mskillbuilder.setCancelable(true)
             mskillbuilder.setMultiChoiceItems(skills,boolarray){dialog, which, _->
                 when(which){
                     which ->{
@@ -57,24 +63,29 @@ class RegisterActivity : AppCompatActivity() {
         }
         select_image_button.setOnClickListener {
             //check runtime permission
+            vibrator.vibrate(60)
+
+            progressDialog = ProgressDialog(this)
+            progressDialog.setMessage("opening gallery")
+            progressDialog.setCanceledOnTouchOutside(true)
+            progressDialog.show()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) ==
                     PackageManager.PERMISSION_DENIED){
                     //permission denied
+
                     val permissions = arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE)
                     requestPermissions(permissions, permission_code)
                 } else {
                     //permission granted
-                    pickinagrfromgallery()
+                    pickimagefromgallery()
                 }
-            } else {
-
             }
 
 
         }
     }
-    private fun pickinagrfromgallery(){
+    private fun pickimagefromgallery(){
         val intent = Intent(Intent.ACTION_PICK)
         intent.type="image/*"
         startActivityForResult(intent, image_pick_code)
@@ -95,10 +106,10 @@ class RegisterActivity : AppCompatActivity() {
             permission_code -> {
                 if(grantResults.size >0 && grantResults[0] ==
                     PackageManager.PERMISSION_GRANTED){
-                    pickinagrfromgallery()
+                    pickimagefromgallery()
                 }
                 else{
-                    Toast.makeText(this, "Permission denied", Toast.LENGTH_LONG).show()
+                    Toasty.warning(this@RegisterActivity,"Permission denied!",Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -106,6 +117,7 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        progressDialog.dismiss()
         if(resultCode == Activity.RESULT_OK && requestCode == image_pick_code){
             user_image.setImageURI(data?.data)
         }
