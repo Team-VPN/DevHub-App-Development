@@ -28,8 +28,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/ic_profile"
-            
+            android:icon="@drawable/ic_profile"
             android:tint="@color/colorPrimary"
             android:tintMode="src_in">
 
