@@ -18,7 +18,6 @@ class LauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
         supportActionBar?.hide()
-        window.statusBarColor = Color.WHITE
         firebaseAuth = FirebaseAuth.getInstance()
 
         mAuthListener = AuthStateListener {
