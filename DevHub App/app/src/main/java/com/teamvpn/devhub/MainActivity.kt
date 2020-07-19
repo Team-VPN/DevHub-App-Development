@@ -12,6 +12,7 @@ import android.widget.Toolbar
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -37,6 +38,11 @@ class MainActivity : AppCompatActivity() {
         toolbar.setTitleTextColor(Color.rgb(98, 0, 238)) // will set the text color
         toolbar.title = "DevHub" // title for the toolbar
         setSupportActionBar(toolbar)
+        val toolbarchat = findViewById<AppCompatImageButton>(R.id.toolbarchat)
+        toolbarchat.setOnClickListener {
+            val intent = Intent(this, MainChat::class.java)
+            startActivity(intent)
+        }
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
