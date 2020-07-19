@@ -9,14 +9,17 @@ import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Vibrator
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.Toolbar
 import android.widget.Toast
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import es.dmoral.toasty.Toasty
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_register.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,7 +40,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        supportActionBar?.hide()
+        setSupportActionBar(toolbar)
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         // THIS IS FOR SIGN UP BUTTON
