@@ -1,6 +1,7 @@
 package com.teamvpn.devhub
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.app.ProgressDialog
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -13,14 +14,22 @@ import android.os.Vibrator
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_register.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
     lateinit var progressDialog:ProgressDialog
     lateinit var vibrator: Vibrator
     lateinit var mskillsbutton : Button
+
+    var button_date: Button? = null
+    var textview_date: TextView? = null
+    var cal = Calendar.getInstance()
+
     val skills = arrayOf("App development","IoT","Machine learning","Artificial Intelligence","Python", "Java", "Kotlin","c", "C++", "c#","JavaScript","Data mining", "Cloud","Firebase","Blockchain","GO","Solidity","Ethical hacking","Embedded systems","Web development","DBMS","Cyber security","VLSI","Analog communication","Signal processing")
     val boolarray = booleanArrayOf(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false)
     var skillsSelected : MutableList<String> =  mutableListOf<String>()
@@ -92,6 +101,40 @@ class RegisterActivity : AppCompatActivity() {
 
 
         }
+
+        // get the references from layout file
+        textview_date = this.age_entry
+        button_date = this.button_date_1
+
+        textview_date!!.text = "--/--/----"
+
+        // create an OnDateSetListener
+        val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+            override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
+                                   dayOfMonth: Int) {
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                updateDateInView()
+            }
+        }
+        // when you click on the button, show DatePickerDialog that is set with OnDateSetListener
+        button_date!!.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View) {
+                DatePickerDialog(this@RegisterActivity,
+                    dateSetListener,
+                    // set DatePickerDialog to point to today's date when it loads up
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH)).show()
+            }
+
+        })
+    }
+    private fun updateDateInView() {
+        val myFormat = "MM/dd/yyyy" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        textview_date!!.text = sdf.format(cal.getTime())
     }
     private fun pickimagefromgallery(){
         val intent = Intent(Intent.ACTION_PICK)

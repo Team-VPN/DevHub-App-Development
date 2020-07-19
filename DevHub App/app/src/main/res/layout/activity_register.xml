@@ -188,21 +188,40 @@
         app:layout_constraintEnd_toStartOf="@+id/barrier"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/age_entry"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/app_color_hint"
-        android:hint="@string/user_age_hint"
-        android:textColorHint="@android:color/darker_gray"
-        android:textCursorDrawable="@color/app_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/barrier"
-        app:layout_constraintTop_toBottomOf="@+id/phoneno_entry" />
+        <TextView
+            android:id="@+id/age_entry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/app_color_hint"
+            android:textColorHint="@android:color/darker_gray"
+            android:textCursorDrawable="@color/app_color"
+            app:layout_constraintStart_toEndOf="@+id/barrier"
+            app:layout_constraintTop_toBottomOf="@+id/phoneno_entry" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/age_entry"
+            app:layout_constraintTop_toBottomOf="@+id/phoneno_entry">
+
+            <Button
+                android:id="@+id/button_date_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:textColor="@color/app_color"
+                android:textAllCaps="false"
+                android:backgroundTint="#ffffff"
+                android:text="@string/choose_date" />
+        </LinearLayout>
 
     <TextView
         android:id="@+id/email"
@@ -218,24 +237,24 @@
         app:layout_constraintEnd_toStartOf="@+id/barrier"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/email_entry"
-        style="@style/info_hint"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_weight="1"
-        android:backgroundTint="@color/app_color_hint"
-        android:ems="10"
-        android:hint="@string/user_email_hint"
-        android:inputType="textPersonName|textEmailAddress"
-        android:textColorHint="@android:color/darker_gray"
-        android:textCursorDrawable="@color/app_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/barrier"
-        app:layout_constraintTop_toBottomOf="@+id/age_entry" />
+        <EditText
+            android:id="@+id/email_entry"
+            style="@style/info_hint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/app_color_hint"
+            android:ems="10"
+            android:hint="@string/user_email_hint"
+            android:inputType="textPersonName|textEmailAddress"
+            android:textColorHint="@android:color/darker_gray"
+            android:textCursorDrawable="@color/app_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/barrier"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
     <TextView
         android:id="@+id/password"
