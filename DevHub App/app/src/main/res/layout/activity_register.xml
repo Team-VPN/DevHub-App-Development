@@ -41,6 +41,20 @@
             android:text="@string/choose_image"
             android:textColor="#0A53E0"
             android:textSize="14dp" />
+
+    <Button
+
+        android:id="@+id/select_image_button"
+        style="@style/info_heading_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:backgroundTint="#ffffff"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:text="@string/choose_image"
+        android:textColor="#0A53E0"
+        android:textSize="14dp" />
 </LinearLayout>
         <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"

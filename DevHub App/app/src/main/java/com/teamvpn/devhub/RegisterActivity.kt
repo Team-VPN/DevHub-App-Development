@@ -17,7 +17,7 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var mskillsbutton : Button
     val skills = arrayOf("App development","IoT","Machine learning","Artificial Intelligence","Python", "Java", "Kotlin","c", "C++", "c#","JavaScript","Data mining", "Cloud","Firebase","Blockchain","GO","Solidity","Ethical hacking","Embedded systems","Web development","DBMS","Cyber security","VLSI","Analog communication","Signal processing")
     val boolarray = booleanArrayOf(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false)
-    lateinit var skillsSelected : MutableList<String>
+    var skillsSelected : MutableList<String> =  mutableListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -55,7 +55,7 @@ class RegisterActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
-        image_upload_button.setOnClickListener {
+        select_image_button.setOnClickListener {
             //check runtime permission
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) ==
@@ -110,8 +110,8 @@ class RegisterActivity : AppCompatActivity() {
             user_profile_image.setImageURI(data?.data)
         }
     }
+
     override fun onBackPressed() {
-        super.onBackPressed()
         val alertBox = AlertDialog.Builder(this@RegisterActivity)
         alertBox.setTitle("Do you wish to discard sign up process?")
         alertBox.setIcon(R.mipmap.ic_launcher)
@@ -126,8 +126,6 @@ class RegisterActivity : AppCompatActivity() {
         alertBox.create().show()
     }
 
-    }
 
-
-
+}
 
