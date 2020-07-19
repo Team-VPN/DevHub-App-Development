@@ -58,8 +58,10 @@ class RegisterActivity : AppCompatActivity() {
 
         login_button_redirect.setOnClickListener {
             // Handler code here.
+            vibrator.vibrate(60)
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
         select_image_button.setOnClickListener {
             //check runtime permission
