@@ -60,6 +60,7 @@ Password :"</string>
     <string name="user_age_hint">Age</string>
     <string name="user_skills">Skills :</string>
     <string name="skills_selector">Select your skills</string>
+    <string name="choose_image">Upload photo</string>
     <string name="todo">TODO</string>
     <string-array name="user_age__array">
         <item>12</item>

@@ -1,14 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="1dp"
-    android:background="#ffffff">
+    android:layout_margin="8dp"
+    android:orientation="vertical">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
 
-    <androidx.constraintlayout.widget.Barrier
+        <androidx.cardview.widget.CardView
+            android:id="@+id/user_profile_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="84dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/user_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_default" />
+        </androidx.cardview.widget.CardView>
+
+<LinearLayout
+    android:id="@+id/image_upload_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/user_profile_image" >
+        <Button
+
+            style="@style/info_heading_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:backgroundTint="#ffffff"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:text="@string/choose_image"
+            android:textColor="#0A53E0"
+            android:textSize="14dp" />
+</LinearLayout>
+        <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -30,26 +71,26 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/username_entry"
-        style="@style/info_hint"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/app_color_hint"
-        android:ems="10"
-        android:hint="@string/user_username_hint"
-        android:inputType="textPersonName"
-        android:textColorHighlight="@color/app_color_hint"
-        android:textColorHint="@android:color/darker_gray"
-        android:textColorLink="@color/app_color_hint"
-        android:textCursorDrawable="@color/app_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/barrier"
-        app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/username_entry"
+            style="@style/info_hint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/app_color_hint"
+            android:ems="10"
+            android:hint="@string/user_username_hint"
+            android:inputType="textPersonName"
+            android:textColorHighlight="@color/app_color_hint"
+            android:textColorHint="@android:color/darker_gray"
+            android:textColorLink="@color/app_color_hint"
+            android:textCursorDrawable="@color/app_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/barrier"
+            app:layout_constraintTop_toBottomOf="@+id/image_upload_button" />
 
     <TextView
         android:id="@+id/firstname"
@@ -244,25 +285,26 @@
         app:layout_constraintEnd_toStartOf="@+id/barrier"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/country_entry"
-        style="@style/info_hint"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:text="@string/skills_selector"
-        android:textColor="@color/app_color"
-        android:textColorHint="@android:color/darker_gray"
-        android:textCursorDrawable="@color/app_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/barrier"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_password_entry"
-        app:layout_constraintVertical_bias="0.0" />
+        <Button
+            android:id="@+id/country_entry"
+            style="@style/info_hint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="#ffffff"
+            android:ems="10"
+            android:text="@string/skills_selector"
+            android:textColor="@color/app_color"
+            android:textColorHint="@android:color/darker_gray"
+            android:textCursorDrawable="@color/app_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/barrier"
+            app:layout_constraintTop_toBottomOf="@+id/confirm_password_entry"
+            app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/confirm_password"
@@ -322,18 +364,27 @@
             android:id="@+id/login_text"
             style="@style/info_heading_style"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_height="match_parent"
             android:text="@string/login_text" />
 
-        <Button
-            android:id="@+id/login_button_redirect"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#00E8E6E6"
-            android:text="@string/login_page_redirect"
-            android:textColor="#0A53E0" />
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/login_button_redirect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:textAlignment="viewStart"
+                android:background="#ffffff"
+                android:backgroundTint="#ffffff"
+                android:text="@string/login_page_redirect"
+                android:textColor="#0A53E0" />
+        </LinearLayout>
 
     </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
