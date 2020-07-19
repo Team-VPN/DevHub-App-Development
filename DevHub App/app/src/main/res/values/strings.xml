@@ -64,6 +64,7 @@ Password :"</string>
     <string name="todo">TODO</string>
     <string name="choose_date">Choose Date</string>
     <string name="register_title">Register</string>
+    <string name="you_can_message_here">you can message here</string>
     <string-array name="user_age__array">
         <item>12</item>
         <item>13</item>

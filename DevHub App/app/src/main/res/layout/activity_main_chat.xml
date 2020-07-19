@@ -25,6 +25,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_profile"
+            
+            android:tint="@color/colorPrimary"
+            android:tintMode="src_in">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.Guideline
@@ -32,20 +41,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="44dp" />
+        app:layout_constraintGuide_begin="40dp" />
 
     <TextView
         android:id="@+id/textViewchat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="you can message here"
+        android:text="@string/you_can_message_here"
         android:textSize="18sp"
         tools:layout_editor_absoluteX="86dp"
         tools:layout_editor_absoluteY="287dp" />
 
+
 </com.google.android.material.appbar.AppBarLayout>
 
-    
+
 
 </LinearLayout>
