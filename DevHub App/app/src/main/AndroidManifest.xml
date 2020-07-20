@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.teamvpn.devhub">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.teamvpn.devhub"
+    tools:ignore="ExtraText">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -25,17 +27,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".OTPActivity" />
-        <activity android:name=".RegisterActivity"></activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".LoginActivity"
+            android:launchMode = "singleTop"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_activity_login">
         </activity>
-        <activity android:name=".post_made_successful_activity" />
-        <activity android:name=".about_us" />
-        <activity android:name=".EditProfile" />
-        <activity android:name=".LauncherActivity">
+        <activity android:name=".post_made_successful_activity"
+            android:launchMode = "singleTop"
+            />
+        <activity android:name=".about_us"
+            android:launchMode = "singleTop"
+            />
+        <activity android:name=".EditProfile"
+            android:launchMode = "singleTop"
+            />
+        <activity android:name=".LauncherActivity"
+            android:launchMode = "singleTop"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,6 +71,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:launchMode = "singleTop"
             android:windowSoftInputMode="adjustPan" />
     </application>
 

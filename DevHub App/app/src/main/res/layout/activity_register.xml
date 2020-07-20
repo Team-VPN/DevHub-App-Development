@@ -25,13 +25,23 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" >
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/app_logo"
+                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/register_title"
+                android:paddingLeft="20dp"
+                android:text="sign up"
+                android:textAlignment="viewStart"
                 android:textColor="@color/app_color"
-                android:textSize="25dp"
-                android:textAlignment="viewStart" />
+                android:textSize="25sp"
+                android:textStyle="normal|bold"
+                tools:layout_editor_absoluteX="61dp"
+                tools:layout_editor_absoluteY="11dp" />
         </androidx.appcompat.widget.Toolbar>
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -41,6 +51,8 @@
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
             android:src="@drawable/vector_asset_profile_icon_24"
+            app:civ_border_color="@color/app_color"
+            app:civ_border_width="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_register" />
@@ -77,17 +89,18 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="NotSibling" />
 
-    <TextView
-        android:id="@+id/username"
-        style="@style/info_heading_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/user_username"
-        android:textColor="@color/app_color"
-        app:layout_constraintBaseline_toBaselineOf="@+id/username_entry"
-        app:layout_constraintEnd_toStartOf="@+id/barrier"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/username"
+            style="@style/info_heading_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="User Name"
+            android:textColor="@color/app_color"
+            app:layout_constraintBaseline_toBaselineOf="@+id/username_entry"
+            app:layout_constraintEnd_toStartOf="@+id/barrier"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/username_entry"
@@ -110,16 +123,16 @@
             app:layout_constraintStart_toEndOf="@+id/barrier"
             app:layout_constraintTop_toBottomOf="@+id/image_upload_layout" />
 
-    <TextView
-        android:id="@+id/firstname"
-        style="@style/info_heading_style"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="@string/user_first_name"
-        android:textColor="@color/app_color"
-        app:layout_constraintBaseline_toBaselineOf="@+id/firstname_entry"
-        app:layout_constraintEnd_toStartOf="@+id/barrier"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/firstname"
+            style="@style/info_heading_style"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="First name"
+            android:textColor="@color/app_color"
+            app:layout_constraintBaseline_toBaselineOf="@+id/firstname_entry"
+            app:layout_constraintEnd_toStartOf="@+id/barrier"
+            app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/firstname_entry"
@@ -137,17 +150,17 @@
         app:layout_constraintStart_toEndOf="@+id/barrier"
         app:layout_constraintTop_toBottomOf="@+id/username_entry" />
 
-    <TextView
-        android:id="@+id/lastname"
-        style="@style/info_heading_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/user_last_name"
-        android:textColor="@color/app_color"
-        app:layout_constraintBaseline_toBaselineOf="@+id/lastname_entry"
-        app:layout_constraintEnd_toStartOf="@+id/barrier"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/lastname"
+            style="@style/info_heading_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/user_last_name"
+            android:textColor="@color/app_color"
+            app:layout_constraintBaseline_toBaselineOf="@+id/lastname_entry"
+            app:layout_constraintEnd_toStartOf="@+id/barrier"
+            app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/lastname_entry"
@@ -200,17 +213,17 @@
         app:layout_constraintStart_toEndOf="@+id/barrier"
         app:layout_constraintTop_toBottomOf="@+id/lastname_entry" />
 
-    <TextView
-        android:id="@+id/age"
-        style="@style/info_heading_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/user_age"
-        android:textColor="@color/app_color"
-        app:layout_constraintBaseline_toBaselineOf="@+id/age_entry"
-        app:layout_constraintEnd_toStartOf="@+id/barrier"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/age"
+            style="@style/info_heading_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="date of birth :"
+            android:textColor="@color/app_color"
+            app:layout_constraintBaseline_toBaselineOf="@+id/age_entry"
+            app:layout_constraintEnd_toStartOf="@+id/barrier"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/age_entry"
@@ -247,19 +260,19 @@
                 android:text="@string/choose_date" />
         </LinearLayout>
 
-    <TextView
-        android:id="@+id/email"
-        style="@style/info_heading_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_weight="1"
-        android:text="@string/user_email"
-        android:textColor="@color/app_color"
-        app:layout_constraintBaseline_toBaselineOf="@+id/email_entry"
-        app:layout_constraintEnd_toStartOf="@+id/barrier"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/email"
+            style="@style/info_heading_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:text="E-Mail"
+            android:textColor="@color/app_color"
+            app:layout_constraintBaseline_toBaselineOf="@+id/email_entry"
+            app:layout_constraintEnd_toStartOf="@+id/barrier"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/email_entry"
