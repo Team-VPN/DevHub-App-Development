@@ -18,6 +18,8 @@ import android.widget.Toolbar
 import android.widget.Toast
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_register.*
@@ -28,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var progressDialog:ProgressDialog
     lateinit var vibrator: Vibrator
     lateinit var mskillsbutton : Button
-
+    lateinit var auth:FirebaseAuth
     var button_date: Button? = null
     var textview_date: TextView? = null
     var cal = Calendar.getInstance()
@@ -42,10 +44,64 @@ class RegisterActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         setSupportActionBar(toolbar)
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-
+        auth = FirebaseAuth.getInstance()
         // THIS IS FOR SIGN UP BUTTON
         signup_button.setOnClickListener {
-            
+            if(!username_entry.text.isNullOrBlank()){
+                val username = username_entry.text.toString()
+                if(!firstname_entry.text.isNullOrBlank() and !lastname_entry.text.isNullOrBlank()){
+                    val fullname = firstname_entry.text.toString() + " " + lastname_entry.text.toString()
+                    if(phoneno_entry.text.toString().length == 10){
+                        val phoneNumber = phoneno_entry.text.toString()
+                        if(textview_date!!.text != ""){
+                            val dob = textview_date!!.text.toString()
+                            if(!email_entry.text.isNullOrBlank()){
+                                val email = email_entry.text.toString()
+                                if(password_entry.text.toString().length > 8){
+                                    val password = password_entry.text.toString()
+                                    val confirmpassword = confirm_password_entry.text.toString()
+                                    if(password == confirmpassword){
+                                        // time to upload the data to the database
+                                        // first create a authentication for the user
+                                        // if authentication is successful only then go with adding the user to the database
+                                        // else say that signup has failed
+                                        // the below function is used for the sign up process
+                                        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, OnCompleteListener{ task ->
+                                            if(task.isSuccessful){
+                                                Toasty.success(this@RegisterActivity, "Successfully Registered", Toast.LENGTH_LONG).show()
+                                                
+
+
+                                                val intent = Intent(this, LoginActivity::class.java)
+                                                startActivity(intent)
+                                                finish()
+                                            }else {
+                                                Toast.makeText(this, "Registration Failed", Toast.LENGTH_LONG).show()
+                                            }
+                                        })
+                                       // Toasty.success(this@RegisterActivity,"signup is successful",Toast.LENGTH_LONG).show()
+                                    }else{
+                                        Toasty.error(this@RegisterActivity,"Password and confirm password are not matching!, Recheck the password",Toast.LENGTH_LONG).show()
+                                    }
+
+                                }else{
+                                    Toasty.warning(this@RegisterActivity,"passphrase should be > 8",Toast.LENGTH_LONG).show()
+                                }
+                            }else{
+                                Toasty.warning(this@RegisterActivity,"we need your email to send backup settings",Toast.LENGTH_LONG).show()
+                            }
+                        }else{
+                            Toasty.warning(this@RegisterActivity,"We need your birth date, to wish you",Toast.LENGTH_LONG).show()
+                        }
+                    }else{
+                        Toasty.warning(this@RegisterActivity,"A phone number should be exact 10 digits",Toast.LENGTH_LONG).show()
+                    }
+                }else{
+                    Toasty.warning(this@RegisterActivity,"fill all the fields",Toast.LENGTH_LONG).show()
+                }
+            }else{
+                Toasty.warning(this@RegisterActivity,"fill all the fields",Toast.LENGTH_LONG).show()
+            }
         }
 
         mskillsbutton = findViewById(R.id.country_entry)
@@ -109,7 +165,7 @@ class RegisterActivity : AppCompatActivity() {
         textview_date = this.age_entry
         button_date = this.button_date_1
 
-        textview_date!!.text = "--/--/----"
+        textview_date!!.text = ""
 
         // create an OnDateSetListener
         val dateSetListener = object : DatePickerDialog.OnDateSetListener {
