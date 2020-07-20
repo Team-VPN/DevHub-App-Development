@@ -11,49 +11,58 @@
         android:layout_width="match_parent"
         android:theme="@style/AppTheme">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:background="#FFFFFF"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="#FFFFFF"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:icon="@drawable/ic_profile"
-            android:tint="@color/colorPrimary"
-            android:tintMode="src_in">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_baseline_person_24"
+                android:tint="@android:color/white"
+                android:tintMode="src_in">
 
-        </de.hdodenhof.circleimageview.CircleImageView>
-    </androidx.appcompat.widget.Toolbar>
+            </de.hdodenhof.circleimageview.CircleImageView>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="40dp" />
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="username"
+                android:textSize="17dp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold">
+            </TextView>
+        </androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/textViewchat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:text="@string/you_can_message_here"
-        android:textSize="18sp"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="287dp" />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tablyt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorDrama"
+                app:tabIndicatorColor="@android:color/white"
+                >
+
+         </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 
-</com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
 
 
