@@ -5,6 +5,9 @@
     <color name="colorAccent">#6200EE</color>
     <color name="app_color_hint">#646200EE</color>
     <color name="app_color">#6200EE</color>
+    <color name="colorFlushL">#e0dede</color>
+    <color name="colorFlush">#ffe2ff</color>
+    <color name="colorDrama">#803FDD</color>
 
 
 </resources>
