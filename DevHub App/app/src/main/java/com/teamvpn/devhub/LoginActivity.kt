@@ -37,13 +37,32 @@ class LoginActivity : AppCompatActivity() {
         // when button is clicked, show the alert
         forgot_password_button.setOnClickListener {
             // build alert dialog
+            val email = username.getText().toString()
+            if (!username.text.isNullOrBlank()){
             val dialogBuilder = AlertDialog.Builder(this)
             // set message of alert dialog
             dialogBuilder.setMessage("Click on 'Continue' to Reset the Password")
                 // if the dialog is cancelable
                 .setCancelable(false)
                 .setPositiveButton("Continue", DialogInterface.OnClickListener { dialog, id ->
-                    Toasty.info(this@LoginActivity,"Mail sent to reset your password!",Toast.LENGTH_LONG).show()
+
+                    auth.sendPasswordResetEmail(email)
+                        .addOnCompleteListener(this, OnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Toasty.success(
+                                    this@LoginActivity,
+                                    "Reset link sent to your email",
+                                    Toast.LENGTH_LONG
+                                ).show()
+
+                            } else {
+                                Toasty.info(
+                                    this@LoginActivity,
+                                    "Unable to send re-enter mail",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        })
 
                 })
                 // negative button text and action
@@ -56,6 +75,10 @@ class LoginActivity : AppCompatActivity() {
             alert.setTitle("Reset Password")
             // show alert dialog
             alert.show()
+        }
+            else{
+                Toasty.info(this@LoginActivity, "Please enter your email", Toast.LENGTH_LONG).show()
+            }
         }
             login_button.setOnClickListener {
 
