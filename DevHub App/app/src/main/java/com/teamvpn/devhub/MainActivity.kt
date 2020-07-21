@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                 val alertBox = AlertDialog.Builder(this@MainActivity)
                 alertBox.setTitle("Are you sure you want to logout from the app?")
                 alertBox.setIcon(R.mipmap.ic_launcher)
-                alertBox.setMessage("By clicking logout, you will be logged out, and the session will be cleared. You may have to login again to use the application. Do you wish to continue ?")
+                alertBox.setMessage("You may have to login again to use the application. Do you wish to continue ?")
                 alertBox.setCancelable(true)
                 alertBox.setPositiveButton("Logout"){_,_->
                     FirebaseAuth.getInstance().signOut()
