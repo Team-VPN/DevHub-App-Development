@@ -24,6 +24,7 @@ import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    lateinit var auth:FirebaseAuth
     var clearAllBackActivities_status = false
     companion object{
         private var firebaseAuth: FirebaseAuth? = null
