@@ -27,6 +27,6 @@
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.teamvpn.devhub.ui.ProfileFragment"
-        android:label="profile"
+        android:label="Profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

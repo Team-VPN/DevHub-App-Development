@@ -5,7 +5,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="near_by_developers">Near By Developers</string>
     <string name="post_a_question">Post a Question</string>
-    <string name="feed">feed</string>
+    <string name="feed">Feed</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">Home</string>
     <string name="my_profile">My Profile</string>
@@ -63,7 +63,12 @@ Password :"</string>
     <string name="choose_image">Upload photo</string>
     <string name="todo">TODO</string>
     <string name="choose_date">Choose Date</string>
-    <string name="register_title">Register</string>
+    <string name="register_title">Sign Up</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="user_gender">Gender :</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_other">Other</string>
     <string-array name="user_age__array">
         <item>12</item>
         <item>13</item>

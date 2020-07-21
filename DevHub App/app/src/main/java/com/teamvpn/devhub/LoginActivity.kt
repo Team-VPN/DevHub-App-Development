@@ -1,7 +1,9 @@
 package com.teamvpn.devhub
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.Vibrator
@@ -32,7 +34,53 @@ class LoginActivity : AppCompatActivity() {
         progressDialog.setMessage("Hold your seat with patience...")
         progressDialog.setCanceledOnTouchOutside(false)
 
-        login_button.setOnClickListener {
+        // when button is clicked, show the alert
+        forgot_password_button.setOnClickListener {
+            // build alert dialog
+            val email = username.getText().toString()
+            if (!username.text.isNullOrBlank()){
+            val dialogBuilder = AlertDialog.Builder(this)
+            // set message of alert dialog
+            dialogBuilder.setMessage("Click on 'Continue' to Reset the Password")
+                // if the dialog is cancelable
+                .setCancelable(false)
+                .setPositiveButton("Continue", DialogInterface.OnClickListener { dialog, id ->
+
+                    auth.sendPasswordResetEmail(email)
+                        .addOnCompleteListener(this, OnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Toasty.success(
+                                    this@LoginActivity,
+                                    "Reset link sent to your email",
+                                    Toast.LENGTH_LONG
+                                ).show()
+
+                            } else {
+                                Toasty.info(
+                                    this@LoginActivity,
+                                    "Unable to send re-enter mail",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        })
+
+                })
+                // negative button text and action
+                .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+                    dialog.cancel()
+                })
+            // create dialog box
+            val alert = dialogBuilder.create()
+            // set title for alert dialog box
+            alert.setTitle("Reset Password")
+            // show alert dialog
+            alert.show()
+        }
+            else{
+                Toasty.info(this@LoginActivity, "Please enter your email", Toast.LENGTH_LONG).show()
+            }
+        }
+            login_button.setOnClickListener {
 
             if(!username.text.isNullOrBlank()) {
                 if (!password.text.isNullOrBlank()) {
