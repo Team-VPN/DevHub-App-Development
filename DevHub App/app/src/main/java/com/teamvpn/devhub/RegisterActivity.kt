@@ -352,7 +352,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun CreateUserData(uid:String,username: String,fullname: String,sex:String,dob: String,phoneNumber: String,email: String,skills:MutableList<String>,file_Uri:Uri,github:String){
         val uploadTask = mStorageRef!!.child(auth.uid.toString()).putFile(file_Uri)
         val task = uploadTask.continueWithTask {
-            task->
+                task->
             val downloadUrl = task.result
             val url = downloadUrl!!.toString()
             progressDialog.setMessage("profile picture is set")
@@ -363,13 +363,16 @@ class RegisterActivity : AppCompatActivity() {
                     Log.d("DEBUG","database created")
                     progressDialog.dismiss()
                     Toasty.success(this@RegisterActivity,"hey $fullname, your account is all set!, you are ready to go",Toast.LENGTH_SHORT).show()
+                    auth.signOut()
+                    startActivity(Intent(this@RegisterActivity,LoginActivity::class.java))
+                    finish()
                 }
                 .addOnFailureListener{
                     // write was failure
                     progressDialog.dismiss()
                     Log.d("DEBUG","database creation failed")
                     Toasty.error(this@RegisterActivity,"failed to create account, try again in some time!",Toast.LENGTH_SHORT).show()
-                    finishAffinity()
+                    //finishAffinity()
                     //startActivity(Intent(this@RegisterActivity,LoginActivity::class.java))
                     //finish()
                 }
@@ -381,13 +384,9 @@ class RegisterActivity : AppCompatActivity() {
             }
             mStorageRef!!.downloadUrl
         }.addOnCompleteListener {
-            task ->
+                task ->
             if(task.isSuccessful){
-                finishAffinity()
 
-                startActivity(Intent(this@RegisterActivity,LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
-
-                finish()
             }
         }
     }

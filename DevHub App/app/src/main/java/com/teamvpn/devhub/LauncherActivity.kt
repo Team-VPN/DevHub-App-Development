@@ -28,6 +28,7 @@ class LauncherActivity : AppCompatActivity() {
                         Log.d("DEBUG","User is not logged in, so login activity is launched")
                         val intent = Intent(this@LauncherActivity, MainActivity::class.java)
                         Log.d("DEBUG","User is already logged in, so main activity is launched")
+                        mAuthListener?.let { firebaseAuth?.removeAuthStateListener (it) }
                         startActivity(intent)
                         finish()
                     },TIME_OUT.toLong())
@@ -38,6 +39,7 @@ class LauncherActivity : AppCompatActivity() {
                         Log.d("DEBUG","User is not logged in, so login activity is launched")
                         startActivity(Intent(this@LauncherActivity, LoginActivity::class.java))
                         //overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                        mAuthListener?.let { firebaseAuth?.removeAuthStateListener (it) }
                         finish()
                     },TIME_OUT.toLong()
                 )
@@ -48,12 +50,12 @@ class LauncherActivity : AppCompatActivity() {
 
     override fun onStart(){
         super.onStart()
-        mAuthListener?.let { firebaseAuth?.addAuthStateListener(it) }
+       mAuthListener?.let { firebaseAuth?.addAuthStateListener(it) }
     }
 
     override fun onResume() {
         super.onResume()
-        mAuthListener?.let { firebaseAuth?.addAuthStateListener(it) }
+       mAuthListener?.let { firebaseAuth?.addAuthStateListener(it) }
     }
 
     override fun onStop() {

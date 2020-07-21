@@ -24,6 +24,7 @@ import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    var clearAllBackActivities_status = false
     companion object{
         private var firebaseAuth: FirebaseAuth? = null
         var mAuthListener: FirebaseAuth.AuthStateListener? = null
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level dstinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.navigation_feed, R.id.navigation_post_qns, R.id.navigation_near_by_location_developers, R.id.navigation_profile))
+            R.id.navigation_feed, R.id.navigation_post_qns, R.id.navigation_near_by_location_developers, R.id.navigation_profile))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity() {
                 val alertBox = AlertDialog.Builder(this@MainActivity)
                 alertBox.setTitle("Are you sure you want to logout from the app?")
                 alertBox.setIcon(R.mipmap.ic_launcher)
-                alertBox.setMessage("By clicking logout, you will be logged out, and the session will be cleared. You may have to login again to use the application. Do you wish to continue ?")
+                alertBox.setMessage("You may have to login again to use the application. Do you wish to continue ?")
                 alertBox.setCancelable(true)
                 alertBox.setPositiveButton("Logout"){_,_->
                     FirebaseAuth.getInstance().signOut()
@@ -103,5 +104,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if(!clearAllBackActivities_status){
+            clearAllBackActivities_status = true
+            //finishAffinity()
+        }
     }
 }
