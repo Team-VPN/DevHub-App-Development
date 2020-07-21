@@ -75,68 +75,127 @@ class RegisterActivity : AppCompatActivity() {
             progressDialog = ProgressDialog(this)
             progressDialog.setMessage("Hold on, getting a account for you ...")
             progressDialog.setCanceledOnTouchOutside(false)
-            if(!username_entry.text.isNullOrBlank()){
+            if(!username_entry.text.isNullOrBlank()) {
                 val username = username_entry.text.toString()
-                if(!firstname_entry.text.isNullOrBlank() and !lastname_entry.text.isNullOrBlank()){
-                    val fullname = firstname_entry.text.toString() + " " + lastname_entry.text.toString()
-                    if(phoneno_entry.text.toString().length == 10){
+                if (!firstname_entry.text.isNullOrBlank() and !lastname_entry.text.isNullOrBlank()) {
+                    val fullname =
+                        firstname_entry.text.toString() + " " + lastname_entry.text.toString()
+                    if (phoneno_entry.text.toString().length == 10) {
                         val phoneNumber = phoneno_entry.text.toString()
-                        if(textview_date!!.text != ""){
+                        if (textview_date!!.text != "") {
                             val dob = textview_date!!.text.toString()
-                            if(!email_entry.text.isNullOrBlank()){
+                            if (!email_entry.text.isNullOrBlank()) {
                                 val email = email_entry.text.toString()
-                                if(gender!=""){
-                                    if(password_entry.text.toString().length > 8){
+                                if (gender != "") {
+                                    if (password_entry.text.toString().length > 8) {
                                         val password = password_entry.text.toString()
                                         val confirmpassword = confirm_password_entry.text.toString()
-                                        if(password == confirmpassword){
-                                            if(choosen_image_uri != null){
-                                                // time to upload the data to the database
-                                                // first create a authentication for the user
-                                                // if authentication is successful only then go with adding the user to the database
-                                                // else say that sign up has failed
-                                                // the below function is used for the sign up process
+                                        if (password == confirmpassword) {
+                                            if (choosen_image_uri != null) {
+                                                if(!github_entry.text.isNullOrBlank()) {
+                                                    val githubacc = github_entry.text.toString()
+                                                    // time to upload the data to the database
+                                                    // first create a authentication for the user
+                                                    // if authentication is successful only then go with adding the user to the database
+                                                    // else say that sign up has failed
+                                                    // the below function is used for the sign up process
 
-                                                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, OnCompleteListener{ task ->
-                                                    progressDialog.show()
-                                                    if(task.isSuccessful){
-                                                        Toasty.success(this@RegisterActivity, "Email is successfully registered", Toast.LENGTH_LONG).show()
-                                                        progressDialog.setMessage("account is created, working on saving your data...")
-                                                        /////////////////////////////////////////////////////////////////
-                                                        CreateUserData(auth.uid.toString(),username,fullname,gender,dob,phoneNumber,email,skillsSelected,
-                                                            choosen_image_uri!!
-                                                        )
-                                                        ///////////////////////////////////////////////////////////////////
+                                                    auth.createUserWithEmailAndPassword(
+                                                        email,
+                                                        password
+                                                    )
+                                                        .addOnCompleteListener(
+                                                            this,
+                                                            OnCompleteListener { task ->
+                                                                progressDialog.show()
+                                                                if (task.isSuccessful) {
+                                                                    Toasty.success(
+                                                                        this@RegisterActivity,
+                                                                        "Email is successfully registered",
+                                                                        Toast.LENGTH_LONG
+                                                                    ).show()
+                                                                    progressDialog.setMessage("account is created, working on saving your data...")
+                                                                    /////////////////////////////////////////////////////////////////
+                                                                    CreateUserData(
+                                                                        auth.uid.toString(),
+                                                                        username,
+                                                                        fullname,
+                                                                        gender,
+                                                                        dob,
+                                                                        phoneNumber,
+                                                                        email,
+                                                                        skillsSelected,
+                                                                        choosen_image_uri!!,
+                                                                        githubacc
+                                                                    )
+                                                                    ///////////////////////////////////////////////////////////////////
 
-                                                    }else {
-                                                        Toasty.error(this@RegisterActivity, "Sign up Failed, Try with different email id", Toast.LENGTH_LONG).show()
-                                                        progressDialog.dismiss()
-                                                    }
-                                                })
-                                            }else{
-                                                Toasty.warning(this@RegisterActivity,"we need your profile picture",Toast.LENGTH_SHORT).show()
+
+                                                                } else {
+                                                                    Toasty.error(
+                                                                        this@RegisterActivity,
+                                                                        "Sign up Failed, Try with different email id",
+                                                                        Toast.LENGTH_LONG
+                                                                    ).show()
+                                                                    progressDialog.dismiss()
+                                                                }
+                                                            })
+                                                }else{
+                                                    Toasty.error(this@RegisterActivity, "Enter your github account", Toast.LENGTH_LONG).show()
+                                                }
+                                            } else {
+                                                Toasty.warning(
+                                                    this@RegisterActivity,
+                                                    "we need your profile picture",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
                                             }
-                                        }else{
-                                            Toasty.error(this@RegisterActivity,"Password and confirm password are not matching!, Recheck the password",Toast.LENGTH_LONG).show()
+                                        } else {
+                                            Toasty.error(
+                                                this@RegisterActivity,
+                                                "Password and confirm password are not matching!, Recheck the password",
+                                                Toast.LENGTH_LONG
+                                            ).show()
                                         }
 
-                                    }else{
-                                        Toasty.warning(this@RegisterActivity,"passphrase should be > 8",Toast.LENGTH_LONG).show()
+                                    } else {
+                                        Toasty.warning(
+                                            this@RegisterActivity,
+                                            "passphrase should be > 8",
+                                            Toast.LENGTH_LONG
+                                        ).show()
                                     }
-                                }else{
-                                    Toasty.warning(this@RegisterActivity,"hey!, we need your sex",Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toasty.warning(
+                                        this@RegisterActivity,
+                                        "hey!, we need your sex",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
-                            }else{
-                                Toasty.warning(this@RegisterActivity,"we need your email to send backup settings",Toast.LENGTH_LONG).show()
+                            } else {
+                                Toasty.warning(
+                                    this@RegisterActivity,
+                                    "we need your email to send backup settings",
+                                    Toast.LENGTH_LONG
+                                ).show()
                             }
-                        }else{
-                            Toasty.warning(this@RegisterActivity,"We need your birth date, to wish you",Toast.LENGTH_LONG).show()
+                        } else {
+                            Toasty.warning(
+                                this@RegisterActivity,
+                                "We need your birth date, to wish you",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
-                    }else{
-                        Toasty.warning(this@RegisterActivity,"A phone number should be exact 10 digits",Toast.LENGTH_LONG).show()
+                    } else {
+                        Toasty.warning(
+                            this@RegisterActivity,
+                            "A phone number should be exact 10 digits",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
-                }else{
-                    Toasty.warning(this@RegisterActivity,"fill all the fields",Toast.LENGTH_LONG).show()
+                } else {
+                    Toasty.warning(this@RegisterActivity, "fill all the fields", Toast.LENGTH_LONG)
+                        .show()
                 }
             }else{
                 Toasty.warning(this@RegisterActivity,"fill all the fields",Toast.LENGTH_LONG).show()
@@ -290,14 +349,14 @@ class RegisterActivity : AppCompatActivity() {
         alertBox.create().show()
     }
 
-    private fun CreateUserData(uid:String,username: String,fullname: String,sex:String,dob: String,phoneNumber: String,email: String,skills:MutableList<String>,file_Uri:Uri){
+    private fun CreateUserData(uid:String,username: String,fullname: String,sex:String,dob: String,phoneNumber: String,email: String,skills:MutableList<String>,file_Uri:Uri,github:String){
         val uploadTask = mStorageRef!!.child(auth.uid.toString()).putFile(file_Uri)
         val task = uploadTask.continueWithTask {
             task->
             val downloadUrl = task.result
             val url = downloadUrl!!.toString()
             progressDialog.setMessage("profile picture is set")
-            val userInfo = NewUserInfo(auth.uid.toString(),username,fullname,sex,dob,phoneNumber,email,skillsSelected,url)
+            val userInfo = NewUserInfo(auth.uid.toString(),username,fullname,sex,dob,phoneNumber,email,skillsSelected,url,github)
             database.push().setValue(userInfo)
                 .addOnSuccessListener {
                     // write was successful
@@ -340,4 +399,4 @@ class RegisterActivity : AppCompatActivity() {
 data class NewUserInfo(
     var uid:String, var username: String, var fullname: String, var sex:String, var dob: String, var phoneNumber: String, var email: String,
     var skills:MutableList<String>,
-    var image_url:String)
+    var image_url:String, var github: String)
