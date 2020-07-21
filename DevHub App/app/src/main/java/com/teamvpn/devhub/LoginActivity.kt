@@ -103,7 +103,7 @@ class LoginActivity : AppCompatActivity() {
             signup_redirect.isEnabled = false
             vibrator.vibrate(60)
             Log.d("DEBUG","User choose to register himself")
-            startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
+            startActivity(Intent(this@LoginActivity, RegisterActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
             finish()
         }
 
