@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
+    android:scrollbars="vertical"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -204,22 +205,25 @@
             app:layout_constraintTop_toBottomOf="@+id/lastname_entry">
 
             <RadioButton
+                android:id="@+id/male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/gender_male"
-                android:textColor="@color/app_color"/>
+                android:textColor="@color/app_color" />
 
             <RadioButton
+                android:id="@+id/female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/gender_female"
-                android:textColor="@color/app_color"/>
+                android:textColor="@color/app_color" />
 
             <RadioButton
+                android:id="@+id/other"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/gender_other"
-                android:textColor="@color/app_color"/>
+                android:textColor="@color/app_color" />
 
         </RadioGroup>
 
@@ -310,7 +314,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:text="E-Mail"
+            android:text="E-Mail :"
             android:textColor="@color/app_color"
             app:layout_constraintBaseline_toBaselineOf="@+id/email_entry"
             app:layout_constraintEnd_toStartOf="@+id/barrier"
