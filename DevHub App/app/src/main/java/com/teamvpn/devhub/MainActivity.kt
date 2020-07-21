@@ -65,7 +65,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.editProfile ->{
-
+                startActivity(Intent(this@MainActivity, EditProfile::class.java))
+                finish()
             }
             R.id.About_us->{
 
