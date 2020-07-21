@@ -4,37 +4,51 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.widget.Button
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
+import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Vibrator
+import android.util.Log
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.Toolbar
+import android.widget.Button
+import android.widget.DatePicker
+import android.widget.TextView
 import android.widget.Toast
-import android.widget.*
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_register.*
+import java.io.File
+import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
+    private lateinit var database: DatabaseReference
+    private lateinit var myref:DatabaseReference
     lateinit var progressDialog:ProgressDialog
     lateinit var vibrator: Vibrator
     lateinit var mskillsbutton : Button
     lateinit var auth:FirebaseAuth
+    private var choosen_image_uri: URI? = null
+    private var mStorageRef: StorageReference? = null
     var button_date: Button? = null
     var textview_date: TextView? = null
     var cal = Calendar.getInstance()
-
+    lateinit var myRef:DatabaseReference
     val skills = arrayOf("App development","IoT","Machine learning","Artificial Intelligence","Python", "Java", "Kotlin","c", "C++", "c#","JavaScript","Data mining", "Cloud","Firebase","Blockchain","GO","Solidity","Ethical hacking","Embedded systems","Web development","DBMS","Cyber security","VLSI","Analog communication","Signal processing")
     val boolarray = booleanArrayOf(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false)
     var skillsSelected : MutableList<String> =  mutableListOf<String>()
@@ -45,6 +59,8 @@ class RegisterActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance().getReference("users")
+        mStorageRef = FirebaseStorage.getInstance().getReference()
         // THIS IS FOR SIGN UP BUTTON
         signup_button.setOnClickListener {
             if(!username_entry.text.isNullOrBlank()){
@@ -64,22 +80,36 @@ class RegisterActivity : AppCompatActivity() {
                                         // time to upload the data to the database
                                         // first create a authentication for the user
                                         // if authentication is successful only then go with adding the user to the database
-                                        // else say that signup has failed
+                                        // else say that sign up has failed
                                         // the below function is used for the sign up process
                                         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, OnCompleteListener{ task ->
                                             if(task.isSuccessful){
                                                 Toasty.success(this@RegisterActivity, "Successfully Registered", Toast.LENGTH_LONG).show()
-                                                
+                                                val sex = "male"
+                                                val userInfo = NewUserInfo(auth.uid.toString(),username,fullname,sex,dob,phoneNumber,email,skillsSelected)
+                                                /////////////////////////////////////////////////////////////////
+                                                //choosen_image_uri?.let { it1 -> uploadImage(it1) }
+                                                database.push().setValue(userInfo)
+                                                    .addOnSuccessListener {
+                                                        // write was successful
+                                                        Log.d("DEBUG","database created")
+                                                        Toasty.success(this@RegisterActivity,"account created successfully for $fullname!",Toast.LENGTH_SHORT).show()
+                                                        val intent = Intent(this, LoginActivity::class.java)
+                                                        startActivity(intent)
+                                                        finish()
+                                                    }
+                                                    .addOnFailureListener{
+                                                        // write was failure
+                                                        Log.d("DEBUG","database creation failed")
+                                                        Toasty.error(this@RegisterActivity,"failed to create account, try again in some time!",Toast.LENGTH_SHORT).show()
+                                                    }
+                                                ///////////////////////////////////////////////////////////////////
 
-
-                                                val intent = Intent(this, LoginActivity::class.java)
-                                                startActivity(intent)
-                                                finish()
                                             }else {
                                                 Toast.makeText(this, "Registration Failed", Toast.LENGTH_LONG).show()
                                             }
                                         })
-                                       // Toasty.success(this@RegisterActivity,"signup is successful",Toast.LENGTH_LONG).show()
+                                        // Toasty.success(this@RegisterActivity,"signup is successful",Toast.LENGTH_LONG).show()
                                     }else{
                                         Toasty.error(this@RegisterActivity,"Password and confirm password are not matching!, Recheck the password",Toast.LENGTH_LONG).show()
                                     }
@@ -231,6 +261,7 @@ class RegisterActivity : AppCompatActivity() {
         progressDialog.dismiss()
         if(resultCode == Activity.RESULT_OK && requestCode == image_pick_code){
             user_profile_image.setImageURI(data?.data)
+            choosen_image_uri = URI(data?.data.toString())
         }
     }
 
@@ -249,6 +280,25 @@ class RegisterActivity : AppCompatActivity() {
         alertBox.create().show()
     }
 
+    private fun uploadImage(image_uri: URI){
+
+        var file = Uri.fromFile(File(image_uri))
+        val riversRef = mStorageRef?.child("user_profile_pictures/${file.lastPathSegment}")
+        val uploadTask = riversRef?.putFile(file)
+        // Register observers to listen for when the download is done or if it fails
+        uploadTask?.addOnFailureListener {
+            // Handle unsuccessful uploads
+            Toasty.success(this@RegisterActivity,"Image uploaded succesfully",Toast.LENGTH_SHORT).show()
+        }?.addOnSuccessListener {
+            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+            // ...
+            Toasty.error(this@RegisterActivity,"Failed to upload image",Toast.LENGTH_SHORT).show()
+        }
+
+    }
 
 }
-
+// This is the dataclass for new user info
+data class NewUserInfo(
+    var uid:String, var username: String, var fullname: String, var sex:String, var dob: String, var phoneNumber: String, var email: String,
+    var skills:MutableList<String>)
