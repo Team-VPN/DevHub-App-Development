@@ -24,6 +24,7 @@ import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    var clearAllBackActivities_status = false
     companion object{
         private var firebaseAuth: FirebaseAuth? = null
         var mAuthListener: FirebaseAuth.AuthStateListener? = null
@@ -102,5 +103,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if(!clearAllBackActivities_status){
+            clearAllBackActivities_status = true
+            //finishAffinity()
+        }
     }
 }

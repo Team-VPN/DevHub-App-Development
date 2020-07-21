@@ -310,7 +310,7 @@ class RegisterActivity : AppCompatActivity() {
                     progressDialog.dismiss()
                     Log.d("DEBUG","database creation failed")
                     Toasty.error(this@RegisterActivity,"failed to create account, try again in some time!",Toast.LENGTH_SHORT).show()
-                    finishAffinity()
+                    //finishAffinity()
                     //startActivity(Intent(this@RegisterActivity,LoginActivity::class.java))
                     //finish()
                 }
@@ -324,11 +324,7 @@ class RegisterActivity : AppCompatActivity() {
         }.addOnCompleteListener {
             task ->
             if(task.isSuccessful){
-                finishAffinity()
-
                 startActivity(Intent(this@RegisterActivity,LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
-
-                finish()
             }
         }
     }

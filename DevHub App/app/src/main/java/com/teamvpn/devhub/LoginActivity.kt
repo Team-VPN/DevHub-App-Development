@@ -100,6 +100,7 @@ class LoginActivity : AppCompatActivity() {
 
         // intent to register activity if user clicks on the register button
         signup_redirect.setOnClickListener {
+            signup_redirect.isEnabled = false
             vibrator.vibrate(60)
             Log.d("DEBUG","User choose to register himself")
             startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
