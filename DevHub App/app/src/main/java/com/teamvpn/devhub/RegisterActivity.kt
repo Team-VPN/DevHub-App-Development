@@ -72,6 +72,7 @@ class RegisterActivity : AppCompatActivity() {
         }
         // THIS IS FOR SIGN UP BUTTON
         signup_button.setOnClickListener {
+            vibrator.vibrate(60)
             progressDialog = ProgressDialog(this)
             progressDialog.setMessage("Hold on, getting a account for you ...")
             progressDialog.setCanceledOnTouchOutside(false)
@@ -244,7 +245,7 @@ class RegisterActivity : AppCompatActivity() {
     companion object {
         private val image_pick_code = 1000
 
-        private val permission_code = 1001
+        val permission_code = 1001
     }
 
     override fun onRequestPermissionsResult(
@@ -298,7 +299,7 @@ class RegisterActivity : AppCompatActivity() {
             val url = downloadUrl!!.toString()
             progressDialog.setMessage("profile picture is set")
             val userInfo = NewUserInfo(auth.uid.toString(),username,fullname,sex,dob,phoneNumber,email,skillsSelected,url)
-            database.push().setValue(userInfo)
+            database.child(uid).setValue(userInfo)
                 .addOnSuccessListener {
                     // write was successful
                     Log.d("DEBUG","database created")
