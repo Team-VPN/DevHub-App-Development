@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_login.*

@@ -30,6 +30,13 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="update_profile_photo">Update Profile Photo</string>
+    <string name="personal_info">Personal Information :</string>
+    <string name="profile_info">Profile Information :</string>
+    <string name="technical_info">Technical Information :</string>
+    <string name="user_skills_hint">Skills</string>
+    <string name="skills_updator">Update Your Skills</string>
+    <string name="delete_account">Delete account</string>
 
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
@@ -69,6 +76,8 @@ Password :"</string>
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
     <string name="gender_other">Other</string>
+    <string name="user_github">GitHub Profile :</string>
+    <string name="user_github_hint">GitHub profile</string>
     <string-array name="user_age__array">
         <item>12</item>
         <item>13</item>

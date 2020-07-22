@@ -38,6 +38,7 @@ data class User(
 
 
 class MainActivity : AppCompatActivity() {
+    lateinit var auth:FirebaseAuth
     var clearAllBackActivities_status = false
     companion object{
         private var firebaseAuth: FirebaseAuth? = null
@@ -102,7 +103,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.editProfile ->{
-
+                startActivity(Intent(this@MainActivity, EditProfile::class.java))
+                finish()
             }
             R.id.About_us->{
 
