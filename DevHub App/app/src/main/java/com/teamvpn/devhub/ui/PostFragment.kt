@@ -134,7 +134,7 @@ class PostFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                val bmp = data.extras!!["data"] as Bitmap?
+                val bmp = data?.extras!!["data"] as Bitmap?
                 val stream = ByteArrayOutputStream()
                 bmp!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
                 val byteArray: ByteArray = stream.toByteArray()
