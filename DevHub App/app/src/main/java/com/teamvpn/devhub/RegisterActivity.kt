@@ -118,6 +118,7 @@ class RegisterActivity : AppCompatActivity() {
                                                                     ).show()
                                                                     progressDialog.setMessage("account is created, working on saving your data...")
                                                                     /////////////////////////////////////////////////////////////////
+
                                                                     CreateUserData(
                                                                         auth.uid.toString(),
                                                                         username,
