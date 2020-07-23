@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -63,7 +64,10 @@ dependencies {
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-
+// Recommended: Add the Firebase SDK for Google Analytics.
+    implementation 'com.google.firebase:firebase-analytics-ktx:17.4.4'
+    // Add the Firebase Crashlytics SDK.
+    implementation 'com.google.firebase:firebase-crashlytics:17.1.1'
     implementation 'com.google.firebase:firebase-auth:19.3.2'
     implementation 'com.google.firebase:firebase-core:17.4.4'
     implementation 'com.google.firebase:firebase-auth:19.3.2'
