@@ -39,6 +39,8 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var mskillsbutton : Button
     lateinit var auth:FirebaseAuth
     private var choosen_image_uri: Uri? = null
+    private var firebaseUserID: String  = ""
+    private lateinit var refUsersChat: DatabaseReference
     private var mStorageRef: StorageReference? = null
     var button_date: Button? = null
     var textview_date: TextView? = null
@@ -107,7 +109,52 @@ class RegisterActivity : AppCompatActivity() {
                                                         CreateUserData(auth.uid.toString(),username,fullname,gender,dob,phoneNumber,email,skillsSelected,
                                                             choosen_image_uri!!
                                                         )
-                                                        ///////////////////////////////////////////////////////////////////
+
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~ NIRAN: DO NOT EDIT THIS SEGMENT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                                    firebaseUserID = auth.currentUser!!.uid //userid
+                                                                    refUsersChat = FirebaseDatabase.getInstance().reference.child("ChatUsersDB").child(firebaseUserID)
+                                                                    val userHashMap = HashMap<String, Any>()
+                                                                    userHashMap["uid"]= firebaseUserID
+                                                                    userHashMap["username"]=username
+                                                                    //profile image of user can be changed later here, once other stuff is done - from Niran
+                                                                    userHashMap["profile"]= "https://firebasestorage.googleapis.com/v0/b/devhub-ed276.appspot.com/o/default%2Fprofile.png?alt=media&token=38c9801f-261e-413e-991e-98ee84a0fc66"
+                                                                    userHashMap["cover"]= "https://firebasestorage.googleapis.com/v0/b/devhub-ed276.appspot.com/o/default%2Fcover.jpg?alt=media&token=68be50b9-d224-4059-85c9-e722ab415a55"
+                                                                    userHashMap["status"]= "offline"
+                                                                    userHashMap["search"]= username
+                                                                    userHashMap["github"]= "www.github.com"
+                                                                    userHashMap["linkedin"]= "https://www.linkedin.com"
+                                                                    userHashMap["stackof"]= "https://www.stackoverflow.com"
+                                                                    //donno if this is reqd, need to check
+                                                                    refUsersChat.updateChildren(userHashMap)
+                                                                        .addOnCompleteListener { task ->
+                                                                            if (task.isSuccessful) {
+                                                                                Toasty.success(
+                                                                                    this@RegisterActivity,
+                                                                                    "Your Chat view has been created!",
+                                                                                    Toast.LENGTH_SHORT
+                                                                                ).show()
+                                                                            }
+                                                                        }
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~ NIRAN: DO NOT EDIT THIS SEGMENT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+                                                                    ///////////////////////////////////////////////////////////////////
 
                                                     }else {
                                                         Toasty.error(this@RegisterActivity, "Sign up Failed, Try with different email id", Toast.LENGTH_LONG).show()
