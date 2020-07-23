@@ -20,7 +20,7 @@
             android:padding="10dp"
             >
             <ImageView
-                android:id="cover_image"
+                android:id="@+id/cover_image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:src="@drawable/cover"
@@ -35,7 +35,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="140dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/profile"
+                android:src="@drawable/pro_temp"
 
                 >
 
@@ -59,9 +59,52 @@
         <ImageView
             android:id="@+id/set_link"
             android:layout_width="60dp"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:src="@drawable/in"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="35dp"
+            android:layout_gravity="center">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/set_git"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/gi"
+            android:scaleType="centerCrop"
+            android:layout_marginRight="35dp"
+            android:layout_gravity="center">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/set_stack"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/stf"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="3dp"
+            android:layout_gravity="center">
 
         </ImageView>
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/cv1">
+        <TextView
+            android:id="@+id/searchUsersET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:layout_gravity="center"
+            android:hint="Suffer :)"
+            android:textSize="20dp"
+            >
+        </TextView>
+    </LinearLayout>
+
 </RelativeLayout>
