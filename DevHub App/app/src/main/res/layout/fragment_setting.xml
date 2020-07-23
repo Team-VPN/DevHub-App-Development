@@ -20,7 +20,7 @@
             android:padding="10dp"
             >
             <ImageView
-                android:id="@+id/cover_image"
+                android:id="@+id/cover_image_settings"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:src="@drawable/cover"
@@ -29,7 +29,7 @@
                 >
             </ImageView>
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
+                android:id="@+id/profile_image_settings"
                 android:layout_width="151dp"
                 android:layout_height="151dp"
                 android:layout_centerHorizontal="true"
@@ -40,6 +40,23 @@
                 >
 
             </de.hdodenhof.circleimageview.CircleImageView>
+
+            <TextView
+                android:id="@+id/username_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Suffer :)"
+                android:layout_below="@+id/profile_image_settings"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginBottom="20dp"
+                >
+
+            </TextView>
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
@@ -73,6 +90,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/gi"
+            android:layout_marginLeft="5dp"
             android:scaleType="centerCrop"
             android:layout_marginRight="35dp"
             android:layout_gravity="center">
