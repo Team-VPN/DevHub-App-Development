@@ -107,6 +107,7 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
             R.id.About_us->{
+                startActivity(Intent(this@MainActivity, about_us::class.java))
 
             }
             R.id.logout->{

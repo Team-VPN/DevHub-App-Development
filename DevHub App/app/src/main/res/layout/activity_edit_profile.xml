@@ -39,6 +39,20 @@
                     android:textStyle="normal|bold"
                     tools:layout_editor_absoluteX="61dp"
                     tools:layout_editor_absoluteY="11dp" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/save_edit_profile_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                android:layout_gravity="right"
+                android:background="?android:attr/windowBackground"
+                android:backgroundTintMode="screen"
+                android:foregroundTintMode="src_atop"
+                android:src="@drawable/save_edit_profile"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="18dp" />
+
             </androidx.appcompat.widget.Toolbar>
 
             <TextView

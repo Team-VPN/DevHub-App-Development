@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/bad_script</item>
+        <item>@font/bubblegum_sans</item>
+        <item>@font/caveat_brush</item>
+        <item>@font/chewy</item>
+        <item>@font/cookie</item>
+        <item>@font/dancing_script</item>
+        <item>@font/grand_hotel</item>
+        <item>@font/handlee</item>
+        <item>@font/kotta_one</item>
+        <item>@font/lobster</item>
+        <item>@font/metal_mania</item>
+        <item>@font/ntr</item>
+    </array>
+</resources>
