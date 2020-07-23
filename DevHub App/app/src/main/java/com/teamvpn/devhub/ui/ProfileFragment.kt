@@ -38,7 +38,7 @@ class ProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_profile, container, false)
-         username = view.findViewById<TextView>(R.id.textView)
+         username = view.findViewById<TextView>(R.id.textView3)
          email = view.findViewById<TextView>(R.id.textView4)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser
@@ -46,10 +46,11 @@ class ProfileFragment : Fragment() {
 
         refUsers!!.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists())
-                {
-                    val user: NewUserInfo? = p0.getValue(NewUserInfo::class.java)
-                    username.text = user!!.fullname
+                if (p0.exists()) {
+                    val user: Users? = p0.getValue(Users::class.java)
+                    val c = user!!.getUserName()
+                    Log.d("DEBUGGING","$c")
+                    username.text = user.getUserName()
                     //Picasso.get().load(user.getProfile()).placeholder(R.drawable.profile).into(cirprofile)
                 }
             }
