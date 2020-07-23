@@ -59,7 +59,9 @@
         <ImageView
             android:id="@+id/set_link"
             android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_height="60dp">
+
+        </ImageView>
 
     </LinearLayout>
 </RelativeLayout>
