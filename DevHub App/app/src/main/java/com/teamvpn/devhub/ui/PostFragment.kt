@@ -1,15 +1,18 @@
 package com.teamvpn.devhub.ui
 
-
 import android.annotation.SuppressLint
+import java.time.LocalDateTime
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.SyncStateContract
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,22 +20,33 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.NonNull
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
+import com.teamvpn.devhub.LoginActivity
 import com.teamvpn.devhub.MainActivity
-import com.teamvpn.devhub.MainActivity.Companion.auth
-import com.teamvpn.devhub.MainActivity.Companion.mStorageRef
 import com.teamvpn.devhub.MainActivity.Companion.vibrator
 import com.teamvpn.devhub.R
 import es.dmoral.toasty.Toasty
 import java.io.ByteArrayOutputStream
+import java.lang.Exception
+import java.util.*
 
 
 class PostFragment : Fragment() {
     lateinit var image_uri: Uri
     private val image_pick_code = 1000
     private val CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1888
-
+    lateinit var global_bitmap:Bitmap
     private val permission_code = 1001
     lateinit var question_in_a_line:EditText
     lateinit var question_in_brief:EditText
@@ -45,6 +59,11 @@ class PostFragment : Fragment() {
     val skills = arrayOf("App development","IoT","Machine learning","Artificial Intelligence","Python", "Java", "Kotlin","c", "C++", "c#","JavaScript","Data mining", "Cloud","Firebase","Blockchain","GO","Solidity","Ethical hacking","Embedded systems","Web development","DBMS","Cyber security","VLSI","Analog communication","Signal processing")
     val boolarray = booleanArrayOf(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false)
     var skillsSelected : MutableList<String> =  mutableListOf<String>()
+
+    lateinit var database: DatabaseReference
+    lateinit var auth:FirebaseAuth
+    var mStorageRef: StorageReference? = null
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("WrongConstant")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +79,10 @@ class PostFragment : Fragment() {
         select_documents = view.findViewById(R.id.button2)
         select_skills = view.findViewById(R.id.button3)
         post_question = view.findViewById(R.id.button4)
+        auth = FirebaseAuth.getInstance()
+
+        database = FirebaseDatabase.getInstance().getReference("posts")
+        mStorageRef = FirebaseStorage.getInstance().getReference().child("images_in_posts")
         // Control all the fields declared above
         post_question.setOnClickListener {
             progressDialog = ProgressDialog(context)
@@ -72,7 +95,7 @@ class PostFragment : Fragment() {
                     if(skillsSelected.size > 0){
                         if(image_selected){
                             progressDialog.show()
-                            sendDataWithImage(image_uri,question_in_a_single_line,question_in_multi_lines,skillsSelected)
+                            uploadImageAlongWithData(global_bitmap,question_in_a_single_line,question_in_multi_lines,skillsSelected)
                             image_selected = false
                         }else{
                             progressDialog.show()
@@ -130,7 +153,6 @@ class PostFragment : Fragment() {
         return view
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
@@ -138,35 +160,80 @@ class PostFragment : Fragment() {
                 val stream = ByteArrayOutputStream()
                 bmp!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
                 val byteArray: ByteArray = stream.toByteArray()
-
                 // convert byte array to Bitmap
                 val bitmap = BitmapFactory.decodeByteArray(
                     byteArray, 0,
                     byteArray.size
                 )
+                global_bitmap = bitmap
                 image_for_preview.setImageBitmap(bitmap)
+                image_selected = true
+                image_for_preview.visibility = View.VISIBLE
             }
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun uploadImageAlongWithData(bitmap: Bitmap, question:String, question_in_brief: String, skills_selected: MutableList<String>) {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+        val current = LocalDateTime.now().toString()
+        val uploadTask: UploadTask = mStorageRef!!.child(current).putBytes(data)
+        val task = uploadTask.continueWithTask {
+                task->
+            val downloadUrl = task.result.toString()//.substring(0,task.result.toString().indexOf("&token"))
+            Log.d("IAMCHECKING","$downloadUrl and $current")
+            val userInfo = auth.uid.toString()
+            val current = LocalDateTime.now().toString()
+            val post = post_the_question_with_img(userInfo,question,question_in_brief,downloadUrl.toString(),skills_selected)
+            database.child(auth.uid.toString()).child(current).setValue(post)
+                .addOnSuccessListener {
+                    // write was successful
+                    context?.let { it1 -> Toasty.success(it1,"post is successful",Toast.LENGTH_SHORT).show() }
+                    progressDialog.dismiss()
+                    image_for_preview.visibility = View.INVISIBLE
+                }
+                .addOnFailureListener{
+                    // write was failure
+                    context?.let { it1 -> Toasty.error(it1,"failed to post",Toast.LENGTH_SHORT).show() }
+                    progressDialog.dismiss()
+                    image_selected = true
+                }
 
-    private fun sendDataWithImage(image_uri: Uri,question:String,question_in_brief: String,skills_selected: MutableList<String>){
+            if(!task.isSuccessful){
+                context?.let { it1 -> Toasty.error(it1,"failed to make post",Toast.LENGTH_SHORT).show() }
+                progressDialog.dismiss()
+                image_selected = true
+            }
+            mStorageRef!!.downloadUrl
+        }.addOnCompleteListener {
+                task ->
+            if(task.isSuccessful){
+                progressDialog.dismiss()
+                image_selected = false
+            }
+        }
+    }
+
+    /// .////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private fun sendDataWithImage(image_bitmap: Bitmap,question:String,question_in_brief: String,skills_selected: MutableList<String>){
             val uploadTask = MainActivity.mStorageRef!!.child(auth.uid.toString()).putFile(image_uri)
             val task = uploadTask.continueWithTask {
                     task->
                 val downloadUrl = task.result
                 val userInfo = (auth.uid.toString())
                 val post = post_the_question_with_img(userInfo,question,question_in_brief,downloadUrl.toString(),skills_selected)
-                MainActivity.database.push().setValue(post)
+                database.child(userInfo).setValue(post)
                     .addOnSuccessListener {
                         // write was successful
                         context?.let { it1 -> Toasty.success(it1,"post is successful",Toast.LENGTH_SHORT).show() }
-
+                        progressDialog.dismiss()
                     }
                     .addOnFailureListener{
                         // write was failure
                         context?.let { it1 -> Toasty.error(it1,"failed to post",Toast.LENGTH_SHORT).show() }
-
+                        progressDialog.dismiss()
                     }
 
                 if(!task.isSuccessful){
@@ -184,11 +251,14 @@ class PostFragment : Fragment() {
 
     }
 
-    private fun sendDataWithoutImage(question:String,question_in_brief: String,skills_selected: MutableList<String>){
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun sendDataWithoutImage(question:String, question_in_brief: String, skills_selected: MutableList<String>){
 
-            val userInfo = (auth.uid.toString())
+            val userInfo = auth.uid.toString()
         val post = post_the_question_without_img(userInfo,question,question_in_brief,skills_selected)
-            MainActivity.database.push().setValue(post)
+        val temp = UUID.randomUUID().toString()
+        val current = LocalDateTime.now().toString()
+            database.child(auth.uid.toString()).child(current).setValue(post)
                 .addOnSuccessListener {
                     // write was successful
                     context?.let { it1 -> Toasty.success(it1,"post is successful!",Toast.LENGTH_SHORT).show() }
@@ -199,9 +269,6 @@ class PostFragment : Fragment() {
                     context?.let { it1 -> Toasty.error(it1,"failed to post the question",Toast.LENGTH_SHORT).show() }
                     progressDialog.dismiss()
                 }
-
-
-
 
     }
 }
