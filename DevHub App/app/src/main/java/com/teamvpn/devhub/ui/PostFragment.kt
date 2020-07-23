@@ -178,14 +178,14 @@ class PostFragment : Fragment() {
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
-        val current = LocalDateTime.now().toString()
+        val current = LocalDateTime.now().toString().slice(0..18)
         val uploadTask: UploadTask = mStorageRef!!.child(current).putBytes(data)
         val task = uploadTask.continueWithTask {
                 task->
             val downloadUrl = task.result.toString()//.substring(0,task.result.toString().indexOf("&token"))
             Log.d("IAMCHECKING","$downloadUrl and $current")
             val userInfo = auth.uid.toString()
-            val current = LocalDateTime.now().toString()
+            val current = LocalDateTime.now().toString().replace("[^a-zA-Z0-9]", "-")
             val post = post_the_question_with_img(userInfo,question,question_in_brief,downloadUrl.toString(),skills_selected)
             database.child(auth.uid.toString()).child(current).setValue(post)
                 .addOnSuccessListener {
@@ -257,7 +257,7 @@ class PostFragment : Fragment() {
             val userInfo = auth.uid.toString()
         val post = post_the_question_without_img(userInfo,question,question_in_brief,skills_selected)
         val temp = UUID.randomUUID().toString()
-        val current = LocalDateTime.now().toString()
+        val current = LocalDateTime.now().toString().slice(0..18)
             database.child(auth.uid.toString()).child(current).setValue(post)
                 .addOnSuccessListener {
                     // write was successful
