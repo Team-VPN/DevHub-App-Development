@@ -7,20 +7,42 @@
     tools:context=".post_made_successful_activity">
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:text="yes, we get back to you soon!"
+        android:id="@+id/textView13"
+        android:layout_width="375dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="20dp"
+        android:text="Hurray!, your query is posted successully"
+        android:textColor="@color/app_color"
         android:textSize="24sp"
-        tools:layout_editor_absoluteX="64dp"
-        tools:layout_editor_absoluteY="177dp" />
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="241dp"
-        android:layout_height="101dp"
-        android:text="yes, we get back to you soon with a flood of answers to your question, be patient.\n\n Stay hunger, keep learning"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="281dp" />
+        android:layout_width="391dp"
+        android:layout_height="212dp"
+        android:layout_marginTop="52dp"
+        android:text="Yes, we get back to you soon with an answer from our developers community. Until then keep viewing other posts, answer their questions and earn points.\n\n Stay hunger, keep learning"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@+id/textView13"
+        tools:layout_editor_absoluteX="10dp" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="173dp"
+        android:layout_height="59dp"
+        android:background="@android:drawable/editbox_background_normal"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="continue"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        app:layout_constraintVertical_bias="0.762" />
 </androidx.constraintlayout.widget.ConstraintLayout>

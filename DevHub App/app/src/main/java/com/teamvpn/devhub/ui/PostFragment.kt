@@ -36,6 +36,7 @@ import com.teamvpn.devhub.LoginActivity
 import com.teamvpn.devhub.MainActivity
 import com.teamvpn.devhub.MainActivity.Companion.vibrator
 import com.teamvpn.devhub.R
+import com.teamvpn.devhub.post_made_successful_activity
 import es.dmoral.toasty.Toasty
 import java.io.ByteArrayOutputStream
 import java.lang.Exception
@@ -96,11 +97,11 @@ class PostFragment : Fragment() {
                         if(image_selected){
                             progressDialog.show()
                             uploadImageAlongWithData(global_bitmap,question_in_a_single_line,question_in_multi_lines,skillsSelected)
-                            image_selected = false
+                            //image_selected = false
                         }else{
                             progressDialog.show()
                             sendDataWithoutImage(question_in_a_single_line,question_in_multi_lines,skillsSelected)
-                            image_selected = false
+                            //image_selected = false
                         }
                     }else{
                         context?.let { it1 -> Toasty.warning(it1,"Select at least one skill!",Toast.LENGTH_SHORT).show() }
@@ -179,22 +180,24 @@ class PostFragment : Fragment() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
         val current = LocalDateTime.now().toString().slice(0..18)
-        val uploadTask: UploadTask = mStorageRef!!.child(current).putBytes(data)
+        val uploadTask: UploadTask = mStorageRef!!.child(auth.uid.toString()).child(current).putBytes(data)
         val task = uploadTask.continueWithTask {
                 task->
             val downloadUrl = task.result.toString()//.substring(0,task.result.toString().indexOf("&token"))
             Log.d("IAMCHECKING","$downloadUrl and $current")
             val userInfo = auth.uid.toString()
-            val current = LocalDateTime.now().toString().replace("[^a-zA-Z0-9]", "-")
             val post = post_the_question_with_img(userInfo,question,question_in_brief,downloadUrl.toString(),skills_selected)
             database.child(auth.uid.toString()).child(current).setValue(post)
                 .addOnSuccessListener {
                     // write was successful
+                    Log.d("IAMCHECKING","I AM HERE")
                     context?.let { it1 -> Toasty.success(it1,"post is successful",Toast.LENGTH_SHORT).show() }
                     progressDialog.dismiss()
                     image_for_preview.visibility = View.INVISIBLE
+                    startActivity(Intent(context,post_made_successful_activity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
                 }
                 .addOnFailureListener{
+                    Log.d("IAMCHECKING","Nanillidini")
                     // write was failure
                     context?.let { it1 -> Toasty.error(it1,"failed to post",Toast.LENGTH_SHORT).show() }
                     progressDialog.dismiss()
@@ -202,6 +205,7 @@ class PostFragment : Fragment() {
                 }
 
             if(!task.isSuccessful){
+                Log.d("IAMCHECKING","naa inga iruken")
                 context?.let { it1 -> Toasty.error(it1,"failed to make post",Toast.LENGTH_SHORT).show() }
                 progressDialog.dismiss()
                 image_selected = true
@@ -209,52 +213,22 @@ class PostFragment : Fragment() {
             mStorageRef!!.downloadUrl
         }.addOnCompleteListener {
                 task ->
+            Log.d("IAMCHECKING","nen ikkada unnanu")
             if(task.isSuccessful){
+                Log.d("IAMCHECKING","aham asmi")
+                startActivity(Intent(context,post_made_successful_activity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
                 progressDialog.dismiss()
                 image_selected = false
             }
         }
     }
 
-    /// .////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private fun sendDataWithImage(image_bitmap: Bitmap,question:String,question_in_brief: String,skills_selected: MutableList<String>){
-            val uploadTask = MainActivity.mStorageRef!!.child(auth.uid.toString()).putFile(image_uri)
-            val task = uploadTask.continueWithTask {
-                    task->
-                val downloadUrl = task.result
-                val userInfo = (auth.uid.toString())
-                val post = post_the_question_with_img(userInfo,question,question_in_brief,downloadUrl.toString(),skills_selected)
-                database.child(userInfo).setValue(post)
-                    .addOnSuccessListener {
-                        // write was successful
-                        context?.let { it1 -> Toasty.success(it1,"post is successful",Toast.LENGTH_SHORT).show() }
-                        progressDialog.dismiss()
-                    }
-                    .addOnFailureListener{
-                        // write was failure
-                        context?.let { it1 -> Toasty.error(it1,"failed to post",Toast.LENGTH_SHORT).show() }
-                        progressDialog.dismiss()
-                    }
 
-                if(!task.isSuccessful){
-                    context?.let { it1 -> Toasty.error(it1,"failed to make post",Toast.LENGTH_SHORT).show() }
-                    progressDialog.dismiss()
-
-                }
-                mStorageRef!!.downloadUrl
-            }.addOnCompleteListener {
-                    task ->
-                if(task.isSuccessful){
-                    progressDialog.dismiss()
-                }
-            }
-
-    }
-
+    // This working perfectly
     @RequiresApi(Build.VERSION_CODES.O)
     private fun sendDataWithoutImage(question:String, question_in_brief: String, skills_selected: MutableList<String>){
 
-            val userInfo = auth.uid.toString()
+        val userInfo = auth.uid.toString()
         val post = post_the_question_without_img(userInfo,question,question_in_brief,skills_selected)
         val temp = UUID.randomUUID().toString()
         val current = LocalDateTime.now().toString().slice(0..18)
@@ -263,14 +237,23 @@ class PostFragment : Fragment() {
                     // write was successful
                     context?.let { it1 -> Toasty.success(it1,"post is successful!",Toast.LENGTH_SHORT).show() }
                     progressDialog.dismiss()
+                    image_selected  = false
+                    image_for_preview.visibility = View.INVISIBLE
+                    startActivity(Intent(context,post_made_successful_activity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
                 }
                 .addOnFailureListener{
                     // write was failure
                     context?.let { it1 -> Toasty.error(it1,"failed to post the question",Toast.LENGTH_SHORT).show() }
                     progressDialog.dismiss()
+                    image_selected = false
+                    image_for_preview.visibility = View.INVISIBLE
                 }
 
     }
+
+
+
+
 }
 
 data class post_the_question_with_img(var uid:String,var question_in_single_line:String, var question_in_brief:String ,var image_uri:String,var skills_selected:MutableList<String>)
