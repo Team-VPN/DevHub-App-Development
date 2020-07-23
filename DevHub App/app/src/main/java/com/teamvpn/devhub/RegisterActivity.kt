@@ -39,8 +39,6 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var mskillsbutton : Button
     lateinit var auth:FirebaseAuth
     private var choosen_image_uri: Uri? = null
-    private var firebaseUserID: String  = ""
-    private lateinit var refUsersChat: DatabaseReference
     private var mStorageRef: StorageReference? = null
     var button_date: Button? = null
     var textview_date: TextView? = null
@@ -74,156 +72,72 @@ class RegisterActivity : AppCompatActivity() {
         }
         // THIS IS FOR SIGN UP BUTTON
         signup_button.setOnClickListener {
+            vibrator.vibrate(60)
             progressDialog = ProgressDialog(this)
             progressDialog.setMessage("Hold on, getting a account for you ...")
             progressDialog.setCanceledOnTouchOutside(false)
-            if(!username_entry.text.isNullOrBlank()) {
+            if(!username_entry.text.isNullOrBlank()){
                 val username = username_entry.text.toString()
-                if (!firstname_entry.text.isNullOrBlank() and !lastname_entry.text.isNullOrBlank()) {
-                    val fullname =
-                        firstname_entry.text.toString() + " " + lastname_entry.text.toString()
-                    if (phoneno_entry.text.toString().length == 10) {
+                if(!firstname_entry.text.isNullOrBlank() and !lastname_entry.text.isNullOrBlank()){
+                    val fullname = firstname_entry.text.toString() + " " + lastname_entry.text.toString()
+                    if(phoneno_entry.text.toString().length == 10){
                         val phoneNumber = phoneno_entry.text.toString()
-                        if (textview_date!!.text != "") {
+                        if(textview_date!!.text != ""){
                             val dob = textview_date!!.text.toString()
-                            if (!email_entry.text.isNullOrBlank()) {
+                            if(!email_entry.text.isNullOrBlank()){
                                 val email = email_entry.text.toString()
-                                if (gender != "") {
-                                    if (password_entry.text.toString().length > 8) {
+                                if(gender!=""){
+                                    if(password_entry.text.toString().length > 8){
                                         val password = password_entry.text.toString()
                                         val confirmpassword = confirm_password_entry.text.toString()
-                                        if (password == confirmpassword) {
-                                            if (choosen_image_uri != null) {
-                                                if(!github_entry.text.isNullOrBlank()) {
-                                                    val githubacc = github_entry.text.toString()
-                                                    // time to upload the data to the database
-                                                    // first create a authentication for the user
-                                                    // if authentication is successful only then go with adding the user to the database
-                                                    // else say that sign up has failed
-                                                    // the below function is used for the sign up process
+                                        if(password == confirmpassword){
+                                            if(choosen_image_uri != null){
+                                                // time to upload the data to the database
+                                                // first create a authentication for the user
+                                                // if authentication is successful only then go with adding the user to the database
+                                                // else say that sign up has failed
+                                                // the below function is used for the sign up process
 
-                                                    auth.createUserWithEmailAndPassword(
-                                                        email,
-                                                        password
-                                                    )
-                                                        .addOnCompleteListener(
-                                                            this,
-                                                            OnCompleteListener { task ->
-                                                                progressDialog.show()
-                                                                if (task.isSuccessful) {
-                                                                    Toasty.success(
-                                                                        this@RegisterActivity,
-                                                                        "Email is successfully registered",
-                                                                        Toast.LENGTH_LONG
-                                                                    ).show()
-                                                                    progressDialog.setMessage("account is created, working on saving your data...")
-                                                                    /////////////////////////////////////////////////////////////////
+                                                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, OnCompleteListener{ task ->
+                                                    progressDialog.show()
+                                                    if(task.isSuccessful){
+                                                        Toasty.success(this@RegisterActivity, "Email is successfully registered", Toast.LENGTH_LONG).show()
+                                                        progressDialog.setMessage("account is created, working on saving your data...")
+                                                        /////////////////////////////////////////////////////////////////
+                                                        CreateUserData(auth.uid.toString(),username,fullname,gender,dob,phoneNumber,email,skillsSelected,
+                                                            choosen_image_uri!!
+                                                        )
+                                                        ///////////////////////////////////////////////////////////////////
 
-                                                                    CreateUserData(
-                                                                        auth.uid.toString(),
-                                                                        username,
-                                                                        fullname,
-                                                                        gender,
-                                                                        dob,
-                                                                        phoneNumber,
-                                                                        email,
-                                                                        skillsSelected,
-                                                                        choosen_image_uri!!,
-                                                                        githubacc
-                                                                    )
-
-                                                                    firebaseUserID = auth.currentUser!!.uid //userid
-                                                                    refUsersChat = FirebaseDatabase.getInstance().reference.child("ChatUsersDB").child(firebaseUserID)
-                                                                    val userHashMap = HashMap<String, Any>()
-                                                                    userHashMap["uid"]= firebaseUserID
-                                                                    userHashMap["username"]=username
-                                                                    //profile image of user can be changed later here, once other stuff is done - from Niran
-                                                                    userHashMap["profile"]= "https://firebasestorage.googleapis.com/v0/b/devhub-ed276.appspot.com/o/default%2Fprofile.png?alt=media&token=38c9801f-261e-413e-991e-98ee84a0fc66"
-                                                                    userHashMap["cover"]= "https://firebasestorage.googleapis.com/v0/b/devhub-ed276.appspot.com/o/default%2Fcover.jpg?alt=media&token=68be50b9-d224-4059-85c9-e722ab415a55"
-                                                                    userHashMap["status"]= "offline"
-                                                                    userHashMap["search"]= username
-                                                                    userHashMap["github"]= githubacc
-                                                                    userHashMap["linkedin"]= "https://www.linkedin.com"
-                                                                    userHashMap["stackof"]= "https://www.stackoverflow.com"
-                                                                    //donno if this is reqd, need to check
-                                                                    refUsersChat.updateChildren(userHashMap)
-                                                                        .addOnCompleteListener { task ->
-                                                                            if (task.isSuccessful) {
-                                                                                Toasty.success(
-                                                                                    this@RegisterActivity,
-                                                                                    "Your Chat view has been created!",
-                                                                                    Toast.LENGTH_SHORT
-                                                                                ).show()
-                                                                            }
-                                                                        }
-                                                                    ///////////////////////////////////////////////////////////////////
-
-
-                                                                } else {
-                                                                    Toasty.error(
-                                                                        this@RegisterActivity,
-                                                                        "Sign up Failed, Try with different email id",
-                                                                        Toast.LENGTH_LONG
-                                                                    ).show()
-                                                                    progressDialog.dismiss()
-                                                                }
-                                                            })
-                                                }else{
-                                                    Toasty.error(this@RegisterActivity, "Enter your github account", Toast.LENGTH_LONG).show()
-                                                }
-                                            } else {
-                                                Toasty.warning(
-                                                    this@RegisterActivity,
-                                                    "we need your profile picture",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
+                                                    }else {
+                                                        Toasty.error(this@RegisterActivity, "Sign up Failed, Try with different email id", Toast.LENGTH_LONG).show()
+                                                        progressDialog.dismiss()
+                                                    }
+                                                })
+                                            }else{
+                                                Toasty.warning(this@RegisterActivity,"we need your profile picture",Toast.LENGTH_SHORT).show()
                                             }
-                                        } else {
-                                            Toasty.error(
-                                                this@RegisterActivity,
-                                                "Password and confirm password are not matching!, Recheck the password",
-                                                Toast.LENGTH_LONG
-                                            ).show()
+                                        }else{
+                                            Toasty.error(this@RegisterActivity,"Password and confirm password are not matching!, Recheck the password",Toast.LENGTH_LONG).show()
                                         }
 
-                                    } else {
-                                        Toasty.warning(
-                                            this@RegisterActivity,
-                                            "passphrase should be > 8",
-                                            Toast.LENGTH_LONG
-                                        ).show()
+                                    }else{
+                                        Toasty.warning(this@RegisterActivity,"passphrase should be > 8",Toast.LENGTH_LONG).show()
                                     }
-                                } else {
-                                    Toasty.warning(
-                                        this@RegisterActivity,
-                                        "hey!, we need your sex",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                }else{
+                                    Toasty.warning(this@RegisterActivity,"hey!, we need your sex",Toast.LENGTH_SHORT).show()
                                 }
-                            } else {
-                                Toasty.warning(
-                                    this@RegisterActivity,
-                                    "we need your email to send backup settings",
-                                    Toast.LENGTH_LONG
-                                ).show()
+                            }else{
+                                Toasty.warning(this@RegisterActivity,"we need your email to send backup settings",Toast.LENGTH_LONG).show()
                             }
-                        } else {
-                            Toasty.warning(
-                                this@RegisterActivity,
-                                "We need your birth date, to wish you",
-                                Toast.LENGTH_LONG
-                            ).show()
+                        }else{
+                            Toasty.warning(this@RegisterActivity,"We need your birth date, to wish you",Toast.LENGTH_LONG).show()
                         }
-                    } else {
-                        Toasty.warning(
-                            this@RegisterActivity,
-                            "A phone number should be exact 10 digits",
-                            Toast.LENGTH_LONG
-                        ).show()
+                    }else{
+                        Toasty.warning(this@RegisterActivity,"A phone number should be exact 10 digits",Toast.LENGTH_LONG).show()
                     }
-                } else {
-                    Toasty.warning(this@RegisterActivity, "fill all the fields", Toast.LENGTH_LONG)
-                        .show()
+                }else{
+                    Toasty.warning(this@RegisterActivity,"fill all the fields",Toast.LENGTH_LONG).show()
                 }
             }else{
                 Toasty.warning(this@RegisterActivity,"fill all the fields",Toast.LENGTH_LONG).show()
@@ -331,7 +245,7 @@ class RegisterActivity : AppCompatActivity() {
     companion object {
         private val image_pick_code = 1000
 
-        private val permission_code = 1001
+        val permission_code = 1001
     }
 
     override fun onRequestPermissionsResult(
@@ -377,15 +291,15 @@ class RegisterActivity : AppCompatActivity() {
         alertBox.create().show()
     }
 
-    private fun CreateUserData(uid:String,username: String,fullname: String,sex:String,dob: String,phoneNumber: String,email: String,skills:MutableList<String>,file_Uri:Uri,github:String){
+    private fun CreateUserData(uid:String,username: String,fullname: String,sex:String,dob: String,phoneNumber: String,email: String,skills:MutableList<String>,file_Uri:Uri){
         val uploadTask = mStorageRef!!.child(auth.uid.toString()).putFile(file_Uri)
         val task = uploadTask.continueWithTask {
                 task->
             val downloadUrl = task.result
             val url = downloadUrl!!.toString()
             progressDialog.setMessage("profile picture is set")
-            val userInfo = NewUserInfo(auth.uid.toString(),username,fullname,sex,dob,phoneNumber,email,skillsSelected,url,github)
-            database.push().setValue(userInfo)
+            val userInfo = NewUserInfo(auth.uid.toString(),username,fullname,sex,dob,phoneNumber,email,skillsSelected,url)
+            database.child(uid).setValue(userInfo)
                 .addOnSuccessListener {
                     // write was successful
                     Log.d("DEBUG","database created")
@@ -426,4 +340,4 @@ class RegisterActivity : AppCompatActivity() {
 data class NewUserInfo(
     var uid:String, var username: String, var fullname: String, var sex:String, var dob: String, var phoneNumber: String, var email: String,
     var skills:MutableList<String>,
-    var image_url:String, var github: String)
+    var image_url:String)

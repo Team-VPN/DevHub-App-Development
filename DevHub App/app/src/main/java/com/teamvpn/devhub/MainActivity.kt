@@ -1,9 +1,11 @@
 package com.teamvpn.devhub
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Vibrator
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -20,8 +22,20 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_profile.*
+
+
+data class User(
+    var uid:String, var username: String, var fullname: String, var sex:String, var dob: String, var phoneNumber: String, var email: String,
+    var skills:MutableList<String>,
+    var image_url:String)
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var auth:FirebaseAuth
@@ -30,7 +44,18 @@ class MainActivity : AppCompatActivity() {
         private var firebaseAuth: FirebaseAuth? = null
         var mAuthListener: FirebaseAuth.AuthStateListener? = null
         lateinit var vibrator: Vibrator
+        lateinit var database: DatabaseReference
+        lateinit var auth:FirebaseAuth
+        var mStorageRef: StorageReference? = null
+        lateinit var myuserClass:User
     }
+    lateinit var user:FirebaseUser
+    //Creating member variables
+    private var mFirebaseDatabase: DatabaseReference?=null
+    private var mFirebaseInstance: FirebaseDatabase?=null
+
+    var userId:String?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -40,11 +65,19 @@ class MainActivity : AppCompatActivity() {
         toolbar.setTitleTextColor(Color.rgb(98, 0, 238)) // will set the text color
         toolbar.title = "DevHub" // title for the toolbar
         setSupportActionBar(toolbar)
+        auth = FirebaseAuth.getInstance()
+        if(auth.currentUser == null){
+            startActivity(Intent(this@MainActivity,LoginActivity::class.java))
+            finish()
+        }
+        database = FirebaseDatabase.getInstance().getReference("posts")
+        mStorageRef = FirebaseStorage.getInstance().getReference().child("images_in_posts")
         val toolbarchat = findViewById<AppCompatImageButton>(R.id.toolbarchat)
         toolbarchat.setOnClickListener {
             val intent = Intent(this, MainChat::class.java)
             startActivity(intent)
         }
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -55,7 +88,12 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_feed, R.id.navigation_post_qns, R.id.navigation_near_by_location_developers, R.id.navigation_profile))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
     }
+
+
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu,menu)
@@ -114,5 +152,19 @@ class MainActivity : AppCompatActivity() {
             clearAllBackActivities_status = true
             //finishAffinity()
         }
+        if(auth.currentUser == null){
+            startActivity(Intent(this@MainActivity,LoginActivity::class.java))
+            finish()
+        }
     }
+
+    override fun onResume() {
+        super.onResume()
+        if(auth.currentUser == null){
+            startActivity(Intent(this@MainActivity,LoginActivity::class.java))
+            finish()
+        }
+    }
+
+
 }

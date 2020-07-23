@@ -23,6 +23,7 @@ class UserAdapter (
     private val mUsers: List<Users>
     protected var isChatCheck: Boolean
 
+    
     init {
         this.mUsers = mUsers
         this.mContext = mContext
