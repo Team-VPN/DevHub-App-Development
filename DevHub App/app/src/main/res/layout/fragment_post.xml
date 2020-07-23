@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/windowBackground"
-                android:text="capture image"
+                android:text="open camera"
                 android:textColor="#0A53E0" />
         </LinearLayout>
 

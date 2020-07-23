@@ -1,7 +1,6 @@
 package com.teamvpn.devhub.ui
 
 import android.annotation.SuppressLint
-import java.time.LocalDateTime
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
@@ -11,7 +10,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.SyncStateContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,26 +18,22 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
-import com.teamvpn.devhub.LoginActivity
 import com.teamvpn.devhub.MainActivity
 import com.teamvpn.devhub.MainActivity.Companion.vibrator
 import com.teamvpn.devhub.R
 import com.teamvpn.devhub.post_made_successful_activity
 import es.dmoral.toasty.Toasty
 import java.io.ByteArrayOutputStream
-import java.lang.Exception
+import java.time.LocalDateTime
 import java.util.*
 
 
@@ -94,14 +88,15 @@ class PostFragment : Fragment() {
                 if(!question_in_brief.text.isNullOrBlank()){
                     val question_in_multi_lines = question_in_brief.text.toString()
                     if(skillsSelected.size > 0){
+                        vibrator.vibrate(60)
                         if(image_selected){
                             progressDialog.show()
                             uploadImageAlongWithData(global_bitmap,question_in_a_single_line,question_in_multi_lines,skillsSelected)
-                            //image_selected = false
+                            image_selected = false
                         }else{
                             progressDialog.show()
                             sendDataWithoutImage(question_in_a_single_line,question_in_multi_lines,skillsSelected)
-                            //image_selected = false
+                            image_selected = false
                         }
                     }else{
                         context?.let { it1 -> Toasty.warning(it1,"Select at least one skill!",Toast.LENGTH_SHORT).show() }
@@ -147,12 +142,9 @@ class PostFragment : Fragment() {
         }
 
 
-        image_for_preview.setOnClickListener {
-
-        }
-
         return view
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -194,7 +186,8 @@ class PostFragment : Fragment() {
                     context?.let { it1 -> Toasty.success(it1,"post is successful",Toast.LENGTH_SHORT).show() }
                     progressDialog.dismiss()
                     image_for_preview.visibility = View.INVISIBLE
-                    startActivity(Intent(context,post_made_successful_activity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
+                    (activity as MainActivity).changeFragment()
+                    startActivity(Intent(context,post_made_successful_activity::class.java))
                 }
                 .addOnFailureListener{
                     Log.d("IAMCHECKING","Nanillidini")
@@ -216,7 +209,8 @@ class PostFragment : Fragment() {
             Log.d("IAMCHECKING","nen ikkada unnanu")
             if(task.isSuccessful){
                 Log.d("IAMCHECKING","aham asmi")
-                startActivity(Intent(context,post_made_successful_activity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
+                (activity as MainActivity).changeFragment()
+                startActivity(Intent(context,post_made_successful_activity::class.java))
                 progressDialog.dismiss()
                 image_selected = false
             }
@@ -227,7 +221,6 @@ class PostFragment : Fragment() {
     // This working perfectly
     @RequiresApi(Build.VERSION_CODES.O)
     private fun sendDataWithoutImage(question:String, question_in_brief: String, skills_selected: MutableList<String>){
-
         val userInfo = auth.uid.toString()
         val post = post_the_question_without_img(userInfo,question,question_in_brief,skills_selected)
         val temp = UUID.randomUUID().toString()
@@ -239,7 +232,8 @@ class PostFragment : Fragment() {
                     progressDialog.dismiss()
                     image_selected  = false
                     image_for_preview.visibility = View.INVISIBLE
-                    startActivity(Intent(context,post_made_successful_activity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
+                    (activity as MainActivity).changeFragment()
+                    startActivity(Intent(context,post_made_successful_activity::class.java))
                 }
                 .addOnFailureListener{
                     // write was failure
@@ -250,8 +244,6 @@ class PostFragment : Fragment() {
                 }
 
     }
-
-
 
 
 }

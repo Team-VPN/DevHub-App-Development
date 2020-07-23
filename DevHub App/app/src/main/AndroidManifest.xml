@@ -42,7 +42,9 @@
         </activity>
         <activity android:name=".post_made_successful_activity"
             android:launchMode = "singleInstance"
-            />
+            >
+
+        </activity>
         <activity android:name=".about_us"
             android:launchMode = "singleInstance"
             />
@@ -50,8 +52,7 @@
             android:launchMode = "singleInstance"
             />
         <activity android:name=".LauncherActivity"
-            android:launchMode = "singleInstance"
-            >
+            android:launchMode = "singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
