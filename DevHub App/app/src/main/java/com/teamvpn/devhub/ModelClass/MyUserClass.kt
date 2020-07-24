@@ -92,7 +92,7 @@ class MyUserClass {
     }
 
     //*******image url**********
-    fun set_image_url(image_url:String){
+    fun setImageUrl(image_url:String){
         this.image_url = image_url
     }
     fun getImageUrl():String?{

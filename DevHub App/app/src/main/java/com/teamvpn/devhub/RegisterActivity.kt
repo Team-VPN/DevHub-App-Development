@@ -135,62 +135,6 @@ class RegisterActivity : AppCompatActivity() {
                                                                     choosen_image_uri!!
                                                                 )
 
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~ NIRAN: DO NOT EDIT THIS SEGMENT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                firebaseUserID =
-                                                                    auth.currentUser!!.uid //userid
-                                                                refUsersChat =
-                                                                    FirebaseDatabase.getInstance().reference.child(
-                                                                        "ChatUsersDB"
-                                                                    ).child(firebaseUserID)
-                                                                val userHashMap =
-                                                                    HashMap<String, Any>()
-                                                                userHashMap["uid"] = firebaseUserID
-                                                                userHashMap["username"] = username
-                                                                //profile image of user can be changed later here, once other stuff is done - from Niran
-                                                                userHashMap["profile"] =
-                                                                    "https://firebasestorage.googleapis.com/v0/b/devhub-ed276.appspot.com/o/default%2Fprofile.png?alt=media&token=38c9801f-261e-413e-991e-98ee84a0fc66"
-                                                                userHashMap["cover"] =
-                                                                    "https://firebasestorage.googleapis.com/v0/b/devhub-ed276.appspot.com/o/default%2Fcover.jpg?alt=media&token=68be50b9-d224-4059-85c9-e722ab415a55"
-                                                                userHashMap["status"] = "offline"
-                                                                userHashMap["search"] = username
-                                                                userHashMap["github"] =
-                                                                    "www.github.com"
-                                                                userHashMap["linkedin"] =
-                                                                    "https://www.linkedin.com"
-                                                                userHashMap["stackof"] =
-                                                                    "https://www.stackoverflow.com"
-                                                                //donno if this is reqd, need to check
-                                                                refUsersChat.updateChildren(
-                                                                    userHashMap
-                                                                )
-                                                                    .addOnCompleteListener { task ->
-                                                                        if (task.isSuccessful) {
-                                                                            Toasty.success(
-                                                                                this@RegisterActivity,
-                                                                                "Your Chat Profile has been created!",
-                                                                                Toast.LENGTH_SHORT
-                                                                            ).show()
-                                                                        }
-                                                                    }
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~ NIRAN: DO NOT EDIT THIS SEGMENT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-                                                                ///////////////////////////////////////////////////////////////////
 
                                                             } else {
                                                                 Toasty.error(
@@ -446,58 +390,97 @@ class RegisterActivity : AppCompatActivity() {
                 //val url = downloadUrl!!.toString()
                 // THIS IS HOW I AM GETTING URL TO DOWLOAD IMAGE
                 val uri: Task<Uri> = downloadUrl.storage.downloadUrl
-                while (!uri.isComplete());
+                while (!uri.isComplete);
                 val url: Uri = uri.result
-                Log.d("DEBUGGGING", "THIS IS $url")
-                progressDialog.setMessage("profile picture is set")
-                val userInfo = NewUserInfo(
-                    auth.uid.toString(),
-                    username,
-                    fullname,
-                    sex,
-                    dob,
-                    phoneNumber,
-                    email,
-                    skillsSelected,github,
-                    url.toString()
+                firebaseUserID =
+                        auth.currentUser!!.uid //userid
+                refUsersChat =
+                        FirebaseDatabase.getInstance().reference.child(
+                                "ChatUsersDB"
+                        ).child(firebaseUserID)
+                val userHashMap =
+                        HashMap<String, Any>()
+                userHashMap["uid"] = firebaseUserID
+                userHashMap["username"] = username
+                //profile image of user can be changed later here, once other stuff is done - from Niran
+                userHashMap["profile"] = url.toString()
+                userHashMap["cover"] =
+                        "https://firebasestorage.googleapis.com/v0/b/devhub-ed276.appspot.com/o/default%2Fcover.jpg?alt=media&token=68be50b9-d224-4059-85c9-e722ab415a55"
+                userHashMap["status"] = "offline"
+                userHashMap["search"] = username
+                userHashMap["github"] =
+                        "www.github.com"
+                userHashMap["linkedin"] =
+                        "https://www.linkedin.com"
+                userHashMap["stackof"] =
+                        "https://www.stackoverflow.com"
+                //donno if this is reqd, need to check
+                refUsersChat.updateChildren(
+                        userHashMap
                 )
-                database.child(uid).setValue(userInfo)
-                    .addOnSuccessListener {
-                        // write was successful
-                        Log.d("DEBUG", "database created")
-                        progressDialog.dismiss()
-                        Toasty.success(
-                            this@RegisterActivity,
-                            "hey $fullname, your account is all set!, you are ready to go",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        auth.signOut()
-                        startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
-                        finish()
-                    }
-                    .addOnFailureListener {
-                        // write was failure
-                        progressDialog.dismiss()
-                        Log.d("DEBUG", "database creation failed")
-                        Toasty.error(
-                            this@RegisterActivity,
-                            "failed to create account, try again in some time!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        //finishAffinity()
-                        //startActivity(Intent(this@RegisterActivity,LoginActivity::class.java))
-                        //finish()
-                    }
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Toasty.success(
+                                        this@RegisterActivity,
+                                        "Your Chat Profile has been created!",
+                                        Toast.LENGTH_SHORT
+                                ).show()
+                                //////////////////////////////////////////////////////
+                                Log.d("DEBUGGGING", "THIS IS $url")
+                                progressDialog.setMessage("profile picture is set")
+                                val userInfo = NewUserInfo(
+                                        auth.uid.toString(),
+                                        username,
+                                        fullname,
+                                        sex,
+                                        dob,
+                                        phoneNumber,
+                                        email,
+                                        skillsSelected,github,
+                                        url.toString()
+                                )
+                                database.child(uid).setValue(userInfo)
+                                        .addOnSuccessListener {
+                                            // write was successful
+                                            Log.d("DEBUG", "database created")
+                                            progressDialog.dismiss()
+                                            Toasty.success(
+                                                    this@RegisterActivity,
+                                                    "hey $fullname, your account is all set!, you are ready to go",
+                                                    Toast.LENGTH_SHORT
+                                            ).show()
+                                            auth.signOut()
+                                            startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+                                            finish()
+                                        }
+                                        .addOnFailureListener {
+                                            // write was failure
+                                            progressDialog.dismiss()
+                                            Log.d("DEBUG", "database creation failed")
+                                            Toasty.error(
+                                                    this@RegisterActivity,
+                                                    "failed to create account, try again in some time!",
+                                                    Toast.LENGTH_SHORT
+                                            ).show()
+                                            //finishAffinity()
+                                            //startActivity(Intent(this@RegisterActivity,LoginActivity::class.java))
+                                            //finish()
+                                        }
 
-                if (!task.isSuccessful) {
-                    Toasty.error(
-                        this@RegisterActivity,
-                        "Failed to create account, try again after sometime",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    progressDialog.dismiss()
+                                if (!task.isSuccessful) {
+                                    Toasty.error(
+                                            this@RegisterActivity,
+                                            "Failed to create account, try again after sometime",
+                                            Toast.LENGTH_SHORT
+                                    ).show()
+                                    progressDialog.dismiss()
 
-                }
+                                }
+                                ///////////////////////////////////////////////////
+
+                            }
+                        }
+
                 mStorageRef!!.downloadUrl
             }.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -506,6 +489,65 @@ class RegisterActivity : AppCompatActivity() {
             }
 
         }
+
+
+    fun ThisIsNiranKaFUNCTION(photoUrl:String){
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~ NIRAN: DO NOT EDIT THIS SEGMENT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        firebaseUserID =
+                auth.currentUser!!.uid //userid
+        refUsersChat =
+                FirebaseDatabase.getInstance().reference.child(
+                        "ChatUsersDB"
+                ).child(firebaseUserID)
+        val userHashMap =
+                HashMap<String, Any>()
+        userHashMap["uid"] = firebaseUserID
+        userHashMap["username"] = username
+        //profile image of user can be changed later here, once other stuff is done - from Niran
+        userHashMap["profile"] = photoUrl
+        userHashMap["cover"] =
+                "https://firebasestorage.googleapis.com/v0/b/devhub-ed276.appspot.com/o/default%2Fcover.jpg?alt=media&token=68be50b9-d224-4059-85c9-e722ab415a55"
+        userHashMap["status"] = "offline"
+        userHashMap["search"] = username
+        userHashMap["github"] =
+                "www.github.com"
+        userHashMap["linkedin"] =
+                "https://www.linkedin.com"
+        userHashMap["stackof"] =
+                "https://www.stackoverflow.com"
+        //donno if this is reqd, need to check
+        refUsersChat.updateChildren(
+                userHashMap
+        )
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toasty.success(
+                                this@RegisterActivity,
+                                "Your Chat Profile has been created!",
+                                Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~ NIRAN: DO NOT EDIT THIS SEGMENT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+        ///////////////////////////////////////////////////////////////////
+    }
 
 
 }
