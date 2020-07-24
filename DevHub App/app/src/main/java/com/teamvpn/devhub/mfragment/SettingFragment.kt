@@ -199,8 +199,6 @@ class SettingFragment : Fragment()
             uploadImageToDatabase()
 
         }
-
-
     }
 
     private fun uploadImageToDatabase()
