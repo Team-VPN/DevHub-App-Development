@@ -46,16 +46,23 @@ class ProfileFragment : Fragment() {
         profileImage = view.findViewById<CircleImageView>(R.id.profile_image)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        refUsers = FirebaseDatabase.getInstance().reference.child("users").child(firebaseUser!!.uid)
+        refUsers = FirebaseDatabase.getInstance().reference.child("ChatUsersDB").child(firebaseUser!!.uid)
+        //refUsersM = FirebaseDatabase.getInstance().reference.child("users").child(firebaseUser!!.uid)
+
 
         refUsers!!.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
-                    val user: MyUserClass? = p0.getValue(MyUserClass::class.java)
-                    val c = user!!.getFullName()
-                    Log.d("DEBUGGING","$c")
-                    username.text = user.getUserName()
-                    email.text = user.getEmail()
+                    //val user: MyUserClass? = p0.getValue(MyUserClass::class.java)
+                    val user: Users? = p0.getValue(Users::class.java)
+                    //val c = user!!.getFullName()
+                    //Log.d("DEBUGGING","$c")
+
+                    //Niran here, just added the image db from chats to the profile section. Once everything is completed, we can merge chat db with profile db.
+
+                    username.text = user!!.getUserName()
+                    //email.text = user.getEmail()
+                    Picasso.get().load(user.getProfile()).placeholder(R.drawable.vector_asset_profile_icon_24).into(profileImage)
                     //Picasso.get().load(user.getImageUrl()).placeholder(R.drawable.vector_asset_profile_icon_24).into(profileImage)
                 }
             }
