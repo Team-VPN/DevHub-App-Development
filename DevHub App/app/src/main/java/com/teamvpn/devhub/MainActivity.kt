@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.teamvpn.devhub.ModelClass.MyUserClass
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var auth:FirebaseAuth
         var mStorageRef: StorageReference? = null
         lateinit var myuserClass:User
+
     }
     lateinit var user:FirebaseUser
     //Creating member variables
@@ -57,6 +59,10 @@ class MainActivity : AppCompatActivity() {
     private var mFirebaseInstance: FirebaseDatabase?=null
 
     var userId:String?=null
+
+    var refUsers: DatabaseReference? = null
+    //var refUsersMain: DatabaseReference? = null
+    var firebaseUser: FirebaseUser?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +97,23 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        firebaseUser = FirebaseAuth.getInstance().currentUser
+        refUsers = FirebaseDatabase.getInstance().reference.child("users").child(firebaseUser!!.uid)
+
+        refUsers!!.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user: MyUserClass? = p0.getValue(MyUserClass::class.java)
+                    val c = user!!.getFullName()
+                   // Log.d("DEBUGGING","$c")
+                   // textView3.text = user.getUserName()
+                    //Picasso.get().load(user.getProfile()).placeholder(R.drawable.profile).into(cirprofile)
+                }
+            }
+            override fun onCancelled(p0: DatabaseError) {
+                Log.d("DEBUGGING","Data cancelled in mainactivity")
+            }
+        })
     }
 
 

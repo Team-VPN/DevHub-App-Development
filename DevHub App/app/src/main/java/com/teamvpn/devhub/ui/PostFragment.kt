@@ -21,6 +21,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -175,10 +176,14 @@ class PostFragment : Fragment() {
         val uploadTask: UploadTask = mStorageRef!!.child(auth.uid.toString()).child(current).putBytes(data)
         val task = uploadTask.continueWithTask {
                 task->
-            val downloadUrl = task.result.toString()//.substring(0,task.result.toString().indexOf("&token"))
-            Log.d("IAMCHECKING","$downloadUrl and $current")
+            val downloadUrl = task.result//.substring(0,task.result.toString().indexOf("&token"))
             val userInfo = auth.uid.toString()
-            val post = post_the_question_with_img(userInfo,question,question_in_brief,downloadUrl.toString(),skills_selected)
+            // THIS IS HOW I AM GETTING URL TO DOWNLOAD IMAGE
+            val uri: Task<Uri> = downloadUrl.storage.downloadUrl
+            while (!uri.isComplete);
+            val url: Uri = uri.result
+            Log.d("IAMCHECKING","$url and $current")
+            val post = post_the_question_with_img(userInfo,question,question_in_brief,url.toString(),skills_selected)
             database.child(auth.uid.toString()).child(current).setValue(post)
                 .addOnSuccessListener {
                     // write was successful

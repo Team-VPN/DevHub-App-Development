@@ -19,11 +19,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_register.*
@@ -337,14 +340,20 @@ class RegisterActivity : AppCompatActivity() {
         alertBox.create().show()
     }
 
+
     private fun CreateUserData(uid:String,username: String,fullname: String,sex:String,dob: String,phoneNumber: String,email: String,skills:MutableList<String>,file_Uri:Uri){
         val uploadTask = mStorageRef!!.child(auth.uid.toString()).putFile(file_Uri)
         val task = uploadTask.continueWithTask {
                 task->
             val downloadUrl = task.result
-            val url = downloadUrl!!.toString()
+            //val url = downloadUrl!!.toString()
+            // THIS IS HOW I AM GETTING URL TO DOWLOAD IMAGE
+            val uri: Task<Uri> = downloadUrl.storage.downloadUrl
+            while (!uri.isComplete());
+            val url: Uri = uri.result
+            Log.d("DEBUGGGING","THIS IS $url")
             progressDialog.setMessage("profile picture is set")
-            val userInfo = NewUserInfo(auth.uid.toString(),username,fullname,sex,dob,phoneNumber,email,skillsSelected,url)
+            val userInfo = NewUserInfo(auth.uid.toString(),username,fullname,sex,dob,phoneNumber,email,skillsSelected,url.toString())
             database.child(uid).setValue(userInfo)
                 .addOnSuccessListener {
                     // write was successful
@@ -377,8 +386,8 @@ class RegisterActivity : AppCompatActivity() {
 
             }
         }
-    }
 
+    }
 
 
 }
