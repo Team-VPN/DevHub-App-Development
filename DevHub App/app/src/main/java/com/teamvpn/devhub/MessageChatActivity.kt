@@ -192,6 +192,8 @@ class MessageChatActivity : AppCompatActivity() {
 
                     ref.child("Chats").child(messageId!!).setValue(messagehashMap)
 
+                    progressBar.dismiss()
+
 
                 }
             }
