@@ -30,5 +30,4 @@ class FeedFragment : Fragment() {
 
         return inflater.inflate(R.layout.fragment_feed, container, false)
     }
-
 }

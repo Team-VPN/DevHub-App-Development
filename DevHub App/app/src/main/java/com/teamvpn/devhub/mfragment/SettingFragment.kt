@@ -36,6 +36,7 @@ import kotlinx.android.synthetic.main.fragment_setting.view.*
 class SettingFragment : Fragment()
 {
     var UserReference : DatabaseReference? = null
+    var UserReferenceM : DatabaseReference? = null
     var firebaseUser: FirebaseUser? = null
     private val RequestCode = 438
     private var imageUri: Uri? = null
@@ -54,7 +55,8 @@ class SettingFragment : Fragment()
 
         firebaseUser = FirebaseAuth.getInstance().currentUser
         UserReference = FirebaseDatabase.getInstance().reference.child("ChatUsersDB").child(firebaseUser!!.uid)
-        StorageRef = FirebaseStorage.getInstance().reference.child("User Images")//check
+        UserReferenceM = FirebaseDatabase.getInstance().reference.child("users").child(firebaseUser!!.uid)
+        StorageRef = FirebaseStorage.getInstance().reference.child("user_profile_pictures")//check
 
         UserReference!!.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
@@ -209,7 +211,8 @@ class SettingFragment : Fragment()
 
         if (imageUri!=null)
         {
-            val fileRef = StorageRef!!.child(System.currentTimeMillis().toString()+".jpg")
+
+            val fileRef = StorageRef!!.child(firebaseUser!!.uid.toString())
 
             var uploadTask: StorageTask<*>
             uploadTask = fileRef.putFile(imageUri!!)
@@ -242,7 +245,10 @@ class SettingFragment : Fragment()
                         val mapProfileImg = HashMap<String, Any>()
                         mapProfileImg["profile"] = mUri
                         UserReference!!.updateChildren(mapProfileImg)
+                        mapProfileImg["image_url"] = mUri
+                        UserReferenceM!!.updateChildren(mapProfileImg)
                         coverChecker = ""
+
 
 
                     }
