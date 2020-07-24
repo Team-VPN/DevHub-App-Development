@@ -177,11 +177,13 @@
                 android:text="@string/user_email_hint"/>
 
             <Button
+                android:id="@+id/update_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:background="#ffffff"
+                android:textAllCaps="false"
                 android:textAlignment="textStart"
                 android:backgroundTint="#ffffff"
                 android:text="email_pass karo"/>
@@ -196,7 +198,7 @@
                 android:text="@string/user_password_hint"/>
 
             <Button
-                android:id="@+id/update_email"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"

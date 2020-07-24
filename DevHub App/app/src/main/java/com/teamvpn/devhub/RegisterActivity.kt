@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.teamvpn.devhub.ModelClass.userss
+import com.teamvpn.devhub.ModelClass.userss.sex
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_register.*
@@ -98,22 +100,29 @@ class RegisterActivity : AppCompatActivity() {
                                                 // else say that sign up has failed
                                                 // the below function is used for the sign up process
 
-                                                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, OnCompleteListener{ task ->
-                                                    progressDialog.show()
-                                                    if(task.isSuccessful){
-                                                        Toasty.success(this@RegisterActivity, "Email is successfully registered", Toast.LENGTH_LONG).show()
-                                                        progressDialog.setMessage("account is created, working on saving your data...")
-                                                        /////////////////////////////////////////////////////////////////
-                                                        CreateUserData(auth.uid.toString(),username,fullname,gender,dob,phoneNumber,email,skillsSelected,
-                                                            choosen_image_uri!!
-                                                        )
-                                                        ///////////////////////////////////////////////////////////////////
 
-                                                    }else {
-                                                        Toasty.error(this@RegisterActivity, "Sign up Failed, Try with different email id", Toast.LENGTH_LONG).show()
-                                                        progressDialog.dismiss()
-                                                    }
-                                                })
+                                                if (!github_entry.text.isNullOrBlank()){
+                                                    val github =github_entry.text.toString()
+
+                                                    auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, OnCompleteListener{ task ->
+                                                        progressDialog.show()
+                                                        if(task.isSuccessful){
+                                                            Toasty.success(this@RegisterActivity, "Email is successfully registered", Toast.LENGTH_LONG).show()
+                                                            progressDialog.setMessage("account is created, working on saving your data...")
+                                                        /////////////////////////////////////////////////////////////////
+                                                            CreateUserData(auth.uid.toString(),username,fullname,gender,dob,phoneNumber,email,skillsSelected,github,
+                                                                choosen_image_uri!!
+                                                            )
+                                                            ///////////////////////////////////////////////////////////////////
+
+                                                        }else {
+                                                            Toasty.error(this@RegisterActivity, "Sign up Failed, Try with different email id", Toast.LENGTH_LONG).show()
+                                                            progressDialog.dismiss()
+                                                        }
+                                                    })
+                                                    }else{
+                                                    Toasty.warning(this@RegisterActivity,"we need your github account",Toast.LENGTH_SHORT).show()
+                                                }
                                             }else{
                                                 Toasty.warning(this@RegisterActivity,"we need your profile picture",Toast.LENGTH_SHORT).show()
                                             }
@@ -290,15 +299,15 @@ class RegisterActivity : AppCompatActivity() {
         }
         alertBox.create().show()
     }
-
-    private fun CreateUserData(uid:String,username: String,fullname: String,sex:String,dob: String,phoneNumber: String,email: String,skills:MutableList<String>,file_Uri:Uri){
+    public var kothadi : userss? = null
+    private fun CreateUserData(uid:String,username: String,fullname: String,sex:String,dob: String,phoneNumber: String,email: String,skills:MutableList<String>,github:String,file_Uri:Uri){
         val uploadTask = mStorageRef!!.child(auth.uid.toString()).putFile(file_Uri)
         val task = uploadTask.continueWithTask {
                 task->
             val downloadUrl = task.result
             val url = downloadUrl!!.toString()
             progressDialog.setMessage("profile picture is set")
-            val userInfo = NewUserInfo(auth.uid.toString(),username,fullname,sex,dob,phoneNumber,email,skillsSelected,url)
+            val userInfo = NewUserInfo(auth.uid.toString(),username,fullname,sex,dob,phoneNumber,email,skillsSelected,github,url)
             database.child(uid).setValue(userInfo)
                 .addOnSuccessListener {
                     // write was successful
@@ -339,5 +348,5 @@ class RegisterActivity : AppCompatActivity() {
 // This is the dataclass for new user info
 data class NewUserInfo(
     var uid:String, var username: String, var fullname: String, var sex:String, var dob: String, var phoneNumber: String, var email: String,
-    var skills:MutableList<String>,
+    var skills:MutableList<String>,var github :String,
     var image_url:String)
