@@ -19,6 +19,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -26,6 +27,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.teamvpn.devhub.ModelClass.MyUserClass
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -38,6 +40,7 @@ data class User(
 
 
 class MainActivity : AppCompatActivity() {
+    lateinit var navController: NavController
     lateinit var auth:FirebaseAuth
     var clearAllBackActivities_status = false
     companion object{
@@ -48,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var auth:FirebaseAuth
         var mStorageRef: StorageReference? = null
         lateinit var myuserClass:User
+
     }
     lateinit var user:FirebaseUser
     //Creating member variables
@@ -55,6 +59,10 @@ class MainActivity : AppCompatActivity() {
     private var mFirebaseInstance: FirebaseDatabase?=null
 
     var userId:String?=null
+
+    var refUsers: DatabaseReference? = null
+    //var refUsersMain: DatabaseReference? = null
+    var firebaseUser: FirebaseUser?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,18 +89,32 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController: NavController = navHostFragment.navController
+        navController = navHostFragment.navController
         // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level dstinations.
+        // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
             R.id.navigation_feed, R.id.navigation_post_qns, R.id.navigation_near_by_location_developers, R.id.navigation_profile))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        firebaseUser = FirebaseAuth.getInstance().currentUser
+        refUsers = FirebaseDatabase.getInstance().reference.child("users").child(firebaseUser!!.uid)
+
+        refUsers!!.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user: MyUserClass? = p0.getValue(MyUserClass::class.java)
+                    val c = user!!.getFullName()
+                   // Log.d("DEBUGGING","$c")
+                   // textView3.text = user.getUserName()
+                    //Picasso.get().load(user.getProfile()).placeholder(R.drawable.profile).into(cirprofile)
+                }
+            }
+            override fun onCancelled(p0: DatabaseError) {
+                Log.d("DEBUGGING","Data cancelled in mainactivity")
+            }
+        })
     }
-
-
-
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -166,5 +188,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+     fun changeFragment(){
+        NavigationUI.navigateUp(navController,null)
+    }
 }

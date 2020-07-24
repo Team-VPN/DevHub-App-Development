@@ -19,13 +19,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.teamvpn.devhub.ModelClass.userss
-import com.teamvpn.devhub.ModelClass.userss.sex
+import com.google.firebase.storage.UploadTask
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_register.*
@@ -41,6 +42,8 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var mskillsbutton : Button
     lateinit var auth:FirebaseAuth
     private var choosen_image_uri: Uri? = null
+    private var firebaseUserID: String  = ""
+    private lateinit var refUsersChat: DatabaseReference
     private var mStorageRef: StorageReference? = null
     var button_date: Button? = null
     var textview_date: TextView? = null
@@ -110,19 +113,60 @@ class RegisterActivity : AppCompatActivity() {
                                                             Toasty.success(this@RegisterActivity, "Email is successfully registered", Toast.LENGTH_LONG).show()
                                                             progressDialog.setMessage("account is created, working on saving your data...")
                                                         /////////////////////////////////////////////////////////////////
-                                                            CreateUserData(auth.uid.toString(),username,fullname,gender,dob,phoneNumber,email,skillsSelected,github,
-                                                                choosen_image_uri!!
-                                                            )
-                                                            ///////////////////////////////////////////////////////////////////
+                                                        CreateUserData(auth.uid.toString(),username,fullname,gender,dob,phoneNumber,email,skillsSelected,
+                                                            choosen_image_uri!!
+                                                        )
 
-                                                        }else {
-                                                            Toasty.error(this@RegisterActivity, "Sign up Failed, Try with different email id", Toast.LENGTH_LONG).show()
-                                                            progressDialog.dismiss()
-                                                        }
-                                                    })
-                                                    }else{
-                                                    Toasty.warning(this@RegisterActivity,"we need your github account",Toast.LENGTH_SHORT).show()
-                                                }
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~ NIRAN: DO NOT EDIT THIS SEGMENT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                                    firebaseUserID = auth.currentUser!!.uid //userid
+                                                                    refUsersChat = FirebaseDatabase.getInstance().reference.child("ChatUsersDB").child(firebaseUserID)
+                                                                    val userHashMap = HashMap<String, Any>()
+                                                                    userHashMap["uid"]= firebaseUserID
+                                                                    userHashMap["username"]=username
+                                                                    //profile image of user can be changed later here, once other stuff is done - from Niran
+                                                                    userHashMap["profile"]= "https://firebasestorage.googleapis.com/v0/b/devhub-ed276.appspot.com/o/default%2Fprofile.png?alt=media&token=38c9801f-261e-413e-991e-98ee84a0fc66"
+                                                                    userHashMap["cover"]= "https://firebasestorage.googleapis.com/v0/b/devhub-ed276.appspot.com/o/default%2Fcover.jpg?alt=media&token=68be50b9-d224-4059-85c9-e722ab415a55"
+                                                                    userHashMap["status"]= "offline"
+                                                                    userHashMap["search"]= username
+                                                                    userHashMap["github"]= "www.github.com"
+                                                                    userHashMap["linkedin"]= "https://www.linkedin.com"
+                                                                    userHashMap["stackof"]= "https://www.stackoverflow.com"
+                                                                    //donno if this is reqd, need to check
+                                                                    refUsersChat.updateChildren(userHashMap)
+                                                                        .addOnCompleteListener { task ->
+                                                                            if (task.isSuccessful) {
+                                                                                Toasty.success(
+                                                                                    this@RegisterActivity,
+                                                                                    "Your Chat Profile has been created!",
+                                                                                    Toast.LENGTH_SHORT
+                                                                                ).show()
+                                                                            }
+                                                                        }
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~ NIRAN: DO NOT EDIT THIS SEGMENT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+                                                                    ///////////////////////////////////////////////////////////////////
+
+                                                    }else {
+                                                        Toasty.error(this@RegisterActivity, "Sign up Failed, Try with different email id", Toast.LENGTH_LONG).show()
+                                                        progressDialog.dismiss()
+                                                    }
+                                                })
                                             }else{
                                                 Toasty.warning(this@RegisterActivity,"we need your profile picture",Toast.LENGTH_SHORT).show()
                                             }
@@ -299,15 +343,19 @@ class RegisterActivity : AppCompatActivity() {
         }
         alertBox.create().show()
     }
-    public var kothadi : userss? = null
-    private fun CreateUserData(uid:String,username: String,fullname: String,sex:String,dob: String,phoneNumber: String,email: String,skills:MutableList<String>,github:String,file_Uri:Uri){
+    private fun CreateUserData(uid:String,username: String,fullname: String,sex:String,dob: String,phoneNumber: String,email: String,skills:MutableList<String>,file_Uri:Uri){
         val uploadTask = mStorageRef!!.child(auth.uid.toString()).putFile(file_Uri)
         val task = uploadTask.continueWithTask {
                 task->
             val downloadUrl = task.result
-            val url = downloadUrl!!.toString()
+            //val url = downloadUrl!!.toString()
+            // THIS IS HOW I AM GETTING URL TO DOWLOAD IMAGE
+            val uri: Task<Uri> = downloadUrl.storage.downloadUrl
+            while (!uri.isComplete());
+            val url: Uri = uri.result
+            Log.d("DEBUGGGING","THIS IS $url")
             progressDialog.setMessage("profile picture is set")
-            val userInfo = NewUserInfo(auth.uid.toString(),username,fullname,sex,dob,phoneNumber,email,skillsSelected,github,url)
+            val userInfo = NewUserInfo(auth.uid.toString(),username,fullname,sex,dob,phoneNumber,email,skillsSelected,url.toString())
             database.child(uid).setValue(userInfo)
                 .addOnSuccessListener {
                     // write was successful
@@ -340,8 +388,8 @@ class RegisterActivity : AppCompatActivity() {
 
             }
         }
-    }
 
+    }
 
 
 }

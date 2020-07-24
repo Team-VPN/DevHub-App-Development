@@ -6,21 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".post_made_successful_activity">
 
+
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/textView13"
+        android:layout_width="332dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="8dp"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="yes, we get back to you soon!"
+        android:text="Hurray!, your query is posted successully"
+        android:textColor="@color/app_color"
         android:textSize="24sp"
-        tools:layout_editor_absoluteX="64dp"
-        tools:layout_editor_absoluteY="177dp" />
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifImageView"
+        android:layout_width="343dp"
+        android:layout_height="201dp"
+
+        android:layout_marginTop="36dp"
+        android:src="@drawable/congrats_giphy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="241dp"
-        android:layout_height="101dp"
-        android:text="yes, we get back to you soon with a flood of answers to your question, be patient.\n\n Stay hunger, keep learning"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="281dp" />
+        android:layout_width="331dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Yes, we get back to you soon with an answer from our developers community. Until then keep viewing other posts, answer their questions and earn points.\n\n Stay hunger, keep learning"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gifImageView" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="173dp"
+        android:layout_height="59dp"
+        android:background="@android:drawable/editbox_background_normal"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="continue"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        app:layout_constraintVertical_bias="0.282" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,14 +20,14 @@
             android:id="@+id/profile_image"
             android:layout_width="115dp"
             android:layout_height="106dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:src="@drawable/vector_asset_profile_icon_24"
             app:civ_border_color="#6200EE"
             app:civ_border_width="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.322" />
+            app:layout_constraintVertical_bias="0.495" />
 
         <TextView
             android:id="@+id/textView3"
@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:fontFamily="sans-serif-thin"
-            android:text="@string/user_name"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -49,7 +48,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
-            android:text="@string/tag"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="@+id/profile_image"
@@ -140,7 +138,7 @@
         android:layout_marginTop="31dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/_00"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/textView11"
         app:layout_constraintHorizontal_bias="0.549"

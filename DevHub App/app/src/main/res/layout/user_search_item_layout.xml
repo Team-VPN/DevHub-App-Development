@@ -69,4 +69,12 @@
         android:textColor="@color/colorPrimaryDark">
 
     </TextView>
+    <View
+        android:layout_below="@+id/sprofile_image"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/darker_gray"/>
 </RelativeLayout>
