@@ -23,12 +23,7 @@ class EditProfile : AppCompatActivity() {
         setSupportActionBar(toolbar)
         //window.statusBarColor = Color.WHITE
         // to customise the toolbar
-        edit_username.setText(userss.username)
-        edit_firstname.setText(userss.fullname)
-        edit_phoneno.setText(userss.phoneNumber)
-        update_email.setText(userss.email)
-        edit_github_acc.setText(userss.github)
-        Log.d("Ochinda?","chudu"+userss.username)
+
 
     }
 
