@@ -9,6 +9,7 @@ class MyUserClass {
     private var dob: String = ""
     private var phoneNumber: String = ""
     private var email: String = ""
+    private var github:String=""
     private var skills: MutableList<String> = mutableListOf<String>()
     private var image_url: String = ""
 
@@ -23,6 +24,7 @@ class MyUserClass {
             dob:String,
             phoneNumber:String,
             email:String,
+            github:String,
             skills:MutableList<String>,
             image_url: String
     ) {
@@ -33,6 +35,7 @@ class MyUserClass {
         this.dob = dob
         this.phoneNumber = phoneNumber
         this.email = email
+        this.github=github
         this.skills = skills
         this.image_url= image_url
     }
@@ -81,6 +84,14 @@ class MyUserClass {
     }
     fun getEmail():String?{
         return email
+    }
+
+    //******Github*********
+    fun setgithub(github: String){
+        this.github=github
+    }
+    fun getgithub():String?{
+        return github
     }
 
     //******skills**********
