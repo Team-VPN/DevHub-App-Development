@@ -8,6 +8,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -20,6 +22,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
+import com.teamvpn.devhub.AdapterClasses.ChatAdapter
+import com.teamvpn.devhub.ModelClass.Chat
 import com.teamvpn.devhub.ModelClass.Users
 import kotlinx.android.synthetic.main.activity_message_chat.*
 
@@ -27,6 +31,9 @@ class MessageChatActivity : AppCompatActivity() {
 
     var userIdVisit: String = ""
     var firebaseUser: FirebaseUser? =  null
+    var chatAdapter : ChatAdapter? = null
+    var mChatList: List<Chat>? = null
+    lateinit var recycler_view_chat: RecyclerView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +44,12 @@ class MessageChatActivity : AppCompatActivity() {
         userIdVisit = intent.getStringExtra("visit_id")
         firebaseUser = FirebaseAuth.getInstance().currentUser
 
+        recycler_view_chat = findViewById(R.id.recycler_view_chat)
+        recycler_view_chat.setHasFixedSize(true)
+        var linearLayoutmanager = LinearLayoutManager(applicationContext)
+        linearLayoutmanager.stackFromEnd = true
+        recycler_view_chat.layoutManager = linearLayoutmanager
+
         val reference = FirebaseDatabase.getInstance().reference.child("ChatUsersDB").child(userIdVisit)
         reference.addValueEventListener(object : ValueEventListener{
 
@@ -46,6 +59,9 @@ class MessageChatActivity : AppCompatActivity() {
                 val user: Users? = p0.getValue(Users::class.java)
                 username_mchat.text = user!!.getUserName()
                 Picasso.get().load(user.getProfile()).into(profile_image_mc)
+
+
+                retrieveMessages(firebaseUser!!.uid, userIdVisit, user.getProfile())
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -197,11 +213,37 @@ class MessageChatActivity : AppCompatActivity() {
 
                 }
             }
-
-
-
-
         }
+    }
+    private fun retrieveMessages(senderId: String, receiverId: String?, receiverimageUrl: String?) {
+        mChatList = ArrayList()
+        val reference = FirebaseDatabase.getInstance().reference.child("Chats")
+
+        reference.addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(p0: DataSnapshot) {
+                (mChatList as ArrayList<Chat>).clear()
+                for (snapshot in p0.children)
+                {
+                    val chat = snapshot.getValue(Chat::class.java)
+
+                    if (chat!!.getReceiver().equals(senderId) && chat.getSender().equals(receiverId)
+                        || chat.getReceiver().equals(receiverId) && chat.getSender().equals((senderId)))
+                    {
+                        (mChatList as ArrayList<Chat>).add(chat)
+                    }
+                    chatAdapter = ChatAdapter(this@MessageChatActivity, (mChatList as ArrayList<Chat>), receiverimageUrl!!)
+                    recycler_view_chat.adapter = chatAdapter
+
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+
+            }
+        })
+
     }
 
 }
