@@ -169,17 +169,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onStart() {
-        super.onStart()
-        if(!clearAllBackActivities_status){
-            clearAllBackActivities_status = true
-            //finishAffinity()
-        }
-        if(auth.currentUser == null){
-            startActivity(Intent(this@MainActivity,LoginActivity::class.java))
-            finish()
-        }
-    }
+
 
     override fun onResume() {
         super.onResume()
