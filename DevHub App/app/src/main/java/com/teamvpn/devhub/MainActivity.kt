@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var myuserClass:User
 
     }
+
     lateinit var user:FirebaseUser
     //Creating member variables
     private var mFirebaseDatabase: DatabaseReference?=null

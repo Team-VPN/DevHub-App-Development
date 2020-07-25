@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 class LauncherActivity : AppCompatActivity() {
     private var firebaseAuth: FirebaseAuth? = null
     var mAuthListener: AuthStateListener? = null
-    internal val TIME_OUT = 3000
+    internal val TIME_OUT = 1000
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
