@@ -46,8 +46,15 @@ class EditProfile : AppCompatActivity() {
     lateinit var edit__github:EditText
     lateinit var edit__photo:CircleImageView
     lateinit var edit__skills : Spinner
+    lateinit var skills_update : MutableList<String>
     var email : String? = null
+    var skills_present : MutableList<String>? = null
+    lateinit var present_boolarray : BooleanArray
     //lateinit var profileImage: CircleImageView
+
+    val skills = arrayOf("App development","IoT","Machine learning","Artificial Intelligence","Python", "Java", "Kotlin","c", "C++", "c#","JavaScript","Data mining", "Cloud","Firebase","Blockchain","GO","Solidity","Ethical hacking","Embedded systems","Web development","DBMS","Cyber security","VLSI","Analog communication","Signal processing")
+    val boolarray = booleanArrayOf(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false)
+    var skillsSelected : MutableList<String> =  mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,7 +98,12 @@ class EditProfile : AppCompatActivity() {
                     edit__phoneno.setText(user.getPhoneNumber())
                     edit__github.setText(user.getgithub())
                     edit__fullname.setText(user.getFullName())
-                    Picasso.get().load(user.getImageUrl()).placeholder(R.drawable.vector_asset_profile_icon_24).into(edit_image)
+                    skills_present = user.getSkills()
+                    val imageUrl = p0.child("image_url").getValue().toString()
+                    if(imageUrl!=""){
+                        Picasso.get().load(imageUrl).placeholder(R.drawable.vector_asset_profile_icon_24).into(edit_image)
+                    }
+                    //Picasso.get().load(user.getImageUrl()).placeholder(R.drawable.vector_asset_profile_icon_24).into(edit_image)
                     //Picasso.get().load(user?.getImageUrl()).placeholder(R.drawable.vector_asset_profile_icon_24).into(edit__photo)
 
                     //Picasso.get().load(user.getImageUrl()).placeholder(R.drawable.vector_asset_profile_icon_24).into(profileImage)
@@ -103,9 +115,34 @@ class EditProfile : AppCompatActivity() {
             }
         })
 
+        edit_skills.setOnClickListener {
+            val mskillbuilder = AlertDialog.Builder(this@EditProfile)
+            mskillbuilder.setTitle("Update your skills")
+            mskillbuilder.setCancelable(false)
+            mskillbuilder.setMultiChoiceItems(skills, boolarray) { dialog, which, _ ->
+                skillsSelected.add(skills_present.toString())
+                when (which) {
+                    which -> {
+                        skillsSelected.add(skills[which])
+                    }
+                }
 
+            }
+            mskillbuilder.setPositiveButton("add these skills") { _, _ ->
+                Toasty.normal(
+                    this@EditProfile,
+                    "Updated",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
 
+            mskillbuilder.setNegativeButton("cancel") { _, _ ->
 
+            }
+
+            val mskilldialog = mskillbuilder.create()
+            mskilldialog.show()
+        }
 
         password_edit.setOnClickListener {
             // build alert dialog

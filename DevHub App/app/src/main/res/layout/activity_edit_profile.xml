@@ -191,7 +191,7 @@
             android:background="#ffffff"
             android:textAlignment="textStart"
             android:backgroundTint="#ffffff"
-            android:text="password_pass karo"/>
+            android:text="Reset your Password"/>
 
             <TextView
                 android:id="@+id/technicalinfo"
