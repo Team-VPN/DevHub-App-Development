@@ -114,6 +114,7 @@ Password :"</string>
     <string name="gender_other">Other</string>
     <string name="user_github">GitHub Profile :</string>
     <string name="user_github_hint">GitHub profile</string>
+    <string name="multiQn_text">This is my question with respect to the image, i have attached below, i am not able to eat or vomit anything\n\nAlso this is the first time i am not able to peace as well what to do now???.\n\n</string>
     <string-array name="user_age__array">
         <item>12</item>
         <item>13</item>
