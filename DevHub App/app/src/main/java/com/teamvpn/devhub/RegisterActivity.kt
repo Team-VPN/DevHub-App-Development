@@ -405,7 +405,7 @@ class RegisterActivity : AppCompatActivity() {
                 //profile image of user can be changed later here, once other stuff is done - from Niran
                 userHashMap["profile"] = url.toString()
                 userHashMap["cover"] =
-                        "https://firebasestorage.googleapis.com/v0/b/devhub-ed276.appspot.com/o/default%2Fcover.jpg?alt=media&token=68be50b9-d224-4059-85c9-e722ab415a55"
+                        "https://firebasestorage.googleapis.com/v0/b/devhub-ed276.appspot.com/o/default%2Fcover.jpg?alt=media&token=659edc02-5f8d-405c-b9f3-a649d097b3cd"
                 userHashMap["status"] = "offline"
                 userHashMap["search"] = username
                 userHashMap["github"] =
@@ -514,7 +514,7 @@ class RegisterActivity : AppCompatActivity() {
         //profile image of user can be changed later here, once other stuff is done - from Niran
         userHashMap["profile"] = photoUrl
         userHashMap["cover"] =
-                "https://firebasestorage.googleapis.com/v0/b/devhub-ed276.appspot.com/o/default%2Fcover.jpg?alt=media&token=68be50b9-d224-4059-85c9-e722ab415a55"
+                "https://firebasestorage.googleapis.com/v0/b/devhub-ed276.appspot.com/o/default%2Fcover.jpg?alt=media&token=659edc02-5f8d-405c-b9f3-a649d097b3cd"
         userHashMap["status"] = "offline"
         userHashMap["search"] = username
         userHashMap["github"] =
