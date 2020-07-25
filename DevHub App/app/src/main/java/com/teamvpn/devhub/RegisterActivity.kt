@@ -384,20 +384,25 @@ class RegisterActivity : AppCompatActivity() {
             skills: MutableList<String>,github:String,
             file_Uri: Uri
         ) {
+            Log.d("FETCH_ERROR","staging the image to be uploaded")
             val uploadTask = mStorageRef!!.child(auth.uid.toString()).putFile(file_Uri)
+            Log.d("FETCH_ERROR","upload task given")
             val task = uploadTask.continueWithTask { task ->
+                Log.d("FETCH_ERROR","along with uploading task i am into another procedure as well")
                 val downloadUrl = task.result
                 //val url = downloadUrl!!.toString()
                 // THIS IS HOW I AM GETTING URL TO DOWLOAD IMAGE
                 val uri: Task<Uri> = downloadUrl.storage.downloadUrl
                 while (!uri.isComplete);
                 val url: Uri = uri.result
+                Log.d("FETCH_ERROR","Img url to be downloaded is obtained")
                 firebaseUserID =
                         auth.currentUser!!.uid //userid
                 refUsersChat =
                         FirebaseDatabase.getInstance().reference.child(
                                 "ChatUsersDB"
                         ).child(firebaseUserID)
+                Log.d("FETCH_ERROR","Hash map created")
                 val userHashMap =
                         HashMap<String, Any>()
                 userHashMap["uid"] = firebaseUserID
@@ -415,11 +420,13 @@ class RegisterActivity : AppCompatActivity() {
                 userHashMap["stackof"] =
                         "https://www.stackoverflow.com"
                 //donno if this is reqd, need to check
+                Log.d("FETCH_ERROR","staging the hashmap to upload to niraans database")
                 refUsersChat.updateChildren(
                         userHashMap
                 )
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
+                                Log.d("FETCH_ERROR","data is uploaded successfully")
                                 Toasty.success(
                                         this@RegisterActivity,
                                         "Your Chat Profile has been created!",
@@ -439,9 +446,13 @@ class RegisterActivity : AppCompatActivity() {
                                         skillsSelected,github,
                                         url.toString()
                                 )
+                                Log.d("FETCH_ERROR","data for sending to asv's database is set")
+
                                 database.child(uid).setValue(userInfo)
                                         .addOnSuccessListener {
                                             // write was successful
+                                            Log.d("FETCH_ERROR","data to asv db done")
+
                                             Log.d("DEBUG", "database created")
                                             progressDialog.dismiss()
                                             Toasty.success(
@@ -450,11 +461,15 @@ class RegisterActivity : AppCompatActivity() {
                                                     Toast.LENGTH_SHORT
                                             ).show()
                                             auth.signOut()
+                                            Log.d("FETCH_ERROR","GONNA INTeNT TO LOGIN ACTIVITY")
+
                                             startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
                                             finish()
                                         }
                                         .addOnFailureListener {
                                             // write was failure
+                                            Log.d("FETCH_ERROR","failed here,,,,,, chack this")
+
                                             progressDialog.dismiss()
                                             Log.d("DEBUG", "database creation failed")
                                             Toasty.error(
@@ -468,8 +483,9 @@ class RegisterActivity : AppCompatActivity() {
                                         }
 
                                 if (!task.isSuccessful) {
+                                    Log.d("FETCH_ERROR","then chek here")
                                     Toasty.error(
-                                            this@RegisterActivity,
+                                        this@RegisterActivity,
                                             "Failed to create account, try again after sometime",
                                             Toast.LENGTH_SHORT
                                     ).show()
@@ -484,7 +500,7 @@ class RegisterActivity : AppCompatActivity() {
                 mStorageRef!!.downloadUrl
             }.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-
+                    Log.d("FETCH_ERROR","EVERYTHING IS DONE DA ANYTHING PENDING THEN DEBUG")
                 }
             }
 
