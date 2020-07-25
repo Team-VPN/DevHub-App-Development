@@ -1,12 +1,17 @@
 package com.teamvpn.devhub.AdapterClasses
 
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import com.teamvpn.devhub.MainChat
+import com.teamvpn.devhub.MessageChatActivity
 import com.teamvpn.devhub.ModelClass.Users
 import com.teamvpn.devhub.R
 import de.hdodenhof.circleimageview.CircleImageView
@@ -42,6 +47,34 @@ class UserAdapter (
         val user: Users = mUsers[i]
         holder.userNameTxt.text = user!!.getUserName()
         Picasso.get().load(user.getProfile()).placeholder(R.drawable.profile).into(holder.profileImageView)
+
+        holder.itemView.setOnClickListener {
+            val options = arrayOf<CharSequence>(
+                "Send Message",
+                "Visit Profile"
+            )
+            val builder: AlertDialog.Builder = AlertDialog.Builder(mContext)
+            builder.setTitle("What do you want to do, bro?")
+            builder.setItems(options, DialogInterface.OnClickListener{ dialog, position ->
+                if(position == 0)
+                {
+                    val intent = Intent(mContext, MessageChatActivity::class.java)
+                    intent.putExtra("visit_id", user.getUID())
+                    mContext.startActivity(intent)
+
+
+                }
+                if(position == 1)
+                {
+                    //later
+                }
+
+
+
+            })
+
+            builder.show()
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
