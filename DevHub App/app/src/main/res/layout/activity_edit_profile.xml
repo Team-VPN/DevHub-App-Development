@@ -65,7 +65,8 @@
                 android:textSize="22sp"
                 android:textColor="@color/app_color"/>
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/edit_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:src="@drawable/vector_asset_profile_icon_24"
@@ -108,31 +109,13 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginBottom="4dp"
-                android:text="@string/user_first_name_hint"/>
+                android:text="@string/full_name_hint"/>
 
 
             <EditText
             android:id="@+id/edit_firstname"
             android:layout_width="match_parent"
                 android:inputType="text"
-            android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp"
-            style="@style/info_heading_style"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/info_hint"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginBottom="4dp"
-                android:text="@string/user_last_name_hint"/>
-
-
-            <EditText
-            android:id="@+id/edit_lastname"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
                 android:layout_marginRight="16dp"
                 android:layout_marginLeft="16dp"
@@ -148,13 +131,13 @@
                 android:layout_marginBottom="4dp"
                 android:text="@string/user_phone_num_hint"/>
 
-        <EditText
-            android:id="@+id/edit_phoneno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            style="@style/info_heading_style"/>
+            <EditText
+                android:id="@+id/edit_phoneno"
+                style="@style/info_heading_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp" />
 
 
             <TextView
@@ -176,11 +159,13 @@
                 android:layout_marginBottom="4dp"
                 android:text="@string/user_email_hint"/>
 
+
             <Button
                 android:id="@+id/update_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:paddingStart="4dp"
                 android:layout_marginRight="16dp"
                 android:background="#ffffff"
                 android:textAllCaps="false"
@@ -198,7 +183,7 @@
                 android:text="@string/user_password_hint"/>
 
             <Button
-
+            android:id="@+id/password_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -245,7 +230,7 @@
                 android:text="@string/user_skills_hint"/>
 
             <Button
-                android:id="@+id/country_entry"
+                android:id="@+id/edit_skills"
                 style="@style/info_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -258,6 +243,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <Button
+                android:id="@+id/delete_account"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"

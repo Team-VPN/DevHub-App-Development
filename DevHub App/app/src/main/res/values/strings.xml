@@ -114,6 +114,7 @@ Password :"</string>
     <string name="gender_other">Other</string>
     <string name="user_github">GitHub Profile :</string>
     <string name="user_github_hint">GitHub profile</string>
+    <string name="full_name_hint">Name</string>
     <string-array name="user_age__array">
         <item>12</item>
         <item>13</item>
