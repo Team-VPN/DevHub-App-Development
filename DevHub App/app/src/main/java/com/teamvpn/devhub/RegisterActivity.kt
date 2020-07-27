@@ -224,6 +224,7 @@ class RegisterActivity : AppCompatActivity() {
                     }
 
                 }
+                //Log.d("Skills check","List"+skillsSelected)
 
                 mskillbuilder.setPositiveButton("add these skills") { _, _ ->
                     Toasty.normal(

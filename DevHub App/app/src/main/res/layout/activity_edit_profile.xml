@@ -41,12 +41,13 @@
                     tools:layout_editor_absoluteY="11dp" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/save_edit_profile_button"
+                android:id="@+id/update_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                     android:layout_margin="8dp"
+                    android:backgroundTint="#ffffff"
                 android:layout_gravity="right"
-                android:background="?android:attr/windowBackground"
+                android:background="#ffffff"
                 android:backgroundTintMode="screen"
                 android:foregroundTintMode="src_atop"
                 android:src="@drawable/save_edit_profile"
@@ -73,6 +74,7 @@
                 android:layout_gravity="center"/>
 
             <Button
+                android:id="@+id/update_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/update_profile_photo"
@@ -165,7 +167,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:paddingStart="4dp"
+                android:paddingStart="8dp"
                 android:layout_marginRight="16dp"
                 android:background="#ffffff"
                 android:textAllCaps="false"
@@ -188,6 +190,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+                android:paddingStart="8dp"
+                android:textAllCaps="false"
             android:background="#ffffff"
             android:textAlignment="textStart"
             android:backgroundTint="#ffffff"
