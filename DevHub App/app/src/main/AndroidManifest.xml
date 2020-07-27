@@ -24,7 +24,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MessageChatActivity"></activity>
+        <activity android:name=".MessageChatActivity"/>
         <activity android:name=".MainChat" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".OTPActivity" />
@@ -36,10 +36,10 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:launchMode="singleInstance"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".post_made_successful_activity"
-            android:launchMode="singleInstance"></activity>
+            android:launchMode="singleInstance"/>
         <activity
             android:name=".about_us"
             android:launchMode="singleInstance" />
