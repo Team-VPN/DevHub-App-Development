@@ -149,16 +149,19 @@ class EditProfile : AppCompatActivity() {
 
         edit_skills.setOnClickListener {
             val boolarray = booleanArrayOf(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false)
-            for (for_var_skills1 in this!!.skills_present!!){
-                var x =-1
-                for(for_var_skills2 in skillls){
-                    x += 1
-                    if(for_var_skills1 == for_var_skills2){
-                        boolarray[x] = true
+            if(!skills_present.isNullOrEmpty()){
+                for (for_var_skills1 in this!!.skills_present!!){
+                    var x =-1
+                    for(for_var_skills2 in skillls){
+                        x += 1
+                        if(for_var_skills1 == for_var_skills2){
+                            boolarray[x] = true
+                        }
                     }
-                }
 
+                }
             }
+
 
             Log.d("For loop check","Boolean array"+boolarray)
             val mskillbuilder = AlertDialog.Builder(this@EditProfile)
