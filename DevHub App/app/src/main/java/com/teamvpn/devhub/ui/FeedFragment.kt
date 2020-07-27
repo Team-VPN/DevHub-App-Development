@@ -49,7 +49,8 @@ class FeedFragment : Fragment() {
                         if(p0.hasChild("posts/${firebaseUserID.toString()}")){
                             val single_qn = snapshot.child("question_in_single_line").value.toString()
                             val multi_line_qn = snapshot.child("question_in_brief").value.toString()
-                            val profile_pic_url = snapshot.child("firebaseUserID").value.toString()
+                            val uidOfPoster = snapshot.child("uid").value.toString()
+                            val profile_pic_url = p0.child("users/$uidOfPoster/image_url").value.toString()
                             (posts as ArrayList<PostClass>).add(PostClass(single_qn,multi_line_qn,profile_pic_url))
                             recyclerView_posts.adapter?.notifyDataSetChanged()
                         }

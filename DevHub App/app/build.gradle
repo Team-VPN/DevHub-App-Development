@@ -74,4 +74,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
     implementation 'com.github.GrenderG:Toasty:1.4.2'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.3'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 }

@@ -3,6 +3,7 @@ package com.teamvpn.devhub
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.location.LocationManager
 import android.os.Bundle
 import android.os.Vibrator
 import android.util.Log
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -51,14 +53,15 @@ class MainActivity : AppCompatActivity() {
         lateinit var auth:FirebaseAuth
         var mStorageRef: StorageReference? = null
         lateinit var myuserClass:User
-
+        lateinit var locationManager:LocationManager
+        lateinit var username:String
+        lateinit var url_for_image_link:String
     }
 
     lateinit var user:FirebaseUser
     //Creating member variables
     private var mFirebaseDatabase: DatabaseReference?=null
     private var mFirebaseInstance: FirebaseDatabase?=null
-
     var userId:String?=null
 
     var refUsers: DatabaseReference? = null
@@ -69,6 +72,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
         //window.statusBarColor = Color.WHITE
         // to customise the toolbar
         toolbar.setTitleTextColor(Color.rgb(98, 0, 238)) // will set the text color
@@ -99,13 +104,13 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        refUsers = FirebaseDatabase.getInstance().reference.child("users").child(firebaseUser!!.uid)
+        refUsers = FirebaseDatabase.getInstance().reference.child("users").child(firebaseUser!!.uid.toString())
 
         refUsers!!.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
-                    val user: MyUserClass? = p0.getValue(MyUserClass::class.java)
-                    val c = user!!.getFullName()
+                    url_for_image_link = p0.child("image_url").value.toString()
+                    username = p0.child("fullname").value.toString()
                    // Log.d("DEBUGGING","$c")
                    // textView3.text = user.getUserName()
                     //Picasso.get().load(user.getProfile()).placeholder(R.drawable.profile).into(cirprofile)
