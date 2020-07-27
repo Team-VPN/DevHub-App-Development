@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Insets.add
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -69,7 +70,6 @@ class EditProfile : AppCompatActivity() {
     var skills_present : MutableList<String>? = null
     lateinit var present_boolarray : BooleanArray
     val skillls = arrayOf("App development","IoT","Machine learning","Artificial Intelligence","Python", "Java", "Kotlin","c", "C++", "c#","JavaScript","Data mining", "Cloud","Firebase","Blockchain","GO","Solidity","Ethical hacking","Embedded systems","Web development","DBMS","Cyber security","VLSI","Analog communication","Signal processing")
-    val boolarray = booleanArrayOf(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false)
     var skillsSelected : MutableList<String> =  mutableListOf<String>()
 
 
@@ -112,19 +112,19 @@ class EditProfile : AppCompatActivity() {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     //val user: MyUserClass? = p0.getValue(MyUserClass::class.java)
-                    val user: MyUserClass? = p0.getValue(MyUserClass::class.java)
+                    //val user: MyUserClass? = p0.getValue(MyUserClass::class.java)
                     //val user_: Users? = p0.getValue(Users::class.java)
                     //val c = user!!.getFullName()
                     //Log.d("DEBUGGING","$c")
 
-                    Log.d("This", "Is working" + user!!.getUserName())
-                    emaill = user.getEmail()
-                    username.setText(user.getUserName())
-                    email.setText(user.getEmail())
-                    phoneno.setText(user.getPhoneNumber())
-                    github.setText(user.getgithub())
-                    fullname.setText(user.getFullName())
-                    skills_present = user.getSkills()
+                    //Log.d("This", "Is working" + user!!.getUserName())
+                    emaill = p0.child("email").value.toString()
+                    username.setText(p0.child("username").value.toString())
+                    email.setText(p0.child("email").value.toString())
+                    phoneno.setText(p0.child("phoneNumber").value.toString())
+                    github.setText(p0.child("github").value.toString())
+                    fullname.setText(p0.child("fullname").value.toString())
+                    skills_present = p0.child("skills").value as MutableList<String>?
                     Log.d("Skills check","check"+skills_present)
                     val imageUrl = p0.child("image_url").getValue().toString()
                     if (imageUrl != "") {
@@ -145,24 +145,27 @@ class EditProfile : AppCompatActivity() {
         })
 
 
-        for (for_var_skills1 in this!!.skills_present!!){
-            var x =-1
-            for(for_var_skills2 in skillls){
-                x += 1
-                if(for_var_skills1 == for_var_skills2){
-                    boolarray[x] = true
-                }
-            }
 
-        }
 
         edit_skills.setOnClickListener {
+            val boolarray = booleanArrayOf(false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false)
+            for (for_var_skills1 in this!!.skills_present!!){
+                var x =-1
+                for(for_var_skills2 in skillls){
+                    x += 1
+                    if(for_var_skills1 == for_var_skills2){
+                        boolarray[x] = true
+                    }
+                }
+
+            }
+
             Log.d("For loop check","Boolean array"+boolarray)
             val mskillbuilder = AlertDialog.Builder(this@EditProfile)
             mskillbuilder.setTitle("Update your skills")
-            mskillbuilder.setCancelable(false)
+            mskillbuilder.setCancelable(true)
             mskillbuilder.setMultiChoiceItems(skillls, boolarray) { dialog, which, _ ->
-                skillsSelected.add(skills_present.toString())
+                skillsSelected = skills_present as MutableList<String>
                 when (which) {
                     which -> {
                         skillsSelected.add(skillls[which])
