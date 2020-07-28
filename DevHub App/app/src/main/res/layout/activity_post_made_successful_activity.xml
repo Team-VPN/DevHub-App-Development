@@ -14,8 +14,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="8dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:text="Hurray!, your query is posted successully"
+        android:fontFamily="@font/metal_mania"
+        android:text="Hurray!, your query is posted successfully"
         android:textColor="@color/app_color"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -24,13 +24,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gifImageView"
-        android:layout_width="343dp"
-        android:layout_height="201dp"
 
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifImageView2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:layout_marginTop="36dp"
-        android:src="@drawable/congrats_giphy"
+        android:src="@drawable/sponge_bob_gif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifImageView3"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="36dp"
+        android:src="@drawable/minion_gif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifImageView4"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="36dp"
+        android:src="@drawable/vader_gif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,28 +60,44 @@
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="331dp"
-        android:layout_height="190dp"
-        android:layout_marginTop="36dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Yes, we get back to you soon with an answer from our developers community. Until then keep viewing other posts, answer their questions and earn points.\n\n Stay hunger, keep learning"
-        android:textColor="@color/colorAccent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="36dp"
+        android:fontFamily="@font/handlee"
+        android:text="Yes, we get back to you soon with an answer from our developers community. Until then keep viewing other posts, answer their questions and earn points."
+        android:textColor="#000000"
         android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/gifImageView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gifImageView" />
+        tools:layout_editor_absoluteY="376dp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="36dp"
+        android:fontFamily="@font/handlee"
+        android:text="Stay hungry, Stay curious\nKeep learning"
+        android:textColor="@color/app_color"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="173dp"
-        android:layout_height="59dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@android:drawable/editbox_background_normal"
         android:backgroundTint="@color/colorPrimary"
+        android:paddingHorizontal="32dp"
+        android:paddingVertical="16dp"
         android:text="continue"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10"
-        app:layout_constraintVertical_bias="0.282" />
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 </androidx.constraintlayout.widget.ConstraintLayout>
