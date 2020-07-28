@@ -3,11 +3,11 @@ package com.teamvpn.devhub.ui
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
+import android.graphics.*
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -18,6 +18,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -33,13 +34,15 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import com.teamvpn.devhub.MainActivity
-import com.teamvpn.devhub.ModelClass.PostClass
+import com.teamvpn.devhub.MessageChatActivity
 import com.teamvpn.devhub.R
 import es.dmoral.toasty.Toasty
 import java.io.IOException
 
 
 class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
+    var hashMap_of_uid : HashMap<String, String>
+            = HashMap<String, String> ()
     private lateinit var locationCallback : LocationCallback
     private lateinit var locationRequest : LocationRequest
     private var locationUpdateState = false
@@ -103,6 +106,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
                                 for (snapshot in p0.children) {
                                     val username = snapshot.child("username").value.toString()
+                                    val email = snapshot.child("email").value.toString()
                                     val my_uid = snapshot.child("uid").value.toString()
                                     val my_url = snapshot.child("image_url").value.toString()
 
@@ -115,12 +119,12 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
                                             //context?.let { Toasty.error(it,xxx.toString(),Toast.LENGTH_LONG).show() }
                                         if(latitude != null && longitude != null){
-                                            context?.let { Toasty.success(it,username,Toast.LENGTH_LONG).show() }
+                                            //context?.let { Toasty.success(it,username,Toast.LENGTH_LONG).show() }
                                             val latlon = LatLng(latitude as Double,
                                                 longitude as Double
                                             )
-                                            val myLocation = mMap.addMarker(MarkerOptions().position(latlon!!).title(username))
-                                            myLocation.tag = my_uid
+                                            val myLocation = mMap.addMarker(MarkerOptions().position(latlon!!).title(username).snippet(email))
+                                            hashMap_of_uid[email] = my_uid
                                             BitMapToMap(myLocation,my_url)
                                         }
 
@@ -248,6 +252,8 @@ private fun BitMapToMap(markeer: Marker,URL:String){
                         if(snapshot.hasChild("lat") and snapshot.hasChild("lon")){
                             val myLocation = mMap.addMarker(MarkerOptions().position(LatLng(snapshot.child("lat").value.toString().toDouble(),snapshot.child("lot").value.toString().toDouble())).title(username))
                             myLocation.tag = my_uid
+                            Toast.makeText(context,my_uid,Toast.LENGTH_LONG).show()
+                            Log.e("THISISERROR",my_uid)
                             BitMapToMap(myLocation,my_url)
                         }
 
@@ -368,8 +374,29 @@ private fun BitMapToMap(markeer: Marker,URL:String){
     }
 
     override fun onMarkerClick(p0: Marker?): Boolean {
-        val uid = p0?.id.toString()
+        val hashmap_key = p0?.snippet
+        val options = arrayOf<CharSequence>(
+            "Send Message",
+            "Visit Profile"
+        )
+        val builder: AlertDialog.Builder? = context?.let { AlertDialog.Builder(it) }
+        builder?.setTitle("What do you want to do, bro?")
+        builder?.setItems(options, DialogInterface.OnClickListener{ dialog, position ->
+            if(position == 0) {
+                if(hashMap_of_uid[hashmap_key]!= null){
+                    val intent = Intent(context, MessageChatActivity::class.java)
+                    intent.putExtra("visit_id", hashMap_of_uid[hashmap_key])
+                    context?.startActivity(intent)
+                }
+            }
+            if(position == 1) {
+                //later
+                // MACHA NIRAN ADD IT HERE DAAAA IF YOU ARE WORKING ON THIS
+            }
 
+        })
+
+        builder?.show()
         return false
     }
 
@@ -419,8 +446,28 @@ private fun BitMapToMap(markeer: Marker,URL:String){
             setBounds(0, 0, 100, 100)
             val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
             draw(Canvas(bitmap))
-            BitmapDescriptorFactory.fromBitmap(bitmap)
+            BitmapDescriptorFactory.fromBitmap(getCircleBitmap(bitmap))
         }
+    }
+
+    private fun getCircleBitmap(bitmap: Bitmap): Bitmap? {
+        val output = Bitmap.createBitmap(
+            bitmap.width,
+            bitmap.height, Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(output)
+        val color: Int = Color.RED
+        val paint = Paint()
+        val rect = Rect(0, 0, bitmap.width, bitmap.height)
+        val rectF = RectF(rect)
+        paint.isAntiAlias = true
+        canvas.drawARGB(0, 0, 0, 0)
+        paint.color = color
+        canvas.drawOval(rectF, paint)
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        canvas.drawBitmap(bitmap, rect, rect, paint)
+        bitmap.recycle()
+        return output
     }
 
 }
