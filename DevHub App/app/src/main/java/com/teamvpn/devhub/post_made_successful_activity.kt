@@ -40,6 +40,7 @@ class post_made_successful_activity : AppCompatActivity() {
             }
         })
 
+
         // button to go back to previous activity
         button5.setOnClickListener{
             vibrator.vibrate(60)

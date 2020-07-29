@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:scrollbars="vertical"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MakeAnswers">
+
+        <TextView
+            android:id="@+id/textView016"
+            android:layout_width="333dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center|start"
+            android:maxWidth="74dp"
+            android:maxHeight="350dp"
+            android:text="This iss my quesstion, which i have been asking for ages together"
+            android:textColor="@color/app_color"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/textView017"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textView017"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView017"
+            android:layout_width="333dp"
+            android:layout_height="102dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center|start"
+            android:text="This is my doybt \n\n as o hei rg aoidh ao g akg ajhg aiurhg alvh aibnaiu hawir guwa r\n\n iauh aiurh pwiu "
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView016" />
+
+        <ImageView
+            android:id="@+id/imageView05"
+            android:layout_width="336dp"
+            android:layout_height="228dp"
+            android:layout_marginTop="40dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@+id/textView017"
+            app:layout_constraintHorizontal_bias="0.428"
+            app:layout_constraintStart_toStartOf="@+id/textView017"
+            app:layout_constraintTop_toBottomOf="@+id/textView017" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout06"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView017"
+        app:layout_constraintStart_toStartOf="@+id/textView017"
+        app:layout_constraintTop_toBottomOf="@+id/imageView05">
+
+        <Button
+            android:id="@+id/button07"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/windowBackground"
+            android:backgroundTint="?android:attr/windowBackground"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:text="Hey, I can answer it"
+            android:textColor="#0A53E0" />
+    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

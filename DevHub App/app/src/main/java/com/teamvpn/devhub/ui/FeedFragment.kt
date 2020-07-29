@@ -42,23 +42,55 @@ class FeedFragment : Fragment() {
         val refUsers = FirebaseDatabase.getInstance().reference
         val email = FirebaseAuth.getInstance().currentUser?.email
 
+        var MySkillArray = mutableListOf<String>()
+        val mySkillsRef = FirebaseDatabase.getInstance().reference.child("users/$firebaseUserID")
+        mySkillsRef.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.hasChild("skills")){
+                    val childSnapshot = snapshot.child("skills").children
+                    for(mychildsnapshot in childSnapshot){
+                        MySkillArray.add(mychildsnapshot.value.toString())
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+
         refUsers.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
-                if(p0.hasChild("posts/${firebaseUserID.toString()}")){
-                    for (snapshot in p0.child("posts/${firebaseUserID.toString()}").children) {
-                        if(p0.hasChild("posts/${firebaseUserID.toString()}")){
-                            val single_qn = snapshot.child("question_in_single_line").value.toString()
-                            val multi_line_qn = snapshot.child("question_in_brief").value.toString()
-                            val uidOfPoster = snapshot.child("uid").value.toString()
+                if(p0.hasChild("posts")){
+                    for (snapshot in p0.child("posts").children) {
+                        for(childSnapshot in snapshot.children){
+                            val skillArray = mutableListOf<String>()
+                            val date_time = childSnapshot.key.toString()
+                            val single_qn = childSnapshot.child("question_in_single_line").value.toString()
+                            val multi_line_qn = childSnapshot.child("question_in_brief").value.toString()
+                            val uidOfPoster = childSnapshot.child("uid").value.toString()
                             val profile_pic_url = p0.child("users/$uidOfPoster/image_url").value.toString()
-                            (posts as ArrayList<PostClass>).add(PostClass(single_qn,multi_line_qn,profile_pic_url))
-                            recyclerView_posts.adapter?.notifyDataSetChanged()
+                            val skillsArraySnapshot = childSnapshot.child("skills_selected").children
+                            for (skillsArray in skillsArraySnapshot){
+                               val check = skillsArray.value.toString()
+                                if(MySkillArray.contains(check)){
+                                    (posts as ArrayList<PostClass>).add(PostClass(date_time,uidOfPoster,single_qn,multi_line_qn,profile_pic_url))
+                                    recyclerView_posts.adapter?.notifyDataSetChanged()
+                                    break
+                                }else if(MySkillArray.isNullOrEmpty()){
+                                    (posts as ArrayList<PostClass>).add(PostClass(date_time,uidOfPoster,single_qn,multi_line_qn,profile_pic_url))
+                                    recyclerView_posts.adapter?.notifyDataSetChanged()
+                                }
+                            }
+
                         }
+
+
                     }
                 }else{
                     val somename = p0.child("users/$firebaseUserID/fullname").getValue().toString()
-                    (posts as ArrayList<PostClass>).add(PostClass("Hey!, $somename","We welcome you to our developer community. we expect you to not only post questions and get answers, also need to answer the questions.\nIts time to reskill india.\nJai Hindh, Team VPN, DEVHUB APP DEVELOPERS","https://avatars1.githubusercontent.com/u/68112921?s=400&u=afc1248f8a9f6fea26118be27d9d1a0475ac5cfd&v=4"))
-                        recyclerView_posts.adapter?.notifyDataSetChanged()
+                   // (posts as ArrayList<PostClass>).add(PostClass("Hey!, $somename","We welcome you to our developer community. we expect you to not only post questions and get answers, also need to answer the questions.\nIts time to reskill india.\nJai Hindh, Team VPN, DEVHUB APP DEVELOPERS","https://avatars1.githubusercontent.com/u/68112921?s=400&u=afc1248f8a9f6fea26118be27d9d1a0475ac5cfd&v=4"))
+                     //   recyclerView_posts.adapter?.notifyDataSetChanged()
                 }
 
                 }
