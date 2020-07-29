@@ -47,7 +47,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     private lateinit var locationRequest : LocationRequest
     private var locationUpdateState = false
     lateinit var user: FirebaseUser
-     var flagging = false
+    var flagging = false
     //Creating member variables
     var refUsers: DatabaseReference? = null
     //var refUsersMain: DatabaseReference? = null
@@ -117,7 +117,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
                                         val latitude = data["lat"]
                                         val longitude = data["lon"]
 
-                                            //context?.let { Toasty.error(it,xxx.toString(),Toast.LENGTH_LONG).show() }
+                                        //context?.let { Toasty.error(it,xxx.toString(),Toast.LENGTH_LONG).show() }
                                         if(latitude != null && longitude != null){
                                             //context?.let { Toasty.success(it,username,Toast.LENGTH_LONG).show() }
                                             val latlon = LatLng(latitude as Double,
@@ -144,21 +144,21 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
 
                 }
-                }
-
-
             }
+
 
         }
 
+    }
 
 
-private fun BitMapToMap(markeer: Marker,URL:String){
-    //val markeer = mMap.addMarker(MarkerOptions().position(LatLng(13.116881,77.634622)).title("demo"))
-    val marker = PicassoMarker(markeer)
-    //val URL = "https://avatars3.githubusercontent.com/u/65026677?s=400&u=6e5cce51fb0cbd296afb631a79531c18540acc51&v=4"
-    Picasso.get().load(URL).into(marker)
-}
+
+    private fun BitMapToMap(markeer: Marker,URL:String){
+        //val markeer = mMap.addMarker(MarkerOptions().position(LatLng(13.116881,77.634622)).title("demo"))
+        val marker = PicassoMarker(markeer)
+        //val URL = "https://avatars3.githubusercontent.com/u/65026677?s=400&u=6e5cce51fb0cbd296afb631a79531c18540acc51&v=4"
+        Picasso.get().load(URL).into(marker)
+    }
 
 
 
@@ -226,16 +226,16 @@ private fun BitMapToMap(markeer: Marker,URL:String){
         val view = inflater.inflate(R.layout.fragment_maps, container, false)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
-            locationCallback = object : LocationCallback(){
-                override fun onLocationResult(p0: LocationResult?) {
-                    super.onLocationResult(p0)
-                    val lastLocation = p0!!.lastLocation
+        locationCallback = object : LocationCallback(){
+            override fun onLocationResult(p0: LocationResult?) {
+                super.onLocationResult(p0)
+                val lastLocation = p0!!.lastLocation
 
-                   // placeMarker(LatLng(lastLocation.latitude, lastLocation.longitude))
-                }
+                // placeMarker(LatLng(lastLocation.latitude, lastLocation.longitude))
             }
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-            createLocationRequest()
+        }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        createLocationRequest()
 
         return view
     }
@@ -471,5 +471,4 @@ private fun BitMapToMap(markeer: Marker,URL:String){
     }
 
 }
-
 

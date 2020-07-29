@@ -117,17 +117,6 @@
         android:layout_centerHorizontal="true"
 
         >
-        <TextView
-            android:id="@+id/searchUsersET"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:hint="Suffering with Android :)"
-            android:textSize="20dp"
-            >
-        </TextView>
     </LinearLayout>
 
 </RelativeLayout>
