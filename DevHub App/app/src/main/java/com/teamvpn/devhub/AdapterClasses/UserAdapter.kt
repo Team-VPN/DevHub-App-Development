@@ -67,6 +67,8 @@ class UserAdapter (
                 if(position == 1)
                 {
                     //later
+                    // NOTE FROM ASV : DO THIS SHIT WHEN EVER YOU WANT BUT WHEN YOU ARE DOING THIS DO THE SAME IN
+                    // MAPS_FRAGMENT.KT FILE IN THE LINE NUMBER 393
                 }
 
 
