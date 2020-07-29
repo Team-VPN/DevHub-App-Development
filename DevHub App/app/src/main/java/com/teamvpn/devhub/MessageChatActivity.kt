@@ -55,7 +55,7 @@ class MessageChatActivity : AppCompatActivity() {
 
 
             override fun onDataChange(p0: DataSnapshot) {
-
+                T
                 val user: Users? = p0.getValue(Users::class.java)
                 username_mchat.text = user!!.getUserName()
                 Picasso.get().load(user.getProfile()).into(profile_image_mc)

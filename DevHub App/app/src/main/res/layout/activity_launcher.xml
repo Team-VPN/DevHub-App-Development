@@ -118,7 +118,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="23dp"
-        android:fontFamily="@font/handlee"
+        android:fontFamily="sans-serif-condensed-medium"
         android:text="DevHub"
         android:textColor="@color/colorPrimary"
         android:textSize="36sp"

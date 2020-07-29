@@ -1,34 +1,31 @@
 package com.teamvpn.devhub.ui
 
 import android.os.Bundle
+import android.text.LoginFilter
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
-import com.teamvpn.devhub.ModelClass.MyPostClass
+import com.teamvpn.devhub.MainActivity
+import com.teamvpn.devhub.MainActivity.Companion.myuserClass
+import com.teamvpn.devhub.ModelClass.MyUserClass
+import com.teamvpn.devhub.ModelClass.Users
+import com.teamvpn.devhub.NewUserInfo
 import com.teamvpn.devhub.R
+import com.teamvpn.devhub.User
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_main_chat.*
+import kotlinx.android.synthetic.main.fragment_profile.*
+import org.w3c.dom.Text
 
 
 class ProfileFragment : Fragment() {
-    companion object{
-        var NOTIFY_RECYCLER_VIEW = false
-    }
-    var count = 0
-    private lateinit var recyclerView_posts: RecyclerView
-    private lateinit var posts:List<MyPostClass>
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
     lateinit var user: FirebaseUser
     //Creating member variables
     var refUsers: DatabaseReference? = null
@@ -47,7 +44,7 @@ class ProfileFragment : Fragment() {
          username = view.findViewById<TextView>(R.id.textView3)
          email = view.findViewById<TextView>(R.id.textView4)
         profileImage = view.findViewById<CircleImageView>(R.id.profile_image)
-        var QuestionsAsked = view.findViewById<TextView>(R.id.textView2)
+
         firebaseUser = FirebaseAuth.getInstance().currentUser
         refUsers = FirebaseDatabase.getInstance().reference.child("users").child(firebaseUser!!.uid)
 
@@ -68,60 +65,11 @@ class ProfileFragment : Fragment() {
             }
         })
 
-
-        recyclerView_posts = view.findViewById(R.id.MyRecyclerView)
-        recyclerView_posts.isNestedScrollingEnabled = true
-        recyclerView_posts.setHasFixedSize(false)
-        recyclerView_posts.layoutManager = LinearLayoutManager(context)
-        recyclerView_posts.addItemDecoration(DividerItemDecoration(recyclerView_posts.context, DividerItemDecoration.VERTICAL))
-        posts = ArrayList()
-        val firebaseUserID = FirebaseAuth.getInstance().currentUser!!.uid
-
-        val refUserss = FirebaseDatabase.getInstance().reference
-
-
-
-        refUserss.addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if(p0.hasChild("posts/${firebaseUserID.toString()}")){
-                    for (snapshot in p0.child("posts/${firebaseUserID.toString()}").children) {
-                        if(p0.hasChild("posts/${firebaseUserID.toString()}")){
-                            count += 1
-                            val datetime = snapshot.key.toString()
-                            QuestionsAsked.text = count.toString()
-                            val single_qn = snapshot.child("question_in_single_line").value.toString()
-                            //val multi_line_qn = snapshot.child("question_in_brief").value.toString()
-                            //val uidOfPoster = snapshot.child("uid").value.toString()
-                            //val profile_pic_url = p0.child("users/$uidOfPoster/image_url").value.toString()
-                            (posts as ArrayList<MyPostClass>).add(MyPostClass(datetime,single_qn,"Not Answered"))
-                            recyclerView_posts.adapter?.notifyDataSetChanged()
-                        }
-                    }
-                }
-
-            }
-
-
-
-            override fun onCancelled(p0: DatabaseError) {
-
-
-
-            }
-        })
-
-        recyclerView_posts.adapter = context?.let { MyPostsAdapter(it,posts) }
-
         return view
     }
 
 
-    override fun onStart() {
-        super.onStart()
-        if(NOTIFY_RECYCLER_VIEW){
 
-        }
-    }
 
 
 }
