@@ -71,7 +71,6 @@ class SettingFragment : Fragment()
                         Picasso.get().load(user.getCover()).into(view.cover_image_settings)
                     }
                 }
-
             }
 
             override fun onCancelled(error: DatabaseError) {

@@ -145,8 +145,6 @@ class ChatAdapter(
             left_image_view = itemView.findViewById(R.id.left_image_view)
             text_seen = itemView.findViewById(R.id.text_seen)
             right_image_view = itemView.findViewById(R.id.right_image_view)
-
-
         }
     }
 
