@@ -34,6 +34,7 @@
             android:textColor="@android:color/white"
             android:background="@drawable/background_right"
             android:padding="8dp"
+            android:focusable="false"
             >
         </EditText>
 

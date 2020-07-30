@@ -24,6 +24,7 @@
         android:textSize="18sp"
         android:background="@drawable/background_left"
         android:padding="8dp"
+        android:focusable="false"
         >
     </EditText>
 
