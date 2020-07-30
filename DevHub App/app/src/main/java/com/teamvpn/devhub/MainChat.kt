@@ -20,6 +20,8 @@ import com.teamvpn.devhub.ModelClass.Users
 import com.teamvpn.devhub.mfragment.ChatsFragment
 import com.teamvpn.devhub.mfragment.SearchFragment
 import com.google.firebase.database.FirebaseDatabase
+import com.teamvpn.devhub.ModelClass.Chat
+import com.teamvpn.devhub.ModelClass.Chatlist
 import com.teamvpn.devhub.mfragment.SettingFragment
 import kotlinx.android.synthetic.main.activity_main_chat.*
 /* I dont know how, but this is working, as of now.
@@ -47,13 +49,54 @@ class MainChat : AppCompatActivity() {
 
         val tabLayout: TabLayout = findViewById(R.id.tablyt)
         val viewPager: ViewPager = findViewById(R.id.view_pager1)
-        val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
-        viewPagerAdapter.addFragment(ChatsFragment(), "Chats")
-        viewPagerAdapter.addFragment(SearchFragment(), "Search")
-        viewPagerAdapter.addFragment(SettingFragment(), "Settings")
+       //
 
-        viewPager.adapter = viewPagerAdapter
-        tabLayout.setupWithViewPager(viewPager)
+       // viewPagerAdapter.addFragment(ChatsFragment(), "Chats")
+       // viewPagerAdapter.addFragment(SearchFragment(), "Search")
+       // viewPagerAdapter.addFragment(SettingFragment(), "Settings")
+
+       // viewPager.adapter = viewPagerAdapter
+       // tabLayout.setupWithViewPager(viewPager)
+        val ref = FirebaseDatabase.getInstance().reference.child("Chats")
+        ref!!.addValueEventListener(object: ValueEventListener
+        {
+            override fun onDataChange(p0: DataSnapshot) {
+
+                val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
+                var countUnreadMessages = 0
+
+                for(dataSnapshot in p0.children)
+                {
+                    val chat = dataSnapshot.getValue(Chat::class.java)
+                    if(chat!!.getReceiver().equals(firebaseUser!!.uid) && !chat.isIsSeen())
+                    {
+                        countUnreadMessages += 1
+                    }
+                }
+
+                if(countUnreadMessages == 0)
+                {
+                    viewPagerAdapter.addFragment(ChatsFragment(), "Chats")
+                }
+                else
+                {
+                    viewPagerAdapter.addFragment(ChatsFragment(), "【$countUnreadMessages】Chats")
+                }
+                viewPagerAdapter.addFragment(SearchFragment(), "Search")
+                viewPagerAdapter.addFragment(SettingFragment(), "Settings")
+                viewPager.adapter = viewPagerAdapter
+                tabLayout.setupWithViewPager(viewPager)
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+
+
+            }
+        })
+
+
 
 
         //profile picture crap
