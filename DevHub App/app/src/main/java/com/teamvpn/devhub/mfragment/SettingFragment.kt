@@ -208,12 +208,13 @@ class SettingFragment : Fragment()
         progressBar.setMessage("Image is uploading, please wait!")
         progressBar.show()
 
-        if (imageUri!=null)
+        if (imageUri!=null && coverChecker == "cover")
         {
 
-            val fileRef = StorageRef!!.child(firebaseUser!!.uid.toString())
+            val fileRef = StorageRef!!.child(firebaseUser!!.uid.toString()+"Cover Pic")
 
             var uploadTask: StorageTask<*>
+
             uploadTask = fileRef.putFile(imageUri!!)
 
 
@@ -235,6 +236,54 @@ class SettingFragment : Fragment()
                     if(coverChecker == "cover")
                     {
                        val mapCoverImg = HashMap<String, Any>()
+                        mapCoverImg["cover"] = mUri
+                        UserReference!!.updateChildren(mapCoverImg)
+                        coverChecker = ""
+                    }
+                    else
+                    {
+                        val mapProfileImg = HashMap<String, Any>()
+                        mapProfileImg["profile"] = mUri
+                        UserReference!!.updateChildren(mapProfileImg)
+                        mapProfileImg["image_url"] = mUri
+                        UserReferenceM!!.updateChildren(mapProfileImg)
+                        coverChecker = ""
+
+
+
+                    }
+                    progressBar.dismiss()
+                }
+            }
+        }
+        else if (imageUri!=null)
+        {
+
+            val fileRef = StorageRef!!.child(firebaseUser!!.uid.toString())
+
+            var uploadTask: StorageTask<*>
+
+            uploadTask = fileRef.putFile(imageUri!!)
+
+
+            uploadTask.continueWithTask(Continuation < UploadTask.TaskSnapshot, Task<Uri>>{ task ->
+                if (!task.isSuccessful)
+                {
+                    task.exception?.let{
+                        throw it
+
+                    }
+                }
+                return@Continuation fileRef.downloadUrl
+            } ).addOnCompleteListener{ task ->
+                if (task.isSuccessful)
+                {
+                    val downloadUrl = task.result
+                    val mUri = downloadUrl.toString()
+
+                    if(coverChecker == "cover")
+                    {
+                        val mapCoverImg = HashMap<String, Any>()
                         mapCoverImg["cover"] = mUri
                         UserReference!!.updateChildren(mapCoverImg)
                         coverChecker = ""

@@ -54,7 +54,7 @@ class MessageChatActivity : AppCompatActivity() {
         supportActionBar!!.title = ""
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener{
-            
+
             finish()
         }
 
