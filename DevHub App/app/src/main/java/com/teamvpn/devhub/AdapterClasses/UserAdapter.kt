@@ -54,15 +54,14 @@ class UserAdapter (
                 "Visit Profile"
             )
             val builder: AlertDialog.Builder = AlertDialog.Builder(mContext)
-            builder.setTitle("What do you want to do, bro?")
+            builder.setTitle("User options:")
             builder.setItems(options, DialogInterface.OnClickListener{ dialog, position ->
                 if(position == 0)
                 {
                     val intent = Intent(mContext, MessageChatActivity::class.java)
                     intent.putExtra("visit_id", user.getUID())
                     mContext.startActivity(intent)
-
-
+                    
                 }
                 if(position == 1)
                 {
