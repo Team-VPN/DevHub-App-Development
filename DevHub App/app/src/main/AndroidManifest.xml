@@ -80,7 +80,7 @@
         <!--************Messaging shit**************** -->
         <service
             android:name=".Notifications.MyFirebaseMessaging"
-            android:exported="false"
+            android:exported="true"
             android:enabled="true"
             >
             <intent-filter>
@@ -89,9 +89,9 @@
         </service>
 
         <service
-            android:name="Notifications.MyFirebaseInstanceId"
+            android:name=".Notifications.MyFirebaseInstanceId"
             android:exported="true"
-            android:enabled="true"            >
+            android:enabled="true">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

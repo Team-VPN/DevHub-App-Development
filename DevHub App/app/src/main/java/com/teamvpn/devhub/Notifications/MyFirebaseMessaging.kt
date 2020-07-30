@@ -31,8 +31,11 @@ class MyFirebaseMessaging: FirebaseMessagingService()
 
         if(firebaseUser!=null && sented==firebaseUser.uid)
         {
-            if(CurrentOnlineUser != null)
+            if(CurrentOnlineUser != user)
             {
+                // We basically need to follow different shitty type of sending the notifications where
+                // phones above Oreo (O) have one format for the same and other type
+                // of phones for have different type of date
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 {
                     sendOreoNotification(mRemoteMessage)

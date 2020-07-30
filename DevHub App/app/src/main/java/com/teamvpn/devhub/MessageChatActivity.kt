@@ -24,7 +24,12 @@ import com.squareup.picasso.Picasso
 import com.teamvpn.devhub.AdapterClasses.ChatAdapter
 import com.teamvpn.devhub.ModelClass.Chat
 import com.teamvpn.devhub.ModelClass.Users
+import com.teamvpn.devhub.Notifications.*
+import com.teamvpn.devhub.mfragment.APIService
 import kotlinx.android.synthetic.main.activity_message_chat.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MessageChatActivity : AppCompatActivity() {
 
@@ -34,6 +39,9 @@ class MessageChatActivity : AppCompatActivity() {
     var mChatList: List<Chat>? = null
     lateinit var recycler_view_chat: RecyclerView
     var reference: DatabaseReference? = null
+
+    var notify = false
+    var apiService : APIService? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +58,9 @@ class MessageChatActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        apiService = Client.Client.getClient("https://fcm.googleapis.com/")!!.create(APIService::class.java)
+
 
         intent = intent
         userIdVisit = intent.getStringExtra("visit_id")
@@ -86,6 +97,7 @@ class MessageChatActivity : AppCompatActivity() {
         })
 
         send_message_btn.setOnClickListener {
+            notify = true
             val message = text_message.text.toString()
             if (message == "")
                 {
@@ -101,6 +113,7 @@ class MessageChatActivity : AppCompatActivity() {
         }
 
         attach_image_file_btn.setOnClickListener {
+            notify = true
             val intent = Intent()
             intent.action = Intent.ACTION_GET_CONTENT
             intent.type = "image/*"
@@ -163,16 +176,94 @@ class MessageChatActivity : AppCompatActivity() {
                         }
                     })
 
-
-
                     //use fcm
-
-                    val reference = FirebaseDatabase.getInstance().reference.child("ChatUsersDB").child(firebaseUser!!.uid)
 
                     //later = Push notifications
                 }
             }
+        val usersReference = FirebaseDatabase.getInstance().reference.child("ChatUsersDB").child(firebaseUser!!.uid)
+
+        usersReference.addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(p0: DataSnapshot)
+            {
+                val user = p0.getValue(Users::class.java)
+                if(notify)
+                {
+                    sendNotification(receiverId, user!!.getUserName(), message)
+                }
+                notify = false
+
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+
+
+            }
+        })
+
+
         }
+
+    private fun sendNotification(receiverId: String?, userName: String?, message: String)
+    {
+
+        val ref = FirebaseDatabase.getInstance().getReference().child("Tokens")
+        val query = ref.orderByKey().equalTo(receiverId)
+        query.addValueEventListener(object: ValueEventListener
+        {
+            override fun onDataChange(p0: DataSnapshot)
+            {
+                for (dataSnapshot in p0.children)
+                {
+                    val token: Token? = dataSnapshot.getValue(Token::class.java)
+
+                    val data = Data(
+                        firebaseUser!!.uid,
+                        R.mipmap.ic_launcher,
+                        "$userName : $message",
+                        "New Message!",
+                        userIdVisit
+                        )
+
+                    val sender = Sender(data!!, token!!.getToken().toString())
+                    apiService!!.sendNotification(sender)
+                        .enqueue(object: Callback<MyResponse>
+                        {
+                            override fun onResponse(
+                                call: Call<MyResponse>,
+                                response: Response<MyResponse>
+                            )
+                            {
+                                if(response.code() == 200)
+                                {
+                                    if(response.body()!!.success !== 1)
+                                    {
+                                        Toast.makeText(this@MessageChatActivity, "Failed, Nothing happened", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+
+                            }
+
+                            override fun onFailure(call: Call<MyResponse>, t: Throwable) {
+
+
+                            }
+
+
+                        })
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+
+            }
+        })
+
+
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -220,6 +311,35 @@ class MessageChatActivity : AppCompatActivity() {
 
 
                     ref.child("Chats").child(messageId!!).setValue(messagehashMap)
+                        .addOnCompleteListener{ task ->
+                            if (task.isSuccessful)
+                            {
+                                //use fcm
+
+                                val reference = FirebaseDatabase.getInstance().reference.child("ChatUsersDB").child(firebaseUser!!.uid)
+
+                                reference.addValueEventListener(object: ValueEventListener{
+                                    override fun onDataChange(p0: DataSnapshot)
+                                    {
+                                        val user = p0.getValue(Users::class.java)
+                                        if(notify)
+                                        {
+                                            sendNotification(userIdVisit, user!!.getUserName(), "sent you an image.")
+                                        }
+                                        notify = false
+
+
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+
+
+
+                                    }
+                                })
+                            }
+
+                        }
 
                     progressBar.dismiss()
 

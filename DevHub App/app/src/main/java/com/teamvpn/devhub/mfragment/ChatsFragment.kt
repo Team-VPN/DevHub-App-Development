@@ -14,9 +14,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.iid.FirebaseInstanceId
 import com.teamvpn.devhub.AdapterClasses.UserAdapter
 import com.teamvpn.devhub.ModelClass.Chatlist
 import com.teamvpn.devhub.ModelClass.Users
+import com.teamvpn.devhub.Notifications.Token
 import com.teamvpn.devhub.R
 
 
@@ -68,7 +70,17 @@ class ChatsFragment : Fragment() {
 
 
 
+        updateToken(FirebaseInstanceId.getInstance().token)
+
+
         return view
+    }
+
+    private fun updateToken(token: String?) {
+
+        val ref = FirebaseDatabase.getInstance().reference.child("Tokens")
+        val token1 = Token(token!!)
+        ref.child(firebaseUser!!.uid).setValue(token1)
     }
 
     private fun retrieveChatList()
