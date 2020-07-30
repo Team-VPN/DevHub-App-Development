@@ -17,21 +17,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="user name"
+        android:fontFamily="@font/amaranth"
         android:layout_toRightOf="@+id/sprofile_image"
-        android:layout_centerInParent="true"
+        android:textColor="@color/usernaam"
         android:textSize="19sp"
+        android:layout_marginTop="11dp"
+        android:layout_marginBottom="0dp"
         android:layout_marginLeft="12dp">
 
     </TextView>
     <!--Online button crap-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_online"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
         android:src="@drawable/profile"
         app:civ_border_color="#05df29"
         android:layout_below = "@+id/susername"
-        app:civ_border_width="12dp"
+        app:civ_border_width="7dp"
         android:layout_marginTop="13dp"
         android:layout_marginLeft="-16dp"
         android:layout_toEndOf="@+id/sprofile_image"
@@ -42,12 +45,12 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_offline"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
         android:src="@drawable/profile"
         app:civ_border_color="#bfbfbf"
         android:layout_below = "@+id/susername"
-        app:civ_border_width="12dp"
+        app:civ_border_width="7dp"
         android:layout_marginTop="13dp"
         android:layout_marginLeft="-16dp"
         android:layout_toEndOf="@+id/sprofile_image"
@@ -61,10 +64,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/sprofile_image"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="0dp"
         android:padding="6dp"
         android:textSize="15sp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="25dp"
         android:maxLines="1"
         android:textColor="@color/colorPrimaryDark">
 

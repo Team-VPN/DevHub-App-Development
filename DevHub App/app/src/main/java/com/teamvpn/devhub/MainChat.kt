@@ -143,4 +143,26 @@ class MainChat : AppCompatActivity() {
             return titles[i]
         }
     }
+
+    private fun updateStstus(status: String)
+    {
+        val ref = FirebaseDatabase.getInstance() .reference.child("ChatUsersDB").child(firebaseUser!!.uid)
+
+        val hashMap = HashMap<String, Any>()
+        hashMap["status"] = status
+        ref!!.updateChildren(hashMap)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateStstus("online")
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        updateStstus("offline")
+    }
+
 }
