@@ -105,6 +105,12 @@ class ViewPosts : AppCompatActivity() {
 
                     }
                     if(position == 1) {
+
+                        val intent = Intent(this@ViewPosts, VisitUserProfileActivity::class.java)
+                        intent.putExtra("visit_id", uid)
+                        startActivity(intent)
+
+                        //DONE - Niran
                         //later
                         // MACHA NIRAN ADD IT HERE DAAAA IF YOU ARE WORKING ON THIS
                         // also do the same in ViewPosts Activity also, i have used the same alert box

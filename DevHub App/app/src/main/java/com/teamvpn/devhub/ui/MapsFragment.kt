@@ -36,6 +36,7 @@ import com.squareup.picasso.Picasso
 import com.teamvpn.devhub.MainActivity
 import com.teamvpn.devhub.MessageChatActivity
 import com.teamvpn.devhub.R
+import com.teamvpn.devhub.VisitUserProfileActivity
 import es.dmoral.toasty.Toasty
 import java.io.IOException
 
@@ -390,6 +391,13 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
                 }
             }
             if(position == 1) {
+
+                val intent = Intent(context, VisitUserProfileActivity::class.java)
+                intent.putExtra("visit_id", hashMap_of_uid[hashmap_key])
+                context?.startActivity(intent)
+
+                //DONE - Niran
+
                 //later
                 // MACHA NIRAN ADD IT HERE DAAAA IF YOU ARE WORKING ON THIS
                 // also do the same in ViewPosts Activity also, i have used the same alert box, line num 110 around somewehere in button7.setOnClickListener{ }

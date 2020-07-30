@@ -20,6 +20,7 @@ import com.teamvpn.devhub.MessageChatActivity
 import com.teamvpn.devhub.ModelClass.Chat
 import com.teamvpn.devhub.ModelClass.Users
 import com.teamvpn.devhub.R
+import com.teamvpn.devhub.VisitUserProfileActivity
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main_chat.*
 
@@ -102,6 +103,10 @@ class UserAdapter (
                 }
                 if(position == 1)
                 {
+                    val intent = Intent(mContext, VisitUserProfileActivity::class.java)
+                    intent.putExtra("visit_id", user.getUID())
+                    mContext.startActivity(intent)
+
                     //later
                     // NOTE FROM ASV : DO THIS SHIT WHEN EVER YOU WANT BUT WHEN YOU ARE DOING THIS DO THE SAME IN
                     // MAPS_FRAGMENT.KT FILE IN THE LINE NUMBER 393
