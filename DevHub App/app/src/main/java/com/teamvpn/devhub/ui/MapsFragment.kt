@@ -392,6 +392,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
             if(position == 1) {
                 //later
                 // MACHA NIRAN ADD IT HERE DAAAA IF YOU ARE WORKING ON THIS
+                // also do the same in ViewPosts Activity also, i have used the same alert box, line num 110 around somewehere in button7.setOnClickListener{ }
             }
 
         })

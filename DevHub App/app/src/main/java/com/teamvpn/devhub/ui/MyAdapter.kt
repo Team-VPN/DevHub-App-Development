@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.teamvpn.devhub.MainActivity.Companion.vibrator
 import com.teamvpn.devhub.MakeAnswers
+import com.teamvpn.devhub.MakeAnswers.Companion.companionChild
+import com.teamvpn.devhub.MakeAnswers.Companion.companionUID
 import com.teamvpn.devhub.ModelClass.PostClass
 import com.teamvpn.devhub.R
 import com.teamvpn.devhub.SayAnswer
@@ -81,8 +83,10 @@ class MyAdapter(mContext: Context, myDataset: List<PostClass>):
         MyHoder.commentBtn.setOnClickListener {
             vibrator.vibrate(60)
             val intent = Intent(mContext, SayAnswer::class.java)
-            intent.putExtra("GetUserID",posts.uidOfPoster)
-            intent.putExtra("dateTime", posts.date_time)
+            companionUID = posts.uidOfPoster.toString()
+            companionChild = posts.date_time.toString()
+            intent.putExtra("GetUserID",posts.uidOfPoster.toString())
+            intent.putExtra("dateTime", posts.date_time.toString())
             mContext.startActivity(intent)
         }
 

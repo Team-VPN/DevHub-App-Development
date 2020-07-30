@@ -1,5 +1,7 @@
 package com.teamvpn.devhub
 
+import android.content.DialogInterface
+import android.content.Intent
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +15,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
+import com.teamvpn.devhub.MainActivity.Companion.vibrator
 import com.teamvpn.devhub.ModelClass.MyPostClass
 import kotlinx.android.synthetic.main.activity_view_posts.*
 
@@ -21,6 +24,7 @@ class ViewPosts : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_posts)
+        var uid = ""
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         val keyChild = intent.getStringExtra("dateTime")
         val firebaseUserID = FirebaseAuth.getInstance().currentUser!!.uid
@@ -40,18 +44,31 @@ class ViewPosts : AppCompatActivity() {
                             }else{
                                 imageView5.visibility = View.GONE
                             }
-                if(current_post.hasChild("Answers")){
-                    val ans_current_post = current_post.child("Answers")
-                    hasAnswer = true
-                    textView18.visibility = View.VISIBLE
-                    button7.visibility = View.VISIBLE
-                    textView19.visibility = View.VISIBLE
-                    if(ans_current_post.hasChild("image_uri")){
-                        Picasso.get().load(ans_current_post.child("image_uri").toString()).placeholder(R.drawable.cover).into(imageView7)
-                        imageView7.visibility = View.VISIBLE
-                    }else{
-                        imageView7.visibility = View.GONE
+                if(current_post.hasChild("answers")){
+                    val allAnswers = current_post.child("answers").children
+                    for (allansUID in allAnswers){
+                        val uidOfUser = allansUID.child("uid").value.toString()
+                        val emailOfuidOfUser = p0.child("users/$uidOfUser/email").value.toString()
+                        uid = uidOfUser
+                        button7.text = emailOfuidOfUser
+                        val answerToQn = allansUID.child("answer").value.toString()
+                        textView19.text = answerToQn
+                        textView18.visibility = View.VISIBLE
+                        button7.visibility = View.VISIBLE
+                        textView19.visibility = View.VISIBLE
+
+                        if(allansUID.hasChild("image_url")){
+                            val image_url = allansUID.child("image_url").value.toString()
+                            imageView7.visibility = View.VISIBLE
+                            Picasso.get().load(image_url).into(imageView7)
+                            break
+                        }else{
+                            break
+                        }
                     }
+                    hasAnswer = true
+
+
                 }else{
                     textView18.visibility = View.GONE
                     button7.visibility = View.GONE
@@ -70,6 +87,34 @@ class ViewPosts : AppCompatActivity() {
 
             }
         })
+
+        button7.setOnClickListener {
+            if(uid!=""){
+                vibrator.vibrate(60)
+                val options = arrayOf<CharSequence>(
+                    "Send Message",
+                    "Visit Profile"
+                )
+                val builder: AlertDialog.Builder? =  AlertDialog.Builder(this)
+                builder?.setTitle("What do you want to do, bro?")
+                builder?.setItems(options, DialogInterface.OnClickListener{ dialog, position ->
+                    if(position == 0) {
+                            val intent = Intent(this@ViewPosts, MessageChatActivity::class.java)
+                            intent.putExtra("visit_id", uid)
+                            startActivity(intent)
+
+                    }
+                    if(position == 1) {
+                        //later
+                        // MACHA NIRAN ADD IT HERE DAAAA IF YOU ARE WORKING ON THIS
+                        // also do the same in ViewPosts Activity also, i have used the same alert box
+                    }
+
+                })
+
+                builder?.show()
+            }
+        }
 
     }
 

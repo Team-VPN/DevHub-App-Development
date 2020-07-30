@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import com.teamvpn.devhub.ModelClass.MyPostClass
+import com.teamvpn.devhub.ModelClass.PostClass
 import com.teamvpn.devhub.R
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -24,6 +25,7 @@ class ProfileFragment : Fragment() {
     companion object{
         var NOTIFY_RECYCLER_VIEW = false
     }
+    var answerCount = 0
     var count = 0
     private lateinit var recyclerView_posts: RecyclerView
     private lateinit var posts:List<MyPostClass>
@@ -48,6 +50,8 @@ class ProfileFragment : Fragment() {
          email = view.findViewById<TextView>(R.id.textView4)
         profileImage = view.findViewById<CircleImageView>(R.id.profile_image)
         var QuestionsAsked = view.findViewById<TextView>(R.id.textView2)
+        var QuestionsAnswered = view.findViewById<TextView>(R.id.textView12)
+
         firebaseUser = FirebaseAuth.getInstance().currentUser
         refUsers = FirebaseDatabase.getInstance().reference.child("users").child(firebaseUser!!.uid)
 
@@ -79,7 +83,31 @@ class ProfileFragment : Fragment() {
 
         val refUserss = FirebaseDatabase.getInstance().reference
 
+        val checkAnswersCount = FirebaseDatabase.getInstance().reference
 
+        checkAnswersCount.addValueEventListener(object :ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(ssnapshot: DataSnapshot) {
+                if(ssnapshot.hasChild("posts")){
+                    for (snapshot in ssnapshot.child("posts").children) {
+                        for(childSnapshot in snapshot.children){
+                            val skillsArraySnapshot = childSnapshot.child("answers").children
+                            for (skillsArray in skillsArraySnapshot){
+                                answerCount = answerCount + 1
+                                QuestionsAnswered.text = answerCount.toString()
+                            }
+
+                        }
+
+
+                    }
+                }
+            }
+
+        } )
 
         refUserss.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -90,11 +118,16 @@ class ProfileFragment : Fragment() {
                             val datetime = snapshot.key.toString()
                             QuestionsAsked.text = count.toString()
                             val single_qn = snapshot.child("question_in_single_line").value.toString()
+                            if(snapshot.hasChild("answers")){
+                                (posts as ArrayList<MyPostClass>).add(MyPostClass(datetime,single_qn,"Answered"))
+                                recyclerView_posts.adapter?.notifyDataSetChanged()
+                            }else{
+                                (posts as ArrayList<MyPostClass>).add(MyPostClass(datetime,single_qn,"Not Answered"))
+                                recyclerView_posts.adapter?.notifyDataSetChanged()
+                            }
                             //val multi_line_qn = snapshot.child("question_in_brief").value.toString()
                             //val uidOfPoster = snapshot.child("uid").value.toString()
                             //val profile_pic_url = p0.child("users/$uidOfPoster/image_url").value.toString()
-                            (posts as ArrayList<MyPostClass>).add(MyPostClass(datetime,single_qn,"Not Answered"))
-                            recyclerView_posts.adapter?.notifyDataSetChanged()
                         }
                     }
                 }
@@ -115,13 +148,6 @@ class ProfileFragment : Fragment() {
         return view
     }
 
-
-    override fun onStart() {
-        super.onStart()
-        if(NOTIFY_RECYCLER_VIEW){
-
-        }
-    }
 
 
 }

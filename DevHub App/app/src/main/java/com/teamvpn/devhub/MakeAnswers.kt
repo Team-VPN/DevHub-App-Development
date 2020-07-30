@@ -14,6 +14,10 @@ import kotlinx.android.synthetic.main.activity_make_answers.*
 import kotlinx.android.synthetic.main.activity_view_posts.*
 
 class MakeAnswers : AppCompatActivity() {
+    companion object{
+        lateinit var companionChild:String
+        lateinit var companionUID:String
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,19 +31,23 @@ class MakeAnswers : AppCompatActivity() {
 
         refUserss.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
-                val current_post = p0.child("posts/${uid_of_the_qn_seeker.toString()}/$keyChild")
-                textView016.text = current_post.child("question_in_single_line").value.toString()
-                textView017.text = current_post.child("question_in_brief").value.toString()
-                if(current_post.hasChild("image_uri")){
-                    val url = current_post.child("image_uri").value.toString()
-                    Picasso.get().load(url).into(imageView05)
-                    imageView05.visibility = View.VISIBLE
-                }else{
-                    imageView05.visibility = View.GONE
+                if(uid_of_the_qn_seeker!=null){
+                    val current_post = p0.child("posts/${uid_of_the_qn_seeker.toString()}/$keyChild")
+                    companionUID = uid_of_the_qn_seeker
+                    companionChild = keyChild
+                    textView016.text = current_post.child("question_in_single_line").value.toString()
+                    textView017.text = current_post.child("question_in_brief").value.toString()
+                    if(current_post.hasChild("image_uri")){
+                        val url = current_post.child("image_uri").value.toString()
+                        Picasso.get().load(url).into(imageView05)
+                        imageView05.visibility = View.VISIBLE
+                    }else{
+                        imageView05.visibility = View.GONE
+                    }
                 }
 
-            }
 
+            }
             override fun onCancelled(p0: DatabaseError) {
 
             }
@@ -47,8 +55,8 @@ class MakeAnswers : AppCompatActivity() {
 
         button07.setOnClickListener {
             val intent = Intent(this@MakeAnswers,SayAnswer::class.java)
-            intent.putExtra("postUserUID",uid_of_the_qn_seeker)
-            intent.putExtra("dateTime",keyChild)
+            intent.putExtra("postUserUID",uid_of_the_qn_seeker.toString())
+            intent.putExtra("dateTime",keyChild.toString())
             startActivity(intent)
         }
 
