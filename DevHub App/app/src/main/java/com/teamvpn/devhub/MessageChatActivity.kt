@@ -26,6 +26,7 @@ import com.teamvpn.devhub.ModelClass.Chat
 import com.teamvpn.devhub.ModelClass.Users
 import com.teamvpn.devhub.Notifications.*
 import com.teamvpn.devhub.mfragment.APIService
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_message_chat.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -236,11 +237,9 @@ class MessageChatActivity : AppCompatActivity() {
                                 response: Response<MyResponse>
                             )
                             {
-                                if(response.code() == 200)
-                                {
-                                    if(response.body()!!.success !== 1)
-                                    {
-                                        Toast.makeText(this@MessageChatActivity, "Failed, Nothing happened", Toast.LENGTH_SHORT).show()
+                                if(response.code() == 200) {
+                                    if(response.body()!!.success !== 1) {
+                                        Toasty.error(this@MessageChatActivity, "Failed, Nothing happened", Toast.LENGTH_SHORT).show()
                                     }
                                 }
 

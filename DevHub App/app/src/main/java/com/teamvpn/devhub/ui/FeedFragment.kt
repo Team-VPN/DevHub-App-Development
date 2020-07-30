@@ -13,10 +13,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.iid.FirebaseInstanceId
 import com.teamvpn.devhub.AdapterClasses.UserAdapter
 import com.teamvpn.devhub.MainActivity.Companion.auth
 import com.teamvpn.devhub.ModelClass.PostClass
 import com.teamvpn.devhub.ModelClass.Users
+import com.teamvpn.devhub.Notifications.Token
 import com.teamvpn.devhub.R
 
 
@@ -36,6 +38,8 @@ class FeedFragment : Fragment() {
         recyclerView_posts.layoutManager = LinearLayoutManager(context)
         recyclerView_posts.addItemDecoration(DividerItemDecoration(recyclerView_posts.context, DividerItemDecoration.VERTICAL))
         posts = ArrayList()
+
+        updateToken(FirebaseInstanceId.getInstance().token)
 
         val firebaseUserID = FirebaseAuth.getInstance().currentUser!!.uid
 
@@ -109,4 +113,12 @@ class FeedFragment : Fragment() {
         recyclerView_posts.adapter = context?.let { MyAdapter(it,posts) }
     return view
     }
+
+    private fun updateToken(token: String?) {
+
+        val ref = FirebaseDatabase.getInstance().reference.child("Tokens")
+        val token1 = Token(token!!)
+        ref.child(FirebaseAuth.getInstance().currentUser!!.uid).setValue(token1)
+    }
+
 }

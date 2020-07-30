@@ -7,18 +7,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
+import com.teamvpn.devhub.MainActivity.Companion.username
 import com.teamvpn.devhub.MainActivity.Companion.vibrator
 import com.teamvpn.devhub.MakeAnswers
 import com.teamvpn.devhub.MakeAnswers.Companion.companionChild
 import com.teamvpn.devhub.MakeAnswers.Companion.companionUID
 import com.teamvpn.devhub.ModelClass.PostClass
+import com.teamvpn.devhub.Notifications.*
 import com.teamvpn.devhub.R
 import com.teamvpn.devhub.SayAnswer
+import com.teamvpn.devhub.mfragment.APIService
 import de.hdodenhof.circleimageview.CircleImageView
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.item_view_posts_recycler_view.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MyAdapter(mContext: Context, myDataset: List<PostClass>):
@@ -72,6 +85,7 @@ class MyAdapter(mContext: Context, myDataset: List<PostClass>):
         MyHoder.likeBtn.setOnClickListener {
             MediaPlayer.create(mContext,R.raw.like_button).start()
             if(MyHoder.state_of_likeBtn){
+                sendNotification(posts.uidOfPoster, username)
                 MyHoder.likeBtn.setImageResource(R.drawable.like_button)
                 MyHoder.state_of_likeBtn = false
             }else{
@@ -99,6 +113,69 @@ class MyAdapter(mContext: Context, myDataset: List<PostClass>):
              mContext.startActivity(sendIntent)
 
         }
+    }
+
+    private fun sendNotification(receiverId: String?, userName: String?) {
+        val firebaseUser = FirebaseAuth.getInstance().currentUser!!.uid
+
+        val ref = FirebaseDatabase.getInstance().getReference().child("Tokens")
+        val query = ref.orderByKey().equalTo(receiverId)
+        query.addValueEventListener(object: ValueEventListener
+        {
+            override fun onDataChange(p0: DataSnapshot)
+            {
+                for (dataSnapshot in p0.children)
+                {
+                    val token: Token? = dataSnapshot.getValue(Token::class.java)
+
+                    val data = receiverId?.let {
+                        Data(
+                            firebaseUser,
+                            R.mipmap.ic_launcher,
+                            "$userName has liked your question. Open the app to view the answer.",
+                            "Hey!, your question is liked and followed by someone",
+                            it
+                        )
+                    }
+                    val apiService = Client.Client.getClient("https://fcm.googleapis.com/")!!.create(
+                        APIService::class.java)
+
+                    val sender = Sender(data!!, token!!.getToken().toString())
+                    apiService!!.sendNotification(sender)
+                        .enqueue(object: Callback<MyResponse>
+                        {
+                            override fun onResponse(
+                                call: Call<MyResponse>,
+                                response: Response<MyResponse>
+                            )
+                            {
+                                if(response.code() == 200)
+                                {
+                                    if(response.body()!!.success !== 1)
+                                    {
+                                        Toasty.error(mContext, "Failed, Nothing happened", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+
+                            }
+
+                            override fun onFailure(call: Call<MyResponse>, t: Throwable) {
+
+
+                            }
+
+
+                        })
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+
+            }
+        })
+
+
     }
 
 }
