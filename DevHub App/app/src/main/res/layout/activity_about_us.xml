@@ -231,6 +231,23 @@
             android:textColor="@color/name_color"
             android:textSize="20sp"
             android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="10dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Contact me!"
+            android:background="#ffffff"
+            android:backgroundTint="#ffffff"
+            android:textColor="@color/name_color"
+            android:textSize="15sp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -270,6 +287,23 @@
             android:textColor="@color/name_color"
             android:textSize="20sp"
             android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="10dp">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Contact me!"
+                android:background="#ffffff"
+                android:backgroundTint="#ffffff"
+                android:textColor="@color/name_color"
+                android:textSize="15sp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -309,6 +343,23 @@
             android:textColor="@color/name_color"
             android:textSize="20sp"
             android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="10dp">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Contact me!"
+                android:background="#ffffff"
+                android:backgroundTint="#ffffff"
+                android:textColor="@color/name_color"
+                android:textSize="15sp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
