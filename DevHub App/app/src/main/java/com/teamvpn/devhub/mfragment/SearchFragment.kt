@@ -18,7 +18,6 @@ import com.google.firebase.database.ValueEventListener
 import com.teamvpn.devhub.AdapterClasses.UserAdapter
 import com.teamvpn.devhub.ModelClass.Users
 import com.teamvpn.devhub.R
-import kotlinx.android.synthetic.main.fragment_search.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,7 +44,7 @@ class SearchFragment : Fragment() {
         val view : View =  inflater.inflate(R.layout.fragment_search, container, false)
 
         recyclerView = view.findViewById(R.id.searchList)
-        recyclerView!!.setHasFixedSize(true)
+        recyclerView!!.setHasFixedSize(false)
         recyclerView!!.layoutManager = LinearLayoutManager(context)
         searchEditText = view.findViewById(R.id.searchUsersET)
 
@@ -96,9 +95,12 @@ class SearchFragment : Fragment() {
                         }
                     }
 
-                    userAdapter = UserAdapter(context!!, mUsers!!, false)
-                    recyclerView!!.adapter = userAdapter
+                    //userAdapter = UserAdapter(context, mUsers, false)
+                    userAdapter = UserAdapter(context, mUsers!!, false)
+                   recyclerView!!.adapter = userAdapter
+
                 }
+                
 
             }
 
@@ -131,7 +133,7 @@ class SearchFragment : Fragment() {
                         (mUsers as ArrayList<Users>).add(user)
                     }
                 }
-                userAdapter = UserAdapter(context!!, mUsers!!, false)
+                userAdapter = UserAdapter(context, mUsers!!, false)
                 recyclerView!!.adapter = userAdapter
 
             }

@@ -15,31 +15,35 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
-import com.teamvpn.devhub.MainChat
 import com.teamvpn.devhub.MessageChatActivity
 import com.teamvpn.devhub.ModelClass.Chat
 import com.teamvpn.devhub.ModelClass.Users
 import com.teamvpn.devhub.R
 import com.teamvpn.devhub.VisitUserProfileActivity
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_main_chat.*
 
-class UserAdapter (
-    mContext: Context,
+class UserAdapter(
+    // ? mark
+    mContext: Context?,
     mUsers: List<Users>,
     isChatCheck: Boolean
     ) : RecyclerView.Adapter<UserAdapter.ViewHolder?>()
 {
 
-    private val mContext: Context
-    private val mUsers: List<Users>
+    lateinit var mContext: Context
+    var mUsers: List<Users>
     private var isChatCheck: Boolean
     var lastMsg: String = ""
 
 
     init {
         this.mUsers = mUsers
-        this.mContext = mContext
+        //if (mContext != null) {
+        //    this.mContext = mContext
+       // }
+        if (mContext != null) {
+            this.mContext = mContext
+        }
         this.isChatCheck = isChatCheck
     }
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -53,7 +57,7 @@ class UserAdapter (
 
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
         val user: Users = mUsers[i]
-        holder.userNameTxt.text = user!!.getUserName()
+        holder.userNameTxt.text = user.getUserName()
         Picasso.get().load(user.getProfile()).placeholder(R.drawable.profile).into(holder.profileImageView)
 
 

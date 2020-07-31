@@ -1,7 +1,6 @@
 package com.teamvpn.devhub.mfragment
 
 import android.os.Bundle
-import android.os.RecoverySystem
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -105,7 +104,8 @@ class ChatsFragment : Fragment() {
                         }
                     }
                 }
-                userAdapter = UserAdapter(context!!, (mUsers as ArrayList<Users>), true)
+                //userAdapter = UserAdapter(context!!, (mUsers as ArrayList<Users>), true)
+                userAdapter = UserAdapter(context, (mUsers as ArrayList<Users>), true)
                 recycler_view_chatlist.adapter = userAdapter
 
 
