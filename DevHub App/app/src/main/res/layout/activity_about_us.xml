@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#ffffff"
     android:layout_height="match_parent"
     tools:context=".about_us">
     <LinearLayout
@@ -239,14 +240,15 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="10dp">
         <Button
+            android:id="@+id/contact_vallabha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
-            android:text="Contact me!"
+            android:text="Click to contact me!"
             android:background="#ffffff"
             android:backgroundTint="#ffffff"
             android:textColor="@color/name_color"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
@@ -295,14 +297,15 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="10dp">
             <Button
+                android:id="@+id/contact_niran"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
-                android:text="Contact me!"
+                android:text="Click to Mail me!"
                 android:background="#ffffff"
                 android:backgroundTint="#ffffff"
                 android:textColor="@color/name_color"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
@@ -351,14 +354,15 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="10dp">
             <Button
+                android:id="@+id/contact_prathyusha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
-                android:text="Contact me!"
+                android:text="Click to Mail me!"
                 android:background="#ffffff"
                 android:backgroundTint="#ffffff"
                 android:textColor="@color/name_color"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
