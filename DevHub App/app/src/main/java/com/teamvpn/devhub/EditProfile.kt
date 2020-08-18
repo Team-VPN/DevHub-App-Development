@@ -195,7 +195,7 @@ class EditProfile : AppCompatActivity() {
 
         password_edit.setOnClickListener {
             // build alert dialog
-            val email = email.toString()
+            val email = email.text.toString()
             Log.d("Email", "passed" + email)
 
             val dialogBuilder = android.app.AlertDialog.Builder(this)
@@ -319,6 +319,7 @@ class EditProfile : AppCompatActivity() {
         update_email.setOnClickListener {
             val inflater = layoutInflater
             val inflate_view = inflater.inflate(R.layout.update_email_custom_view,null)
+            val curruser= FirebaseAuth.getInstance().currentUser
             val emailEdt = inflate_view.findViewById(R.id.custom_email_update) as EditText
             val alertDialog=AlertDialog.Builder(this)
             alertDialog.setTitle("Update Email :")
@@ -330,6 +331,9 @@ class EditProfile : AppCompatActivity() {
             alertDialog.setPositiveButton("Update"){dialog, which ->
                 val emil = emailEdt.text.toString()
                 update_email.setText(emil)
+                if (curruser != null) {
+                    curruser.updateEmail(emailEdt.text.toString())
+                }
                 Toasty.info(this,"Email updated",Toast.LENGTH_SHORT).show()
             }
             val dialog = alertDialog.create()
