@@ -25,6 +25,7 @@
             android:layout_gravity="center|right"
             android:background="?android:attr/windowBackground"
             android:backgroundTintMode="screen"
+            android:visibility="visible"
             android:foregroundTintMode="src_atop"
             android:src="@drawable/ic_baseline_chat_bubble_outline_24"
             tools:layout_editor_absoluteX="16dp"

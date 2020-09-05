@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#6200EE</color>
-    <color name="app_color_hint">#646200EE</color>
-    <color name="app_color">#6200EE</color>
+    <color name="colorPrimary">#15AF1B</color>
+    <color name="colorPrimaryDark">#37EA3F</color>
+    <color name="colorAccent">#1C8120</color>
+    <color name="app_color_hint">#4CAF50</color>
+    <color name="app_color">#12A318</color>
     <color name="colorFlushL">#e0dede</color>
     <color name="colorFlush">#ffe2ff</color>
-    <color name="colorDrama">#803FDD</color>
-    <color name="name_color">#C86200EE</color>
+    <color name="colorDrama">#3CC642</color>
+    <color name="name_color">#4AE450</color>
     <color name="colorProfile">#F3F6F6</color>
     <color name="bebe">#D0D0D0</color>
     <color name="usernaam">#1b262c</color>

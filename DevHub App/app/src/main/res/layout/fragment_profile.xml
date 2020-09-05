@@ -32,7 +32,6 @@
             android:layout_height="106dp"
             android:layout_marginStart="28dp"
             android:src="@drawable/vector_asset_profile_icon_24"
-            app:civ_border_color="#6200EE"
             app:civ_border_width="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
