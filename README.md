@@ -4,4 +4,4 @@ Many of the developers face challenges while working and are often confused abou
 DevHub is like an all in one pack as users can perform multiple tasks like posting their questions, messaging personally, checking for harmonious developers nearby, and more.
 DevHub can help build a better and stronger developer community where they can learn, help, explore, and collaborate with each other.
 
-Our project video is available at  ! We have tried to make the explanation as easy as possible!
+Our project video is available at  https://youtu.be/sXRYkSIufuA ! We have tried to make the explanation as easy as possible!
